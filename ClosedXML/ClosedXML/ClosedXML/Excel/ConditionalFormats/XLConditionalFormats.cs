@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ClosedXML.Excel
 {
-    internal class XLConditionalFormats: IXLConditionalFormats
+    internal class XLConditionalFormats : IXLConditionalFormats
     {
         private readonly List<IXLConditionalFormat> _conditionalFormats = new List<IXLConditionalFormat>();
+
         public void Add(IXLConditionalFormat conditionalFormat)
         {
             _conditionalFormats.Add(conditionalFormat);

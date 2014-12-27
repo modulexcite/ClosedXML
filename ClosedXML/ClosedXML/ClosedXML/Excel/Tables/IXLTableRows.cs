@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ClosedXML.Excel
 {
-    public interface IXLTableRows: IEnumerable<IXLTableRow>
+    public interface IXLTableRows : IEnumerable<IXLTableRow>
     {
         /// <summary>
         /// Adds a table row to this group.
@@ -24,7 +24,9 @@ namespace ClosedXML.Excel
         /// <summary>
         /// Returns the collection of cells that have a value.
         /// </summary>
-        /// <param name="includeFormats">if set to <c>true</c> will return all cells with a value or a style different than the default.</param>
+        /// <param name="includeFormats">
+        /// if set to <c>true</c> will return all cells with a value or a style different than the default.
+        /// </param>
         IXLCells CellsUsed(Boolean includeFormats);
 
         IXLStyle Style { get; set; }

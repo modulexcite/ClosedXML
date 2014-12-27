@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace ClosedXML.Excel
 {
     internal class XLColumnParameters
@@ -11,8 +10,11 @@ namespace ClosedXML.Excel
             DefaultStyleId = defaultStyleId;
             IsReference = isReference;
         }
+
         public Int32 DefaultStyleId { get; set; }
+
         public XLWorksheet Worksheet { get; private set; }
+
         public Boolean IsReference { get; private set; }
     }
 }

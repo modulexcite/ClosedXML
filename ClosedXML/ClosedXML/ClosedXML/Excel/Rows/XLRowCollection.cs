@@ -122,7 +122,7 @@ namespace ClosedXML.Excel
             return _dictionary.GetEnumerator();
         }
 
-        #endregion
+        #endregion IDictionary<int,XLRow> Members
 
         public void ShiftRowsDown(Int32 startingRow, Int32 rowsToShift)
         {
@@ -159,7 +159,7 @@ namespace ClosedXML.Excel
 
         public void Dispose()
         {
-            _dictionary.Values.ForEach(r=>r.Dispose());
+            _dictionary.Values.ForEach(r => r.Dispose());
         }
     }
 }

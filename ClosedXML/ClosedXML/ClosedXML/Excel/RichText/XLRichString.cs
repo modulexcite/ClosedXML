@@ -2,9 +2,10 @@
 
 namespace ClosedXML.Excel
 {
-    internal class XLRichString: IXLRichString
+    internal class XLRichString : IXLRichString
     {
-        IXLWithRichString _withRichString;
+        private IXLWithRichString _withRichString;
+
         public XLRichString(String text, IXLFontBase font, IXLWithRichString withRichString)
         {
             Text = text;
@@ -13,6 +14,7 @@ namespace ClosedXML.Excel
         }
 
         public String Text { get; set; }
+
         public IXLRichString AddText(String text)
         {
             return _withRichString.AddText(text);
@@ -24,26 +26,99 @@ namespace ClosedXML.Excel
         }
 
         public Boolean Bold { get; set; }
+
         public Boolean Italic { get; set; }
+
         public XLFontUnderlineValues Underline { get; set; }
+
         public Boolean Strikethrough { get; set; }
+
         public XLFontVerticalTextAlignmentValues VerticalAlignment { get; set; }
+
         public Boolean Shadow { get; set; }
+
         public Double FontSize { get; set; }
+
         public XLColor FontColor { get; set; }
+
         public String FontName { get; set; }
+
         public XLFontFamilyNumberingValues FontFamilyNumbering { get; set; }
 
-        public IXLRichString SetBold() { Bold = true; return this; }	public IXLRichString SetBold(Boolean value) { Bold = value; return this; }
-        public IXLRichString SetItalic() { Italic = true; return this; }	public IXLRichString SetItalic(Boolean value) { Italic = value; return this; }
-        public IXLRichString SetUnderline() { Underline = XLFontUnderlineValues.Single; return this; }	public IXLRichString SetUnderline(XLFontUnderlineValues value) { Underline = value; return this; }
-        public IXLRichString SetStrikethrough() { Strikethrough = true; return this; }	public IXLRichString SetStrikethrough(Boolean value) { Strikethrough = value; return this; }
-        public IXLRichString SetVerticalAlignment(XLFontVerticalTextAlignmentValues value) { VerticalAlignment = value; return this; }
-        public IXLRichString SetShadow() { Shadow = true; return this; }	public IXLRichString SetShadow(Boolean value) { Shadow = value; return this; }
-        public IXLRichString SetFontSize(Double value) { FontSize = value; return this; }
-        public IXLRichString SetFontColor(XLColor value) { FontColor = value; return this; }
-        public IXLRichString SetFontName(String value) { FontName = value; return this; }
-        public IXLRichString SetFontFamilyNumbering(XLFontFamilyNumberingValues value) { FontFamilyNumbering = value; return this; }
+        public IXLRichString SetBold()
+        {
+            Bold = true; return this;
+        }
+
+        public IXLRichString SetBold(Boolean value)
+        {
+            Bold = value; return this;
+        }
+
+        public IXLRichString SetItalic()
+        {
+            Italic = true; return this;
+        }
+
+        public IXLRichString SetItalic(Boolean value)
+        {
+            Italic = value; return this;
+        }
+
+        public IXLRichString SetUnderline()
+        {
+            Underline = XLFontUnderlineValues.Single; return this;
+        }
+
+        public IXLRichString SetUnderline(XLFontUnderlineValues value)
+        {
+            Underline = value; return this;
+        }
+
+        public IXLRichString SetStrikethrough()
+        {
+            Strikethrough = true; return this;
+        }
+
+        public IXLRichString SetStrikethrough(Boolean value)
+        {
+            Strikethrough = value; return this;
+        }
+
+        public IXLRichString SetVerticalAlignment(XLFontVerticalTextAlignmentValues value)
+        {
+            VerticalAlignment = value; return this;
+        }
+
+        public IXLRichString SetShadow()
+        {
+            Shadow = true; return this;
+        }
+
+        public IXLRichString SetShadow(Boolean value)
+        {
+            Shadow = value; return this;
+        }
+
+        public IXLRichString SetFontSize(Double value)
+        {
+            FontSize = value; return this;
+        }
+
+        public IXLRichString SetFontColor(XLColor value)
+        {
+            FontColor = value; return this;
+        }
+
+        public IXLRichString SetFontName(String value)
+        {
+            FontName = value; return this;
+        }
+
+        public IXLRichString SetFontFamilyNumbering(XLFontFamilyNumberingValues value)
+        {
+            FontFamilyNumbering = value; return this;
+        }
 
         public Boolean Equals(IXLRichString other)
         {

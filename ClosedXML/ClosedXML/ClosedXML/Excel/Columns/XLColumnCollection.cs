@@ -23,12 +23,11 @@ namespace ClosedXML.Excel
                                                     new XLAddress(XLHelper.MaxRowNumber, newColumnNum, false, false)
                                             }
                                         };
-                                        
+
                     _dictionary.Add(newColumnNum, newColumn);
                 }
                 _dictionary.Remove(ro);
             }
-
         }
 
         private readonly Dictionary<Int32, XLColumn> _dictionary = new Dictionary<Int32, XLColumn>();
@@ -127,7 +126,7 @@ namespace ClosedXML.Excel
 
         public void Dispose()
         {
-            _dictionary.Values.ForEach(c=>c.Dispose());
+            _dictionary.Values.ForEach(c => c.Dispose());
         }
     }
 }

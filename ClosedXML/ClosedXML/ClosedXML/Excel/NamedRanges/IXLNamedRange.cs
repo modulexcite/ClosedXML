@@ -7,9 +7,7 @@ namespace ClosedXML.Excel
         /// <summary>
         /// Gets or sets the name of the range.
         /// </summary>
-        /// <value>
-        /// The name of the range.
-        /// </value>
+        /// <value>The name of the range.</value>
         String Name { get; set; }
 
         /// <summary>
@@ -21,9 +19,7 @@ namespace ClosedXML.Excel
         /// <summary>
         /// Gets or sets the comment for this named range.
         /// </summary>
-        /// <value>
-        /// The comment for this named range.
-        /// </value>
+        /// <value>The comment for this named range.</value>
         String Comment { get; set; }
 
         /// <summary>
@@ -47,7 +43,6 @@ namespace ClosedXML.Excel
         /// </summary>
         /// <param name="ranges">The ranges to add.</param>
         IXLRanges Add(IXLRanges ranges);
-
 
         /// <summary>
         /// Deletes this named range (not the cells).
@@ -81,9 +76,10 @@ namespace ClosedXML.Excel
         /// <param name="rangeAddress">The ranges to remove.</param>
         void Remove(IXLRanges ranges);
 
-
         IXLNamedRange SetRefersTo(String range);
+
         IXLNamedRange SetRefersTo(IXLRangeBase range);
+
         IXLNamedRange SetRefersTo(IXLRanges ranges);
 
         String RefersTo { get; set; }

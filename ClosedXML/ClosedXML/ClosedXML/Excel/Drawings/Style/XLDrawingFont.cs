@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ClosedXML.Excel
 {
@@ -19,16 +16,24 @@ namespace ClosedXML.Excel
         }
 
         public Boolean Bold { get; set; }
-        public Boolean Italic { get; set; }
-        public XLFontUnderlineValues Underline { get; set; }
-        public Boolean Strikethrough { get; set; }
-        public XLFontVerticalTextAlignmentValues VerticalAlignment { get; set; }
-        public Boolean Shadow { get; set; }
-        public Double FontSize { get; set; }
-        public XLColor FontColor { get; set; }
-        public String FontName { get; set; }
-        public XLFontFamilyNumberingValues FontFamilyNumbering { get; set; }
 
+        public Boolean Italic { get; set; }
+
+        public XLFontUnderlineValues Underline { get; set; }
+
+        public Boolean Strikethrough { get; set; }
+
+        public XLFontVerticalTextAlignmentValues VerticalAlignment { get; set; }
+
+        public Boolean Shadow { get; set; }
+
+        public Double FontSize { get; set; }
+
+        public XLColor FontColor { get; set; }
+
+        public String FontName { get; set; }
+
+        public XLFontFamilyNumberingValues FontFamilyNumbering { get; set; }
 
         public IXLDrawingStyle SetBold()
         {
@@ -119,6 +124,5 @@ namespace ClosedXML.Excel
             FontFamilyNumbering = value;
             return _style;
         }
-
     }
 }

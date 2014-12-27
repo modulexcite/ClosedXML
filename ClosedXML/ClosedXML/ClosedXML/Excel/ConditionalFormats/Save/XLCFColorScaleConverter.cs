@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Spreadsheet;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using System;
 
 namespace ClosedXML.Excel
 {
-    internal class XLCFColorScaleConverter:IXLCFConverter
+    internal class XLCFColorScaleConverter : IXLCFConverter
     {
         public ConditionalFormattingRule Convert(IXLConditionalFormat cf, Int32 priority, XLWorkbook.SaveContext context)
         {
             var conditionalFormattingRule = new ConditionalFormattingRule { Type = cf.ConditionalFormatType.ToOpenXml(), Priority = priority };
-            
+
             var colorScale = new ColorScale();
-            for(Int32 i = 1; i <= cf.Values.Count; i++)
+            for (Int32 i = 1; i <= cf.Values.Count; i++)
             {
                 var conditionalFormatValueObject = new ConditionalFormatValueObject { Type = cf.ContentTypes[i].ToOpenXml(), Val = cf.Values[i].Value };
                 colorScale.Append(conditionalFormatValueObject);

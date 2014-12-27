@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 
 namespace ClosedXML.Excel.CalcEngine.Functions
 {
@@ -31,63 +29,62 @@ namespace ClosedXML.Excel.CalcEngine.Functions
             ce.RegisterFunction("WORKDAY", 2, 3, Workday); // Returns the serial number of the date before or after a specified number of workdays
             ce.RegisterFunction("YEAR", 1, Year); // Converts a serial number to a year
             ce.RegisterFunction("YEARFRAC", 2, 3, Yearfrac); // Returns the year fraction representing the number of whole days between start_date and end_date
-
         }
 
         private static object Date(List<Expression> p)
         {
-            var year = (int) p[0];
-            var month = (int) p[1];
-            var day = (int) p[2];
+            var year = (int)p[0];
+            var month = (int)p[1];
+            var day = (int)p[2];
 
-            return (int) Math.Floor(new DateTime(year, month, day).ToOADate());
+            return (int)Math.Floor(new DateTime(year, month, day).ToOADate());
         }
 
         private static object Datevalue(List<Expression> p)
         {
-            var date = (string) p[0];
+            var date = (string)p[0];
 
-            return (int) Math.Floor(DateTime.Parse(date).ToOADate());
+            return (int)Math.Floor(DateTime.Parse(date).ToOADate());
         }
 
         private static object Day(List<Expression> p)
         {
-            var date = (DateTime) p[0];
+            var date = (DateTime)p[0];
 
             return date.Day;
         }
 
         private static object Month(List<Expression> p)
         {
-            var date = (DateTime) p[0];
+            var date = (DateTime)p[0];
 
             return date.Month;
         }
 
         private static object Year(List<Expression> p)
         {
-            var date = (DateTime) p[0];
+            var date = (DateTime)p[0];
 
             return date.Year;
         }
 
         private static object Minute(List<Expression> p)
         {
-            var date = (DateTime) p[0];
+            var date = (DateTime)p[0];
 
             return date.Minute;
         }
 
         private static object Hour(List<Expression> p)
         {
-            var date = (DateTime) p[0];
+            var date = (DateTime)p[0];
 
             return date.Hour;
         }
 
         private static object Second(List<Expression> p)
         {
-            var date = (DateTime) p[0];
+            var date = (DateTime)p[0];
 
             return date.Second;
         }
@@ -99,16 +96,16 @@ namespace ClosedXML.Excel.CalcEngine.Functions
 
         private static object Time(List<Expression> p)
         {
-            var hour = (int) p[0];
-            var minute = (int) p[1];
-            var second = (int) p[2];
+            var hour = (int)p[0];
+            var minute = (int)p[1];
+            var second = (int)p[2];
 
             return new TimeSpan(0, hour, minute, second);
         }
 
         private static object Timevalue(List<Expression> p)
         {
-            var date = (DateTime) p[0];
+            var date = (DateTime)p[0];
 
             return (DateTime.MinValue + date.TimeOfDay).ToOADate();
         }
@@ -120,8 +117,8 @@ namespace ClosedXML.Excel.CalcEngine.Functions
 
         private static object Days360(List<Expression> p)
         {
-            var date1 = (DateTime) p[0];
-            var date2 = (DateTime) p[1];
+            var date1 = (DateTime)p[0];
+            var date2 = (DateTime)p[1];
             var isEuropean = p.Count == 3 ? p[2] : false;
 
             return Days360(date1, date2, isEuropean);
@@ -148,7 +145,6 @@ namespace ClosedXML.Excel.CalcEngine.Functions
             }
 
             return 360 * (y2 - y1) + 30 * (m2 - m1) + (d2 - d1);
-
         }
 
         private static object Edate(List<Expression> p)
@@ -176,7 +172,7 @@ namespace ClosedXML.Excel.CalcEngine.Functions
             var bankHolidays = new List<DateTime>();
             if (p.Count == 3)
             {
-                var t = new Tally {p[2]};
+                var t = new Tally { p[2] };
 
                 bankHolidays.AddRange(t.Select(XLHelper.GetDate));
             }
@@ -186,8 +182,8 @@ namespace ClosedXML.Excel.CalcEngine.Functions
 
         /// <summary>
         /// Calculates number of business days, taking into account:
-        ///  - weekends (Saturdays and Sundays)
-        ///  - bank holidays in the middle of the week
+        /// - weekends (Saturdays and Sundays)
+        /// - bank holidays in the middle of the week
         /// </summary>
         /// <param name="firstDay">First day in the time interval</param>
         /// <param name="lastDay">Last day in the time interval</param>
@@ -206,8 +202,8 @@ namespace ClosedXML.Excel.CalcEngine.Functions
             // find out if there are weekends during the time exceedng the full weeks
             if (businessDays > fullWeekCount * 7)
             {
-                // we are here to find out if there is a 1-day or 2-days weekend
-                // in the time interval remaining after subtracting the complete weeks
+                // we are here to find out if there is a 1-day or 2-days weekend in the time
+                // interval remaining after subtracting the complete weeks
                 var firstDayOfWeek = (int)firstDay.DayOfWeek;
                 var lastDayOfWeek = (int)lastDay.DayOfWeek;
                 if (lastDayOfWeek < firstDayOfWeek)
@@ -265,7 +261,7 @@ namespace ClosedXML.Excel.CalcEngine.Functions
             var daysRequired = (int)p[1];
 
             if (daysRequired == 0) return startDate;
-            if (daysRequired <  0) throw new ArgumentOutOfRangeException("DaysRequired must be >= 0.");
+            if (daysRequired < 0) throw new ArgumentOutOfRangeException("DaysRequired must be >= 0.");
 
             var bankHolidays = new List<DateTime>();
             if (p.Count == 3)
@@ -280,7 +276,6 @@ namespace ClosedXML.Excel.CalcEngine.Functions
 
         private static DateTime Workday(DateTime startDate, DateTime testDate, int daysRequired, IEnumerable<DateTime> bankHolidays)
         {
-            
             var businessDays = BusinessDaysUntil(startDate, testDate, bankHolidays);
             if (businessDays == daysRequired)
                 return testDate;
@@ -292,8 +287,8 @@ namespace ClosedXML.Excel.CalcEngine.Functions
 
         private static object Yearfrac(List<Expression> p)
         {
-            var date1 = (DateTime) p[0];
-            var date2 = (DateTime) p[1];
+            var date1 = (DateTime)p[0];
+            var date2 = (DateTime)p[1];
             var option = p.Count == 3 ? (int)p[2] : 0;
 
             if (option == 0)
@@ -316,5 +311,4 @@ namespace ClosedXML.Excel.CalcEngine.Functions
             return daysInYears.Average();
         }
     }
-
 }

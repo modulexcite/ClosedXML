@@ -9,6 +9,7 @@ namespace ClosedXML.Excel
     internal class XLRangeRows : IXLRangeRows, IXLStylized
     {
         public Boolean StyleChanged { get; set; }
+
         private readonly List<XLRangeRow> _ranges = new List<XLRangeRow>();
         private IXLStyle _style;
 
@@ -39,7 +40,7 @@ namespace ClosedXML.Excel
         public IEnumerator<IXLRangeRow> GetEnumerator()
         {
             return _ranges.Cast<IXLRangeRow>()
-                          .OrderBy(r=>r.Worksheet.Position)
+                          .OrderBy(r => r.Worksheet.Position)
                           .ThenBy(r => r.RowNumber())
                           .GetEnumerator();
         }
@@ -89,7 +90,7 @@ namespace ClosedXML.Excel
             return this;
         }
 
-        #endregion
+        #endregion IXLRangeRows Members
 
         #region IXLStylized Members
 
@@ -131,7 +132,7 @@ namespace ClosedXML.Excel
             }
         }
 
-        #endregion
+        #endregion IXLStylized Members
 
         public void Dispose()
         {
@@ -144,6 +145,5 @@ namespace ClosedXML.Excel
             foreach (var range in this)
                 range.Select();
         }
-
     }
 }

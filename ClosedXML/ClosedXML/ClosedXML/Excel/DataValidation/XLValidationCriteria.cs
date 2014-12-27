@@ -63,7 +63,6 @@ namespace ClosedXML.Excel
             dataValidation.Operator = XLOperator.NotBetween;
         }
 
-
         public void EqualTo(IXLRange range)
         {
             dataValidation.Value = range.RangeAddress.ToStringFixed();
@@ -102,8 +101,8 @@ namespace ClosedXML.Excel
 
         public void Between(IXLRange minValue, IXLRange maxValue)
         {
-            dataValidation.MinValue =  minValue.RangeAddress.ToStringFixed();
-            dataValidation.MaxValue =  maxValue.RangeAddress.ToStringFixed();
+            dataValidation.MinValue = minValue.RangeAddress.ToStringFixed();
+            dataValidation.MaxValue = maxValue.RangeAddress.ToStringFixed();
             dataValidation.Operator = XLOperator.Between;
         }
 
@@ -164,6 +163,6 @@ namespace ClosedXML.Excel
             dataValidation.Operator = XLOperator.NotBetween;
         }
 
-        #endregion
+        #endregion IXLValidationCriteria Members
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ClosedXML.Excel
+﻿namespace ClosedXML.Excel
 {
     public interface IXLRichText : IXLFormattedText<IXLRichText>
     {

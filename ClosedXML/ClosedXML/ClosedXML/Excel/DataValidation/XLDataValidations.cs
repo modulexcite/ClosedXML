@@ -39,7 +39,7 @@ namespace ClosedXML.Excel
             return count == 1;
         }
 
-        #endregion
+        #endregion IXLDataValidations Members
 
         public void Delete(IXLDataValidation dataValidation)
         {

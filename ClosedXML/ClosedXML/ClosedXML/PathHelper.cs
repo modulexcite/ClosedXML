@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace ClosedXML
 {
     /// <summary>
-    ///   Help methods for work with files
+    /// Help methods for work with files
     /// </summary>
     internal static class PathHelper
     {
@@ -18,8 +18,9 @@ namespace ClosedXML
                 | RegexOptions.CultureInvariant
                 | RegexOptions.Compiled
                 );
+
         /// <summary>
-        ///   Can check only .\dfdfd\dfdf\dfdf or ..\..\gfhfgh\fghfh
+        /// Can check only .\dfdfd\dfdf\dfdf or ..\..\gfhfgh\fghfh
         /// </summary>
         private static readonly Regex ms_checkValidRelativePathRegEx = new Regex(
                 "^(\\.\\.|\\.)(\\\\|(\\\\[^\\n\\r\\t/:*?<>\\\"|]*)+)$",
@@ -32,25 +33,27 @@ namespace ClosedXML
         private static readonly object ms_syncAbsolutePathObj = new object();
 
         /// <summary>
-        ///   Gets data and time string stamp for file name
+        /// Gets data and time string stamp for file name
         /// </summary>
         /// <returns></returns>
         public static string GetTimeStamp()
         {
             return GetTimeStamp(DateTime.Now);
         }
+
         /// <summary>
-        ///   Gets data and time string stamp for file name
+        /// Gets data and time string stamp for file name
         /// </summary>
         /// <returns></returns>
         public static string GetTimeStamp(DateTime dateTime)
         {
             return dateTime.ToString("ddMMMyyyy_HHmmss", DateTimeFormatInfo.InvariantInfo);
         }
+
         /// <summary>
-        ///   Safety delete file(with try block)
+        /// Safety delete file(with try block)
         /// </summary>
-        /// <param name = "fileName">file name</param>
+        /// <param name="fileName">file name</param>
         public static void SafetyDeleteFile(string fileName)
         {
             try
@@ -65,21 +68,26 @@ namespace ClosedXML
                 Debug.Fail("Error during file deleting. Error message:" + ex.Message);
             }
         }
+
         /// <summary>
-        ///   Replace all not implemented symbols to '_'
+        /// Replace all not implemented symbols to '_'
         /// </summary>
-        /// <param name = "fileName">input filename</param>
+        /// <param name="fileName">input filename</param>
         /// <returns></returns>
         public static string NormalizeFileName(string fileName)
         {
             char[] invalidCharacters = Path.GetInvalidFileNameChars();
+
             #region Replace begin space
+
             string result = fileName.TrimStart(' ');
             if (result.Length < fileName.Length)
             {
                 result = new string('_', fileName.Length - result.Length) + result;
             }
-            #endregion
+
+            #endregion Replace begin space
+
             foreach (char curChar in invalidCharacters)
             {
                 result = result.Replace(curChar, '_');
@@ -97,11 +105,12 @@ namespace ClosedXML
             }
             return result;
         }
+
         /// <summary>
-        ///   ValidatePath file or diretory path
+        /// ValidatePath file or diretory path
         /// </summary>
-        /// <param name = "path"></param>
-        /// <param name = "type">path type</param>
+        /// <param name="path"></param>
+        /// <param name="type">path type</param>
         /// <returns></returns>
         public static bool ValidatePath(string path, PathTypes type)
         {
@@ -118,9 +127,9 @@ namespace ClosedXML
         }
 
         /// <summary>
-        ///   ValidatePath file or diretory path
+        /// ValidatePath file or diretory path
         /// </summary>
-        /// <param name = "fileName"></param>
+        /// <param name="fileName"></param>
         /// <returns></returns>
         public static bool ValidateFileName(string fileName)
         {
@@ -184,11 +193,14 @@ namespace ClosedXML
         public static bool TryCreateFile(string filePath, out string message)
         {
             #region Check
+
             if (string.IsNullOrEmpty(filePath))
             {
                 throw new ArgumentNullException("filePath");
             }
-            #endregion
+
+            #endregion Check
+
             try
             {
                 if (File.Exists(filePath))

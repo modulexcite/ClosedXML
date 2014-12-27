@@ -6,6 +6,7 @@ namespace ClosedXML.Excel
     internal class XLAddress : IXLAddress
     {
         #region Static
+
         /// <summary>
         /// Create address without worksheet. For calculation only!
         /// </summary>
@@ -71,68 +72,81 @@ namespace ClosedXML.Excel
             }
             return new XLAddress(worksheet, rowNumber, columnLetter, fixedRow, fixedColumn);
         }
-        #endregion
+
+        #endregion Static
+
         #region Private fields
+
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool _fixedRow;
+
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool _fixedColumn;
+
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string _columnLetter;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly int _rowNumber;
+
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly int _columnNumber;
+
         private string _trimmedAddress;
-        #endregion
+
+        #endregion Private fields
+
         #region Constructors
+
         /// <summary>
-        /// 	Initializes a new <see cref = "XLAddress" /> struct using a mixed notation.  Attention: without worksheet for calculation only!
+        /// Initializes a new <see cref="XLAddress"/> struct using a mixed notation. Attention:
+        /// without worksheet for calculation only!
         /// </summary>
-        /// <param name = "rowNumber">The row number of the cell address.</param>
-        /// <param name = "columnLetter">The column letter of the cell address.</param>
-        /// <param name = "fixedRow"></param>
-        /// <param name = "fixedColumn"></param>
+        /// <param name="rowNumber">The row number of the cell address.</param>
+        /// <param name="columnLetter">The column letter of the cell address.</param>
+        /// <param name="fixedRow"></param>
+        /// <param name="fixedColumn"></param>
         public XLAddress(int rowNumber, string columnLetter, bool fixedRow, bool fixedColumn)
-                : this(null, rowNumber, columnLetter, fixedRow, fixedColumn)
+            : this(null, rowNumber, columnLetter, fixedRow, fixedColumn)
         {
         }
+
         /// <summary>
-        /// 	Initializes a new <see cref = "XLAddress" /> struct using a mixed notation.
+        /// Initializes a new <see cref="XLAddress"/> struct using a mixed notation.
         /// </summary>
-        /// <param name = "worksheet"></param>
-        /// <param name = "rowNumber">The row number of the cell address.</param>
-        /// <param name = "columnLetter">The column letter of the cell address.</param>
-        /// <param name = "fixedRow"></param>
-        /// <param name = "fixedColumn"></param>
+        /// <param name="worksheet"></param>
+        /// <param name="rowNumber">The row number of the cell address.</param>
+        /// <param name="columnLetter">The column letter of the cell address.</param>
+        /// <param name="fixedRow"></param>
+        /// <param name="fixedColumn"></param>
         public XLAddress(XLWorksheet worksheet, int rowNumber, string columnLetter, bool fixedRow, bool fixedColumn)
-                : this(worksheet, rowNumber, XLHelper.GetColumnNumberFromLetter(columnLetter), fixedRow, fixedColumn)
+            : this(worksheet, rowNumber, XLHelper.GetColumnNumberFromLetter(columnLetter), fixedRow, fixedColumn)
         {
             _columnLetter = columnLetter;
         }
 
         /// <summary>
-        /// 	Initializes a new <see cref = "XLAddress" /> struct using R1C1 notation. Attention: without worksheet for calculation only!
+        /// Initializes a new <see cref="XLAddress"/> struct using R1C1 notation. Attention: without
+        /// worksheet for calculation only!
         /// </summary>
-        /// <param name = "rowNumber">The row number of the cell address.</param>
-        /// <param name = "columnNumber">The column number of the cell address.</param>
-        /// <param name = "fixedRow"></param>
-        /// <param name = "fixedColumn"></param>
+        /// <param name="rowNumber">The row number of the cell address.</param>
+        /// <param name="columnNumber">The column number of the cell address.</param>
+        /// <param name="fixedRow"></param>
+        /// <param name="fixedColumn"></param>
         public XLAddress(int rowNumber, int columnNumber, bool fixedRow, bool fixedColumn)
-                : this(null, rowNumber, columnNumber, fixedRow, fixedColumn)
+            : this(null, rowNumber, columnNumber, fixedRow, fixedColumn)
         {
         }
-        /// <summary>
-        /// 	Initializes a new <see cref = "XLAddress" /> struct using R1C1 notation.
-        /// </summary>
-        /// <param name = "worksheet"></param>
-        /// <param name = "rowNumber">The row number of the cell address.</param>
-        /// <param name = "columnNumber">The column number of the cell address.</param>
-        /// <param name = "fixedRow"></param>
-        /// <param name = "fixedColumn"></param>
-        public XLAddress(XLWorksheet worksheet, int rowNumber, int columnNumber, bool fixedRow, bool fixedColumn)
 
+        /// <summary>
+        /// Initializes a new <see cref="XLAddress"/> struct using R1C1 notation.
+        /// </summary>
+        /// <param name="worksheet"></param>
+        /// <param name="rowNumber">The row number of the cell address.</param>
+        /// <param name="columnNumber">The column number of the cell address.</param>
+        /// <param name="fixedRow"></param>
+        /// <param name="fixedColumn"></param>
+        public XLAddress(XLWorksheet worksheet, int rowNumber, int columnNumber, bool fixedRow, bool fixedColumn)
         {
             Worksheet = worksheet;
 
@@ -141,12 +155,14 @@ namespace ClosedXML.Excel
             _columnLetter = null;
             _fixedColumn = fixedColumn;
             _fixedRow = fixedRow;
-
-            
         }
-        #endregion
+
+        #endregion Constructors
+
         #region Properties
+
         public XLWorksheet Worksheet { get; internal set; }
+
         IXLWorksheet IXLAddress.Worksheet
         {
             [DebuggerStepThrough]
@@ -172,7 +188,7 @@ namespace ClosedXML.Excel
         }
 
         /// <summary>
-        /// 	Gets the row number of this address.
+        /// Gets the row number of this address.
         /// </summary>
         public Int32 RowNumber
         {
@@ -180,7 +196,7 @@ namespace ClosedXML.Excel
         }
 
         /// <summary>
-        /// 	Gets the column number of this address.
+        /// Gets the column number of this address.
         /// </summary>
         public Int32 ColumnNumber
         {
@@ -188,14 +204,17 @@ namespace ClosedXML.Excel
         }
 
         /// <summary>
-        /// 	Gets the column letter(s) of this address.
+        /// Gets the column letter(s) of this address.
         /// </summary>
         public String ColumnLetter
         {
             get { return _columnLetter ?? (_columnLetter = XLHelper.GetColumnLetterFromNumber(_columnNumber)); }
         }
-        #endregion
+
+        #endregion Properties
+
         #region Overrides
+
         public override string ToString()
         {
             String retVal = ColumnLetter;
@@ -227,17 +246,20 @@ namespace ClosedXML.Excel
             }
             return ColumnLetter + _rowNumber.ToInvariantString();
         }
-        #endregion
+
+        #endregion Overrides
+
         #region Methods
+
         public string GetTrimmedAddress()
         {
             return _trimmedAddress ?? (_trimmedAddress = ColumnLetter + _rowNumber.ToInvariantString());
         }
 
+        #endregion Methods
 
-
-        #endregion
         #region Operator Overloads
+
         public static XLAddress operator +(XLAddress left, XLAddress right)
         {
             return new XLAddress(left.Worksheet,
@@ -287,9 +309,13 @@ namespace ClosedXML.Excel
         {
             return !(left == right);
         }
-        #endregion
+
+        #endregion Operator Overloads
+
         #region Interface Requirements
+
         #region IEqualityComparer<XLCellAddress> Members
+
         public Boolean Equals(IXLAddress x, IXLAddress y)
         {
             return x == y;
@@ -314,8 +340,11 @@ namespace ClosedXML.Excel
         {
             return _rowNumber ^ _columnNumber;
         }
-        #endregion
+
+        #endregion IEqualityComparer<XLCellAddress> Members
+
         #region IEquatable<XLCellAddress> Members
+
         public bool Equals(IXLAddress other)
         {
             var right = other as XLAddress;
@@ -328,10 +357,12 @@ namespace ClosedXML.Excel
 
         public override Boolean Equals(Object other)
         {
-            return Equals((XLAddress) other);
+            return Equals((XLAddress)other);
         }
-        #endregion
-        #endregion
+
+        #endregion IEquatable<XLCellAddress> Members
+
+        #endregion Interface Requirements
 
         public String ToStringRelative()
         {

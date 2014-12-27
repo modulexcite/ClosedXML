@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace ClosedXML.Excel
 {
@@ -9,6 +8,7 @@ namespace ClosedXML.Excel
         /// Gets or sets this comment's author's name
         /// </summary>
         String Author { get; set; }
+
         /// <summary>
         /// Sets the name of the comment's author
         /// </summary>
@@ -22,5 +22,4 @@ namespace ClosedXML.Excel
 
         void Delete();
     }
-
 }

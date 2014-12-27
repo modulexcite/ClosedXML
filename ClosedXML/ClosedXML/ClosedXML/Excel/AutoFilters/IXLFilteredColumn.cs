@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace ClosedXML.Excel
 {
     public interface IXLFilteredColumn

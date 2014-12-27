@@ -4,14 +4,10 @@ namespace ClosedXML.Excel
 {
     public interface IXLRow : IXLRangeBase
     {
-        
-
         /// <summary>
         /// Gets or sets the height of this row.
         /// </summary>
-        /// <value>
-        /// The width of this row.
-        /// </value>
+        /// <value>The width of this row.</value>
         Double Height { get; set; }
 
         /// <summary>
@@ -45,38 +41,41 @@ namespace ClosedXML.Excel
         /// </summary>
         /// <param name="startColumn">The column to start calculating the row height.</param>
         IXLRow AdjustToContents(Int32 startColumn);
+
         /// <summary>
-        /// Adjusts the height of the row based on its contents, starting from the startColumn and ending at endColumn.
+        /// Adjusts the height of the row based on its contents, starting from the startColumn and
+        /// ending at endColumn.
         /// </summary>
         /// <param name="startColumn">The column to start calculating the row height.</param>
         /// <param name="endColumn">The column to end calculating the row height.</param>
         IXLRow AdjustToContents(Int32 startColumn, Int32 endColumn);
 
-
         IXLRow AdjustToContents(Double minHeight, Double maxHeight);
+
         IXLRow AdjustToContents(Int32 startColumn, Double minHeight, Double maxHeight);
+
         IXLRow AdjustToContents(Int32 startColumn, Int32 endColumn, Double minHeight, Double maxHeight);
 
-        /// <summary>Hides this row.</summary>
+        /// <summary>
+        /// Hides this row.
+        /// </summary>
         IXLRow Hide();
 
-        /// <summary>Unhides this row.</summary>
+        /// <summary>
+        /// Unhides this row.
+        /// </summary>
         IXLRow Unhide();
 
         /// <summary>
         /// Gets a value indicating whether this row is hidden or not.
         /// </summary>
-        /// <value>
-        ///   <c>true</c> if this row is hidden; otherwise, <c>false</c>.
-        /// </value>
+        /// <value><c>true</c> if this row is hidden; otherwise, <c>false</c>.</value>
         Boolean IsHidden { get; }
 
         /// <summary>
         /// Gets or sets the outline level of this row.
         /// </summary>
-        /// <value>
-        /// The outline level of this row.
-        /// </value>
+        /// <value>The outline level of this row.</value>
         Int32 OutlineLevel { get; set; }
 
         /// <summary>
@@ -104,15 +103,18 @@ namespace ClosedXML.Excel
         IXLRow Group(Int32 outlineLevel, Boolean collapse);
 
         /// <summary>
-        /// Adds this row to the previous outline level (decrements the outline level for this row by 1).
+        /// Adds this row to the previous outline level (decrements the outline level for this row
+        /// by 1).
         /// </summary>
         IXLRow Ungroup();
 
-
         /// <summary>
-        /// Adds this row to the previous outline level (decrements the outline level for this row by 1).
+        /// Adds this row to the previous outline level (decrements the outline level for this row
+        /// by 1).
         /// </summary>
-        /// <param name="fromAll">If set to <c>true</c> it will remove this row from all outline levels.</param>
+        /// <param name="fromAll">
+        /// If set to <c>true</c> it will remove this row from all outline levels.
+        /// </param>
         IXLRow Ungroup(Boolean fromAll);
 
         /// <summary>
@@ -138,12 +140,14 @@ namespace ClosedXML.Excel
         /// </summary>
         /// <param name="cellsInRow">The row's cells to return.</param>
         new IXLCells Cells(String cellsInRow);
+
         /// <summary>
         /// Returns the specified group of cells.
         /// </summary>
         /// <param name="firstColumn">The first column in the group of cells to return.</param>
         /// <param name="lastColumn">The last column in the group of cells to return.</param>
         IXLCells Cells(Int32 firstColumn, Int32 lastColumn);
+
         /// <summary>
         /// Returns the specified group of cells.
         /// </summary>
@@ -151,20 +155,27 @@ namespace ClosedXML.Excel
         /// <param name="lastColumn">The last column in the group of cells to return.</param>
         IXLCells Cells(String firstColumn, String lastColumn);
 
-        /// <summary>Expands this row (if it's collapsed).</summary>
+        /// <summary>
+        /// Expands this row (if it's collapsed).
+        /// </summary>
         IXLRow Expand();
 
         Int32 CellCount();
 
         IXLRangeRow CopyTo(IXLCell cell);
+
         IXLRangeRow CopyTo(IXLRangeBase range);
+
         IXLRow CopyTo(IXLRow row);
 
         IXLRow Sort();
+
         IXLRow SortLeftToRight(XLSortOrder sortOrder = XLSortOrder.Ascending, Boolean matchCase = false, Boolean ignoreBlanks = true);
 
         IXLRangeRow Row(Int32 start, Int32 end);
+
         IXLRangeRow Row(IXLCell start, IXLCell end);
+
         IXLRangeRows Rows(String columns);
 
         /// <summary>
@@ -175,8 +186,11 @@ namespace ClosedXML.Excel
         IXLRow SetDataType(XLCellValues dataType);
 
         IXLRow RowAbove();
+
         IXLRow RowAbove(Int32 step);
+
         IXLRow RowBelow();
+
         IXLRow RowBelow(Int32 step);
 
         /// <summary>

@@ -37,7 +37,7 @@ namespace ClosedXML.Excel
             return _tables[name];
         }
 
-        #endregion
+        #endregion IXLTables Members
 
         public IXLTables Clear(XLClearOptions clearOptions = XLClearOptions.ContentsAndFormats)
         {
@@ -49,6 +49,7 @@ namespace ClosedXML.Excel
         {
             _tables.Remove(_tables.ElementAt(index).Key);
         }
+
         public void Remove(String name)
         {
             _tables.Remove(name);

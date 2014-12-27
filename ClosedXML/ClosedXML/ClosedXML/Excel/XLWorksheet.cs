@@ -1,26 +1,20 @@
-﻿using System;
+﻿using ClosedXML.Excel.CalcEngine;
+using ClosedXML.Excel.Misc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using ClosedXML.Excel.CalcEngine;
-using ClosedXML.Excel.Misc;
-
 
 namespace ClosedXML.Excel
 {
     internal class XLWorksheet : XLRangeBase, IXLWorksheet
     {
-        #region Constants
-
-        #endregion
-
         #region Events
 
-		public XLReentrantEnumerableSet<XLCallbackAction> RangeShiftedRows;
-		public XLReentrantEnumerableSet<XLCallbackAction> RangeShiftedColumns;
+        public XLReentrantEnumerableSet<XLCallbackAction> RangeShiftedRows;
+        public XLReentrantEnumerableSet<XLCallbackAction> RangeShiftedColumns;
 
-        #endregion
+        #endregion Events
 
         #region Fields
 
@@ -33,7 +27,8 @@ namespace ClosedXML.Excel
         private Double _rowHeight;
         private Boolean _tabActive;
         internal Boolean EventTrackingEnabled;
-        #endregion
+
+        #endregion Fields
 
         #region Constructor
 
@@ -45,8 +40,8 @@ namespace ClosedXML.Excel
         {
             EventTrackingEnabled = workbook.EventTracking == XLEventTracking.Enabled;
 
-			RangeShiftedRows = new XLReentrantEnumerableSet<XLCallbackAction>();
-			RangeShiftedColumns = new XLReentrantEnumerableSet<XLCallbackAction>();
+            RangeShiftedRows = new XLReentrantEnumerableSet<XLCallbackAction>();
+            RangeShiftedColumns = new XLReentrantEnumerableSet<XLCallbackAction>();
 
             RangeAddress.Worksheet = this;
             RangeAddress.FirstAddress.Worksheet = this;
@@ -70,9 +65,9 @@ namespace ClosedXML.Excel
             _columnWidth = workbook.ColumnWidth;
             _rowHeight = workbook.RowHeight;
             RowHeightChanged = Math.Abs(workbook.RowHeight - XLWorkbook.DefaultRowHeight) > XLHelper.Epsilon;
-			Name = sheetName;
-			SubscribeToShiftedRows((range, rowsShifted) => this.WorksheetRangeShiftedRows(range, rowsShifted));
-			SubscribeToShiftedColumns((range, columnsShifted) => this.WorksheetRangeShiftedColumns(range, columnsShifted));
+            Name = sheetName;
+            SubscribeToShiftedRows((range, rowsShifted) => this.WorksheetRangeShiftedRows(range, rowsShifted));
+            SubscribeToShiftedColumns((range, columnsShifted) => this.WorksheetRangeShiftedColumns(range, columnsShifted));
             Charts = new XLCharts();
             ShowFormulas = workbook.ShowFormulas;
             ShowGridLines = workbook.ShowGridLines;
@@ -88,13 +83,15 @@ namespace ClosedXML.Excel
             Author = workbook.Author;
         }
 
-        #endregion
+        #endregion Constructor
 
         //private IXLStyle _style;
         private const String InvalidNameChars = @":\/?*[]";
+
         public string LegacyDrawingId;
         public Boolean LegacyDrawingIsNew;
         private Double _columnWidth;
+
         public XLWorksheetInternals Internals { get; private set; }
 
         public override IEnumerable<IXLStyle> Styles
@@ -118,13 +115,19 @@ namespace ClosedXML.Excel
         }
 
         internal Boolean RowHeightChanged { get; set; }
+
         internal Boolean ColumnWidthChanged { get; set; }
 
         public Int32 SheetId { get; set; }
+
         public String RelId { get; set; }
+
         public XLDataValidations DataValidations { get; private set; }
+
         public IXLCharts Charts { get; private set; }
+
         public XLSheetProtection Protection { get; private set; }
+
         public XLAutoFilter AutoFilter { get; private set; }
 
         #region IXLWorksheet Members
@@ -212,6 +215,7 @@ namespace ClosedXML.Excel
         }
 
         public IXLPageSetup PageSetup { get; private set; }
+
         public IXLOutline Outline { get; private set; }
 
         IXLRow IXLWorksheet.FirstRowUsed()
@@ -273,7 +277,6 @@ namespace ClosedXML.Excel
         {
             return LastColumnUsed(includeFormats);
         }
-
 
         public IXLColumns Columns()
         {
@@ -531,6 +534,7 @@ namespace ClosedXML.Excel
         }
 
         public IXLSheetView SheetView { get; private set; }
+
         public IXLTables Tables { get; private set; }
 
         public IXLTable Table(Int32 index)
@@ -658,6 +662,7 @@ namespace ClosedXML.Excel
         }
 
         private XLWorksheetVisibility _visibility;
+
         public XLWorksheetVisibility Visibility
         {
             get { return _visibility; }
@@ -707,7 +712,6 @@ namespace ClosedXML.Excel
             return Protection.Unprotect(password);
         }
 
-
         public new IXLRange Sort()
         {
             return GetRangeForSort().Sort();
@@ -732,11 +736,17 @@ namespace ClosedXML.Excel
         }
 
         public Boolean ShowFormulas { get; set; }
+
         public Boolean ShowGridLines { get; set; }
+
         public Boolean ShowOutlineSymbols { get; set; }
+
         public Boolean ShowRowColHeaders { get; set; }
+
         public Boolean ShowRuler { get; set; }
+
         public Boolean ShowWhiteSpace { get; set; }
+
         public Boolean ShowZeros { get; set; }
 
         public IXLWorksheet SetShowFormulas()
@@ -933,6 +943,7 @@ namespace ClosedXML.Excel
             }
             return rows;
         }
+
         public IXLRows RowsUsed(Func<IXLRow, Boolean> predicate = null)
         {
             return RowsUsed(false, predicate);
@@ -954,6 +965,7 @@ namespace ClosedXML.Excel
             }
             return columns;
         }
+
         public IXLColumns ColumnsUsed(Func<IXLColumn, Boolean> predicate = null)
         {
             return ColumnsUsed(false, predicate);
@@ -969,7 +981,7 @@ namespace ClosedXML.Excel
             base.Dispose();
         }
 
-        #endregion
+        #endregion IXLWorksheet Members
 
         #region Outlines
 
@@ -1022,7 +1034,7 @@ namespace ClosedXML.Excel
             return _rowOutlineCount.Count == 0 ? 0 : _rowOutlineCount.Where(kp => kp.Value > 0).Max(kp => kp.Key);
         }
 
-        #endregion
+        #endregion Outlines
 
         public HashSet<Int32> GetStyleIds()
         {
@@ -1037,8 +1049,8 @@ namespace ClosedXML.Excel
         public XLRow FirstRowUsed(Boolean includeFormats)
         {
             using (var asRange = AsRange())
-                using (var rngRow = asRange.FirstRowUsed(includeFormats))
-                    return rngRow != null ? Row(rngRow.RangeAddress.FirstAddress.RowNumber) : null;
+            using (var rngRow = asRange.FirstRowUsed(includeFormats))
+                return rngRow != null ? Row(rngRow.RangeAddress.FirstAddress.RowNumber) : null;
         }
 
         public XLRow LastRowUsed()
@@ -1049,8 +1061,8 @@ namespace ClosedXML.Excel
         public XLRow LastRowUsed(Boolean includeFormats)
         {
             using (var asRange = AsRange())
-                using (var rngRow = asRange.LastRowUsed(includeFormats))
-                    return rngRow != null ? Row(rngRow.RangeAddress.LastAddress.RowNumber) : null;
+            using (var rngRow = asRange.LastRowUsed(includeFormats))
+                return rngRow != null ? Row(rngRow.RangeAddress.LastAddress.RowNumber) : null;
         }
 
         public XLColumn LastColumn()
@@ -1081,8 +1093,8 @@ namespace ClosedXML.Excel
         public XLColumn FirstColumnUsed(Boolean includeFormats)
         {
             using (var asRange = AsRange())
-                using (var rngColumn = asRange.FirstColumnUsed(includeFormats))
-                    return rngColumn != null ? Column(rngColumn.RangeAddress.FirstAddress.ColumnNumber) : null;
+            using (var rngColumn = asRange.FirstColumnUsed(includeFormats))
+                return rngColumn != null ? Column(rngColumn.RangeAddress.FirstAddress.ColumnNumber) : null;
         }
 
         public XLColumn LastColumnUsed()
@@ -1093,8 +1105,8 @@ namespace ClosedXML.Excel
         public XLColumn LastColumnUsed(Boolean includeFormats)
         {
             using (var asRange = AsRange())
-                using (var rngColumn = asRange.LastColumnUsed(includeFormats))
-                    return rngColumn != null ? Column(rngColumn.RangeAddress.LastAddress.ColumnNumber) : null;
+            using (var rngColumn = asRange.LastColumnUsed(includeFormats))
+                return rngColumn != null ? Column(rngColumn.RangeAddress.LastAddress.ColumnNumber) : null;
         }
 
         public XLRow Row(Int32 row)
@@ -1111,8 +1123,8 @@ namespace ClosedXML.Excel
             Int32 thisStyleId = GetStyleId();
             if (!Internals.ColumnsCollection.ContainsKey(column))
             {
-                // This is a new row so we're going to reference all 
-                // cells in this row to preserve their formatting
+                // This is a new row so we're going to reference all cells in this row to preserve
+                // their formatting
                 Internals.RowsCollection.Keys.ForEach(r => Cell(r, column));
                 Internals.ColumnsCollection.Add(column,
                                                 new XLColumn(column, new XLColumnParameters(this, thisStyleId, false)));
@@ -1166,6 +1178,7 @@ namespace ClosedXML.Excel
             MoveNamedRangesColumns(range, columnsShifted, Workbook.NamedRanges);
             ShiftConditionalFormattingColumns(range, columnsShifted);
         }
+
         private void ShiftConditionalFormattingColumns(XLRange range, int columnsShifted)
         {
             Int32 firstColumn = range.RangeAddress.FirstAddress.ColumnNumber;
@@ -1220,6 +1233,7 @@ namespace ClosedXML.Excel
             MoveNamedRangesRows(range, rowsShifted, Workbook.NamedRanges);
             ShiftConditionalFormattingRows(range, rowsShifted);
         }
+
         private void ShiftConditionalFormattingRows(XLRange range, int rowsShifted)
         {
             Int32 firstRow = range.RangeAddress.FirstAddress.RowNumber;
@@ -1249,7 +1263,7 @@ namespace ClosedXML.Excel
             var fr = insertedRange.FirstRow();
             var model = fr.RowAbove();
             Int32 modelFirstColumn = model.RangeAddress.FirstAddress.ColumnNumber;
-            if (ConditionalFormats.Any(cf=>cf.Range.Intersects(model)))
+            if (ConditionalFormats.Any(cf => cf.Range.Intersects(model)))
             {
                 for (Int32 co = firstColumn; co <= lastColumn; co++)
                 {
@@ -1265,14 +1279,13 @@ namespace ClosedXML.Excel
             fr.Dispose();
         }
 
-
         internal void BreakConditionalFormatsIntoCells(List<IXLAddress> addresses)
         {
             var newConditionalFormats = new XLConditionalFormats();
             SuspendEvents();
             foreach (var conditionalFormat in ConditionalFormats)
             {
-                foreach (XLCell cell in conditionalFormat.Range.Cells(c=>!addresses.Contains(c.Address)))
+                foreach (XLCell cell in conditionalFormat.Range.Cells(c => !addresses.Contains(c.Address)))
                 {
                     var row = cell.Address.RowNumber;
                     var column = cell.Address.ColumnLetter;
@@ -1287,8 +1300,6 @@ namespace ClosedXML.Excel
             ResumeEvents();
             ConditionalFormats = newConditionalFormats;
         }
-
-
 
         private void MoveNamedRangesRows(XLRange range, int rowsShifted, IXLNamedRanges namedRanges)
         {
@@ -1316,7 +1327,7 @@ namespace ClosedXML.Excel
         {
             if (RangeShiftedRows != null)
             {
-                foreach(var item in RangeShiftedRows)
+                foreach (var item in RangeShiftedRows)
                 {
                     item.Action(range, rowsShifted);
                 }
@@ -1327,7 +1338,7 @@ namespace ClosedXML.Excel
         {
             if (RangeShiftedColumns != null)
             {
-                foreach(var item in RangeShiftedColumns)
+                foreach (var item in RangeShiftedColumns)
                 {
                     item.Action(range, columnsShifted);
                 }
@@ -1348,8 +1359,8 @@ namespace ClosedXML.Excel
             {
                 if (pingCells)
                 {
-                    // This is a new row so we're going to reference all 
-                    // cells in columns of this row to preserve their formatting
+                    // This is a new row so we're going to reference all cells in columns of this
+                    // row to preserve their formatting
 
                     var usedColumns = from c in Internals.ColumnsCollection
                                       join dc in Internals.CellsCollection.ColumnsUsed.Keys
@@ -1396,7 +1407,7 @@ namespace ClosedXML.Excel
                                                       String.Compare(n.Name, cellAddressInRange, true) == 0
                                                       && n.Ranges.Count == 1);
             if (namedRanges == null || !namedRanges.Ranges.Any()) return null;
-            
+
             return (XLCell)namedRanges.Ranges.First().FirstCell();
         }
 
@@ -1429,21 +1440,24 @@ namespace ClosedXML.Excel
         public IXLConditionalFormats ConditionalFormats { get; private set; }
 
         private Boolean _eventTracking;
+
         public void SuspendEvents()
         {
             _eventTracking = EventTrackingEnabled;
             EventTrackingEnabled = false;
         }
+
         public void ResumeEvents()
         {
             EventTrackingEnabled = _eventTracking;
         }
-        
+
         public IXLRanges SelectedRanges { get; internal set; }
 
         public IXLCell ActiveCell { get; set; }
 
         private XLCalcEngine _calcEngine;
+
         private XLCalcEngine CalcEngine
         {
             get { return _calcEngine ?? (_calcEngine = new XLCalcEngine(this)); }

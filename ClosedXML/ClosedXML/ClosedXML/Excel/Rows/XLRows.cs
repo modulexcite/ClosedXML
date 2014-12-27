@@ -9,6 +9,7 @@ namespace ClosedXML.Excel
     internal class XLRows : IXLRows, IXLStylized
     {
         public Boolean StyleChanged { get; set; }
+
         private readonly List<XLRow> _rows = new List<XLRow>();
         private readonly XLWorksheet _worksheet;
         internal IXLStyle style;
@@ -23,7 +24,7 @@ namespace ClosedXML.Excel
 
         public IEnumerator<IXLRow> GetEnumerator()
         {
-            return _rows.Cast<IXLRow>().OrderBy(r=>r.RowNumber()).GetEnumerator();
+            return _rows.Cast<IXLRow>().OrderBy(r => r.RowNumber()).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -121,7 +122,6 @@ namespace ClosedXML.Excel
             return this;
         }
 
-
         public void Hide()
         {
             _rows.ForEach(r => r.Hide());
@@ -209,7 +209,7 @@ namespace ClosedXML.Excel
             return this;
         }
 
-        #endregion
+        #endregion IXLRows Members
 
         #region IXLStylized Members
 
@@ -250,7 +250,7 @@ namespace ClosedXML.Excel
             }
         }
 
-        #endregion
+        #endregion IXLStylized Members
 
         public void Add(XLRow row)
         {

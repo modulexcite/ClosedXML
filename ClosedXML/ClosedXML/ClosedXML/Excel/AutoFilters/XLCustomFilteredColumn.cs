@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace ClosedXML.Excel
 {
@@ -18,7 +17,7 @@ namespace ClosedXML.Excel
 
         #region IXLCustomFilteredColumn Members
 
-        public void EqualTo<T>(T value) where T: IComparable<T>
+        public void EqualTo<T>(T value) where T : IComparable<T>
         {
             if (typeof(T) == typeof(String))
             {
@@ -33,7 +32,7 @@ namespace ClosedXML.Excel
             }
         }
 
-        public void NotEqualTo<T>(T value) where T: IComparable<T>
+        public void NotEqualTo<T>(T value) where T : IComparable<T>
         {
             if (typeof(T) == typeof(String))
             {
@@ -48,24 +47,24 @@ namespace ClosedXML.Excel
             }
         }
 
-        public void GreaterThan<T>(T value) where T: IComparable<T>
+        public void GreaterThan<T>(T value) where T : IComparable<T>
         {
             ApplyCustomFilter(value, XLFilterOperator.GreaterThan,
                               v => v.CastTo<T>().CompareTo(value) > 0);
         }
 
-        public void LessThan<T>(T value) where T: IComparable<T>
+        public void LessThan<T>(T value) where T : IComparable<T>
         {
             ApplyCustomFilter(value, XLFilterOperator.LessThan, v => v.CastTo<T>().CompareTo(value) < 0);
         }
 
-        public void EqualOrGreaterThan<T>(T value) where T: IComparable<T>
+        public void EqualOrGreaterThan<T>(T value) where T : IComparable<T>
         {
             ApplyCustomFilter(value, XLFilterOperator.EqualOrGreaterThan,
                               v => v.CastTo<T>().CompareTo(value) >= 0);
         }
 
-        public void EqualOrLessThan<T>(T value) where T: IComparable<T>
+        public void EqualOrLessThan<T>(T value) where T : IComparable<T>
         {
             ApplyCustomFilter(value, XLFilterOperator.EqualOrLessThan,
                               v => v.CastTo<T>().CompareTo(value) <= 0);
@@ -108,10 +107,10 @@ namespace ClosedXML.Excel
                               s => !((string)s).ToLower().Contains(value.ToLower()));
         }
 
-        #endregion
+        #endregion IXLCustomFilteredColumn Members
 
         private void ApplyCustomFilter<T>(T value, XLFilterOperator op, Func<Object, Boolean> condition)
-            where T: IComparable<T>
+            where T : IComparable<T>
         {
             _autoFilter.Filters[_column].Add(new XLFilter
                                                  {

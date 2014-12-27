@@ -2,7 +2,6 @@
 {
     using System;
     using System.Linq;
-	
 
     internal class XLRangeRow : XLRangeBase, IXLRangeRow
     {
@@ -21,9 +20,8 @@
             SetStyle(rangeParameters.DefaultStyle);
         }
 
-        #endregion
+        #endregion Constructor
 
-        
         public XLRangeParameters RangeParameters { get; private set; }
 
         #region IXLRangeRow Members
@@ -185,7 +183,7 @@
             return Worksheet.Row(RangeAddress.FirstAddress.RowNumber);
         }
 
-        #endregion
+        #endregion IXLRangeRow Members
 
         private void WorksheetRangeShiftedColumns(XLRange range, int columnsShifted)
         {
@@ -280,7 +278,7 @@
                 RangeAddress.FirstAddress.ColumnNumber,
                 rowNum,
                 RangeAddress.LastAddress.ColumnNumber);
-                
+
             var result = range.FirstRow();
             range.Dispose();
 
@@ -309,7 +307,7 @@
             return RowShift(step * -1);
         }
 
-        #endregion
+        #endregion XLRangeRow Above
 
         #region XLRangeRow Below
 
@@ -333,7 +331,7 @@
             return RowShift(step);
         }
 
-        #endregion
+        #endregion XLRangeRow Below
 
         public new IXLRangeRow Clear(XLClearOptions clearOptions = XLClearOptions.ContentsAndFormats)
         {
@@ -345,6 +343,5 @@
         {
             return Row(FirstCellUsed(includeFormats), LastCellUsed(includeFormats));
         }
-
     }
 }

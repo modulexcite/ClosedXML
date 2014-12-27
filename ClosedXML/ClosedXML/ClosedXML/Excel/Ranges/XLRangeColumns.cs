@@ -9,6 +9,7 @@ namespace ClosedXML.Excel
     internal class XLRangeColumns : IXLRangeColumns, IXLStylized
     {
         public Boolean StyleChanged { get; set; }
+
         private readonly List<XLRangeColumn> _ranges = new List<XLRangeColumn>();
         private IXLStyle _style;
 
@@ -89,7 +90,7 @@ namespace ClosedXML.Excel
             return this;
         }
 
-        #endregion
+        #endregion IXLRangeColumns Members
 
         #region IXLStylized Members
 
@@ -131,7 +132,7 @@ namespace ClosedXML.Excel
             }
         }
 
-        #endregion
+        #endregion IXLStylized Members
 
         public void Dispose()
         {

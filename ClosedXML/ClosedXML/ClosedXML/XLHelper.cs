@@ -1,16 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 
 namespace ClosedXML.Excel
 {
+    using System.Drawing;
     using System.Linq;
     using System.Text.RegularExpressions;
-    using System.Drawing;
 
     /// <summary>
-    /// 	Common methods
+    /// Common methods
     /// </summary>
     public static class XLHelper
     {
@@ -21,7 +19,7 @@ namespace ClosedXML.Excel
         public const String MaxColumnLetter = "XFD";
         public const Double Epsilon = 1e-10;
 
-        private const Int32 TwoT26 = 26*26;
+        private const Int32 TwoT26 = 26 * 26;
         internal static readonly NumberFormatInfo NumberFormatForParse = CultureInfo.InvariantCulture.NumberFormat;
         internal static readonly Graphics Graphic = Graphics.FromImage(new Bitmap(200, 200));
         internal static readonly Double DpiX = Graphic.DpiX;
@@ -57,7 +55,7 @@ namespace ClosedXML.Excel
         /// <summary>
         /// Gets the column number of a given column letter.
         /// </summary>
-        /// <param name="columnLetter"> The column letter to translate into a column number. </param>
+        /// <param name="columnLetter">The column letter to translate into a column number.</param>
         public static int GetColumnNumberFromLetter(string columnLetter)
         {
             if (string.IsNullOrEmpty(columnLetter)) throw new ArgumentNullException("columnLetter");
@@ -84,9 +82,9 @@ namespace ClosedXML.Excel
         }
 
         /// <summary>
-        /// 	Gets the column letter of a given column number.
+        /// Gets the column letter of a given column number.
         /// </summary>
-        /// <param name="columnNumber"> The column number to translate into a column letter. </param>
+        /// <param name="columnNumber">The column number to translate into a column letter.</param>
         public static string GetColumnLetterFromNumber(int columnNumber)
         {
             var ret = String.Empty;
@@ -106,7 +104,6 @@ namespace ClosedXML.Excel
                 return false;
 
             var theColumn = column.ToUpper();
-
 
             var isValid = theColumn[0] >= 'A' && theColumn[0] <= 'Z';
             if (length == 1)
@@ -161,8 +158,7 @@ namespace ClosedXML.Excel
 
         public static Boolean IsValidRangeAddress(IXLRangeAddress rangeAddress)
         {
-
-            return !rangeAddress.IsInvalid 
+            return !rangeAddress.IsInvalid
                    && rangeAddress.FirstAddress.RowNumber >= 1 && rangeAddress.LastAddress.RowNumber <= MaxRowNumber
                    && rangeAddress.FirstAddress.ColumnNumber >= 1 && rangeAddress.LastAddress.ColumnNumber <= MaxColumnNumber
                    && rangeAddress.FirstAddress.RowNumber <= rangeAddress.LastAddress.RowNumber
@@ -185,12 +181,12 @@ namespace ClosedXML.Excel
 
         public static Int32 GetPtFromPx(Double px)
         {
-            return Convert.ToInt32(px*72.0/DpiX);
+            return Convert.ToInt32(px * 72.0 / DpiX);
         }
 
         public static Double GetPxFromPt(Int32 pt)
         {
-            return Convert.ToDouble(pt)*DpiX/72.0;
+            return Convert.ToDouble(pt) * DpiX / 72.0;
         }
 
         internal static IXLTableRows InsertRowsWithoutEvents(Func<int, bool, IXLRangeRows> insertFunc,
@@ -213,8 +209,6 @@ namespace ClosedXML.Excel
             return rows;
         }
 
-
-
         public static bool IsNullOrWhiteSpace(string value)
         {
 #if NET4
@@ -233,7 +227,6 @@ namespace ClosedXML.Excel
             }
             return true;
 #endif
-
         }
 
         private static readonly Regex A1RegexRelative = new Regex(

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ClosedXML.Excel
 {
@@ -10,6 +9,7 @@ namespace ClosedXML.Excel
     internal class XLCells : IXLCells, IXLStylized, IEnumerable<XLCell>
     {
         public Boolean StyleChanged { get; set; }
+
         #region Fields
 
         private readonly bool _includeFormats;
@@ -17,7 +17,8 @@ namespace ClosedXML.Excel
         private readonly bool _usedCellsOnly;
         private IXLStyle _style;
         private readonly Func<IXLCell, Boolean> _predicate;
-        #endregion
+
+        #endregion Fields
 
         #region Constructor
 
@@ -29,7 +30,7 @@ namespace ClosedXML.Excel
             _predicate = predicate;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region IEnumerable<XLCell> Members
 
@@ -58,12 +59,12 @@ namespace ClosedXML.Excel
                                                 range.FirstAddress.ColumnNumber,
                                                 range.LastAddress.RowNumber,
                                                 range.LastAddress.ColumnNumber)
-                                                .Where(c => 
-                                                            !c.IsEmpty(_includeFormats) 
+                                                .Where(c =>
+                                                            !c.IsEmpty(_includeFormats)
                                                             && (_predicate == null || _predicate(c))
                                                             );
 
-                        foreach(var cell in cellRange)
+                        foreach (var cell in cellRange)
                         {
                             yield return cell;
                         }
@@ -125,7 +126,7 @@ namespace ClosedXML.Excel
                                 cir =>
                                 cir.Value.Select(a => cir.Key.Internals.CellsCollection.GetCell(a)).Where(
                                     cell => cell != null && (
-                                                                !cell.IsEmpty(_includeFormats) 
+                                                                !cell.IsEmpty(_includeFormats)
                                                                 && (_predicate == null || _predicate(cell))
                                                                 )));
 
@@ -149,7 +150,7 @@ namespace ClosedXML.Excel
             }
         }
 
-        #endregion
+        #endregion IEnumerable<XLCell> Members
 
         #region IXLCells Members
 
@@ -190,14 +191,14 @@ namespace ClosedXML.Excel
             set { this.ForEach<XLCell>(c => c.DataType = value); }
         }
 
-
         public IXLCells Clear(XLClearOptions clearOptions = XLClearOptions.ContentsAndFormats)
         {
             this.ForEach<XLCell>(c => c.Clear(clearOptions));
             return this;
         }
 
-        public void DeleteComments() {
+        public void DeleteComments()
+        {
             this.ForEach<XLCell>(c => c.DeleteComment());
         }
 
@@ -211,7 +212,7 @@ namespace ClosedXML.Excel
             set { this.ForEach<XLCell>(c => c.FormulaR1C1 = value); }
         }
 
-        #endregion
+        #endregion IXLCells Members
 
         #region IXLStylized Members
 
@@ -245,7 +246,7 @@ namespace ClosedXML.Excel
             }
         }
 
-        #endregion
+        #endregion IXLStylized Members
 
         public void Add(XLRangeAddress rangeAddress)
         {
@@ -269,7 +270,7 @@ namespace ClosedXML.Excel
             public Int32 MinRow;
         }
 
-        #endregion
+        #endregion Nested type: MinMax
 
         public void Select()
         {

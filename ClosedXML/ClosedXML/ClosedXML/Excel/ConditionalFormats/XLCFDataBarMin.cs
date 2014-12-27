@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ClosedXML.Excel
 {
     internal class XLCFDataBarMin : IXLCFDataBarMin
     {
         private readonly XLConditionalFormat _conditionalFormat;
+
         public XLCFDataBarMin(XLConditionalFormat conditionalFormat)
         {
             _conditionalFormat = conditionalFormat;
@@ -19,6 +17,7 @@ namespace ClosedXML.Excel
             _conditionalFormat.Values.Initialize(new XLFormula { Value = value });
             return new XLCFDataBarMax(_conditionalFormat);
         }
+
         public IXLCFDataBarMax Minimum(XLCFContentType type, Double value)
         {
             return Minimum(type, value.ToInvariantString());

@@ -35,6 +35,7 @@ namespace ClosedXML.Excel
         private readonly Double _themeTint;
 
         private Color _color;
+
         public Boolean HasValue { get; private set; }
 
         public XLColorType ColorType
@@ -94,7 +95,7 @@ namespace ClosedXML.Excel
                 if (ColorType == XLColorType.Indexed)
                     throw new Exception("Cannot extract theme tint from an indexed color.");
 
-                return _color.A/255.0;
+                return _color.A / 255.0;
             }
         }
 
@@ -119,11 +120,11 @@ namespace ClosedXML.Excel
             return false;
         }
 
-        #endregion
+        #endregion IEquatable<XLColor> Members
 
         public override bool Equals(object obj)
         {
-            return Equals((XLColor) obj);
+            return Equals((XLColor)obj);
         }
 
         public override int GetHashCode()

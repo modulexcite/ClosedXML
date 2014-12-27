@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ClosedXML.Excel
 {
-    internal class XLPivotValueFormat: IXLPivotValueFormat
+    internal class XLPivotValueFormat : IXLPivotValueFormat
     {
         private readonly XLPivotValue _pivotValue;
+
         public XLPivotValueFormat(XLPivotValue pivotValue)
         {
             _pivotValue = pivotValue;
@@ -16,6 +14,7 @@ namespace ClosedXML.Excel
         }
 
         private Int32 _numberFormatId = -1;
+
         public Int32 NumberFormatId
         {
             get { return _numberFormatId; }
@@ -27,6 +26,7 @@ namespace ClosedXML.Excel
         }
 
         private String _format = String.Empty;
+
         public String Format
         {
             get { return _format; }
@@ -42,6 +42,7 @@ namespace ClosedXML.Excel
             NumberFormatId = value;
             return _pivotValue;
         }
+
         public IXLPivotValue SetFormat(String value)
         {
             Format = value;
@@ -51,32 +52,37 @@ namespace ClosedXML.Excel
                 case "General":
                     _numberFormatId = 0;
                     break;
+
                 case "0":
                     _numberFormatId = 1;
                     break;
+
                 case "0.00":
                     _numberFormatId = 2;
                     break;
+
                 case "#,##0":
                     _numberFormatId = 3;
                     break;
+
                 case "#,##0.00":
                     _numberFormatId = 4;
                     break;
+
                 case "0%":
                     _numberFormatId = 9;
                     break;
+
                 case "0.00%":
                     _numberFormatId = 10;
                     break;
+
                 case "0.00E+00":
                     _numberFormatId = 11;
                     break;
             }
 
-
             return _pivotValue;
         }
-
     }
 }

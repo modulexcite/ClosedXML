@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace ClosedXML.Excel
 {
     internal class XLRowParameters
@@ -13,7 +12,9 @@ namespace ClosedXML.Excel
         }
 
         public Int32 DefaultStyleId { get; set; }
+
         public XLWorksheet Worksheet { get; private set; }
+
         public Boolean IsReference { get; private set; }
     }
 }

@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ClosedXML.Excel.CalcEngine
 {
     /// <summary>
-    /// Caches expressions based on their string representation.
-    /// This saves parsing time.
+    /// Caches expressions based on their string representation. This saves parsing time.
     /// </summary>
-    /// <remarks>
-    /// Uses weak references to avoid accumulating unused expressions.
-    /// </remarks>
-    class ExpressionCache
+    /// <remarks>Uses weak references to avoid accumulating unused expressions.</remarks>
+    internal class ExpressionCache
     {
-        Dictionary<string, WeakReference> _dct;
-        CalcEngine _ce;
-        int _hitCount;
+        private Dictionary<string, WeakReference> _dct;
+        private CalcEngine _ce;
+        private int _hitCount;
 
         public ExpressionCache(CalcEngine ce)
         {
@@ -52,7 +48,7 @@ namespace ClosedXML.Excel.CalcEngine
         }
 
         // remove all dead references from the cache
-        void RemoveDeadReferences()
+        private void RemoveDeadReferences()
         {
             for (bool done = false; !done; )
             {

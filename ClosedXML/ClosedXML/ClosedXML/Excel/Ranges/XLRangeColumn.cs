@@ -2,7 +2,6 @@
 {
     using System;
     using System.Linq;
-	
 
     internal class XLRangeColumn : XLRangeBase, IXLRangeColumn
     {
@@ -13,12 +12,12 @@
         {
             if (quickLoad) return;
 
-			SubscribeToShiftedRows((range, rowsShifted) => this.WorksheetRangeShiftedRows(range, rowsShifted));
-			SubscribeToShiftedColumns((range, columnsShifted) => this.WorksheetRangeShiftedColumns(range, columnsShifted));
+            SubscribeToShiftedRows((range, rowsShifted) => this.WorksheetRangeShiftedRows(range, rowsShifted));
+            SubscribeToShiftedColumns((range, columnsShifted) => this.WorksheetRangeShiftedColumns(range, columnsShifted));
             SetStyle(rangeParameters.DefaultStyle);
         }
 
-        #endregion
+        #endregion Constructor
 
         #region IXLRangeColumn Members
 
@@ -76,7 +75,6 @@
             base.Sort(1, sortOrder, matchCase, ignoreBlanks);
             return this;
         }
-
 
         public new IXLRangeColumn CopyTo(IXLCell target)
         {
@@ -166,7 +164,7 @@
             return Worksheet.Column(RangeAddress.FirstAddress.ColumnNumber);
         }
 
-        #endregion
+        #endregion IXLRangeColumn Members
 
         public XLCell Cell(int row)
         {
@@ -289,7 +287,7 @@
             return ColumnShift(step * -1);
         }
 
-        #endregion
+        #endregion XLRangeColumn Left
 
         #region XLRangeColumn Right
 
@@ -313,13 +311,12 @@
             return ColumnShift(step);
         }
 
-        #endregion
-
+        #endregion XLRangeColumn Right
 
         public IXLTable AsTable()
         {
             using (var asRange = AsRange())
-               return asRange.AsTable(); 
+                return asRange.AsTable();
         }
 
         public IXLTable AsTable(string name)
@@ -350,6 +347,5 @@
         {
             return Column(FirstCellUsed(includeFormats), LastCellUsed(includeFormats));
         }
-
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Globalization;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -41,17 +40,19 @@ namespace ClosedXML.Excel.CalcEngine
             ce.RegisterFunction("HYPERLINK", 1, Hyperlink);
         }
 
-        static object _Char(List<Expression> p)
+        private static object _Char(List<Expression> p)
         {
             var c = (char)(int)p[0];
             return c.ToString();
         }
-        static object Code(List<Expression> p)
+
+        private static object Code(List<Expression> p)
         {
             var s = (string)p[0];
             return (int)s[0];
         }
-        static object Concat(List<Expression> p)
+
+        private static object Concat(List<Expression> p)
         {
             var sb = new StringBuilder();
             foreach (var x in p)
@@ -60,11 +61,13 @@ namespace ClosedXML.Excel.CalcEngine
             }
             return sb.ToString();
         }
-        static object Find(List<Expression> p)
+
+        private static object Find(List<Expression> p)
         {
             return IndexOf(p, StringComparison.Ordinal);
         }
-        static int IndexOf(List<Expression> p, StringComparison cmp)
+
+        private static int IndexOf(List<Expression> p, StringComparison cmp)
         {
             var srch = (string)p[0];
             var text = (string)p[1];
@@ -76,7 +79,8 @@ namespace ClosedXML.Excel.CalcEngine
             var index = text.IndexOf(srch, start, cmp);
             return index > -1 ? index + 1 : index;
         }
-        static object Left(List<Expression> p)
+
+        private static object Left(List<Expression> p)
         {
             var str = (string)p[0];
             var n = 1;
@@ -88,15 +92,18 @@ namespace ClosedXML.Excel.CalcEngine
 
             return str.Substring(0, n);
         }
-        static object Len(List<Expression> p)
+
+        private static object Len(List<Expression> p)
         {
             return ((string)p[0]).Length;
         }
-        static object Lower(List<Expression> p)
+
+        private static object Lower(List<Expression> p)
         {
             return ((string)p[0]).ToLower();
         }
-        static object Mid(List<Expression> p)
+
+        private static object Mid(List<Expression> p)
         {
             var str = (string)p[0];
             var start = (int)p[1] - 1;
@@ -107,12 +114,14 @@ namespace ClosedXML.Excel.CalcEngine
                 return str.Substring(start);
             return str.Substring(start, length);
         }
-        static object Proper(List<Expression> p)
+
+        private static object Proper(List<Expression> p)
         {
             var s = (string)p[0];
             return s.Substring(0, 1).ToUpper() + s.Substring(1).ToLower();
         }
-        static object Replace(List<Expression> p)
+
+        private static object Replace(List<Expression> p)
         {
             // old start len new
             var s = (string)p[0];
@@ -127,7 +136,8 @@ namespace ClosedXML.Excel.CalcEngine
 
             return sb.ToString();
         }
-        static object Rept(List<Expression> p)
+
+        private static object Rept(List<Expression> p)
         {
             var sb = new StringBuilder();
             var s = (string)p[0];
@@ -137,7 +147,8 @@ namespace ClosedXML.Excel.CalcEngine
             }
             return sb.ToString();
         }
-        static object Right(List<Expression> p)
+
+        private static object Right(List<Expression> p)
         {
             var str = (string)p[0];
             var n = 1;
@@ -145,16 +156,18 @@ namespace ClosedXML.Excel.CalcEngine
             {
                 n = (int)p[1];
             }
-            
+
             if (n >= str.Length) return str;
 
             return str.Substring(str.Length - n);
         }
-        static object Search(List<Expression> p)
+
+        private static object Search(List<Expression> p)
         {
             return IndexOf(p, StringComparison.OrdinalIgnoreCase);
         }
-        static object Substitute(List<Expression> p)
+
+        private static object Substitute(List<Expression> p)
         {
             // get parameters
             var text = (string)p[0];
@@ -183,42 +196,47 @@ namespace ClosedXML.Excel.CalcEngine
                 ? text.Substring(0, pos) + newText + text.Substring(pos + oldText.Length)
                 : text;
         }
-        static object T(List<Expression> p)
+
+        private static object T(List<Expression> p)
         {
             return (string)p[0];
         }
-        static object _Text(List<Expression> p)
+
+        private static object _Text(List<Expression> p)
         {
             return ((double)p[0]).ToString((string)p[1], CultureInfo.CurrentCulture);
         }
-        static object Trim(List<Expression> p)
+
+        private static object Trim(List<Expression> p)
         {
             //Should not trim non breaking space
             //See http://office.microsoft.com/en-us/excel-help/trim-function-HP010062581.aspx
             return ((string)p[0]).Trim(' ');
         }
-        static object Upper(List<Expression> p)
+
+        private static object Upper(List<Expression> p)
         {
             return ((string)p[0]).ToUpper();
         }
-        static object Value(List<Expression> p)
+
+        private static object Value(List<Expression> p)
         {
             return double.Parse((string)p[0], NumberStyles.Any, CultureInfo.InvariantCulture);
         }
 
-        static object Asc(List<Expression> p)
+        private static object Asc(List<Expression> p)
         {
             return (string)p[0];
         }
 
-        static object Hyperlink(List<Expression> p)
+        private static object Hyperlink(List<Expression> p)
         {
             String address = p[0];
             String toolTip = p.Count == 2 ? p[1] : String.Empty;
             return new XLHyperlink(address, toolTip);
         }
 
-        static object Clean(List<Expression> p)
+        private static object Clean(List<Expression> p)
         {
             var s = (string)p[0];
 
@@ -229,7 +247,8 @@ namespace ClosedXML.Excel.CalcEngine
             }
             return result.ToString();
         }
-        static object Dollar(List<Expression> p)
+
+        private static object Dollar(List<Expression> p)
         {
             Double value = p[0];
             int dec = p.Count == 2 ? (int)p[1] : 2;
@@ -237,7 +256,7 @@ namespace ClosedXML.Excel.CalcEngine
             return value.ToString("C" + dec);
         }
 
-        static object Exact(List<Expression> p)
+        private static object Exact(List<Expression> p)
         {
             var t1 = (string)p[0];
             var t2 = (string)p[1];
@@ -245,7 +264,7 @@ namespace ClosedXML.Excel.CalcEngine
             return t1 == t2;
         }
 
-        static object Fixed(List<Expression> p)
+        private static object Fixed(List<Expression> p)
         {
             Double value = p[0];
             int dec = p.Count >= 2 ? (int)p[1] : 2;
@@ -257,5 +276,5 @@ namespace ClosedXML.Excel.CalcEngine
 
             return retVal.Replace(",", String.Empty);
         }
-    }    
+    }
 }

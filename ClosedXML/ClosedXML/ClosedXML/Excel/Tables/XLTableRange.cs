@@ -8,7 +8,9 @@ namespace ClosedXML.Excel
     {
         private readonly XLTable _table;
         private readonly XLRange _range;
-        public XLTableRange(XLRange range, XLTable table):base(range.RangeParameters)
+
+        public XLTableRange(XLRange range, XLTable table)
+            : base(range.RangeParameters)
         {
             _table = table;
             _range = range;
@@ -18,6 +20,7 @@ namespace ClosedXML.Excel
         {
             return FirstRow(predicate);
         }
+
         public XLTableRow FirstRow(Func<IXLTableRow, Boolean> predicate = null)
         {
             if (predicate == null)
@@ -40,6 +43,7 @@ namespace ClosedXML.Excel
         {
             return FirstRowUsed(false, predicate);
         }
+
         public XLTableRow FirstRowUsed(Func<IXLTableRow, Boolean> predicate = null)
         {
             return FirstRowUsed(false, predicate);
@@ -49,6 +53,7 @@ namespace ClosedXML.Excel
         {
             return FirstRowUsed(includeFormats, predicate);
         }
+
         public XLTableRow FirstRowUsed(Boolean includeFormats, Func<IXLTableRow, Boolean> predicate = null)
         {
             if (predicate == null)
@@ -68,11 +73,11 @@ namespace ClosedXML.Excel
             return null;
         }
 
-
         IXLTableRow IXLTableRange.LastRow(Func<IXLTableRow, Boolean> predicate)
         {
             return LastRow(predicate);
         }
+
         public XLTableRow LastRow(Func<IXLTableRow, Boolean> predicate = null)
         {
             if (predicate == null)
@@ -94,6 +99,7 @@ namespace ClosedXML.Excel
         {
             return LastRowUsed(false, predicate);
         }
+
         public XLTableRow LastRowUsed(Func<IXLTableRow, Boolean> predicate = null)
         {
             return LastRowUsed(false, predicate);
@@ -103,6 +109,7 @@ namespace ClosedXML.Excel
         {
             return LastRowUsed(includeFormats, predicate);
         }
+
         public XLTableRow LastRowUsed(Boolean includeFormats, Func<IXLTableRow, Boolean> predicate = null)
         {
             if (predicate == null)
@@ -126,6 +133,7 @@ namespace ClosedXML.Excel
         {
             return Row(row);
         }
+
         public new XLTableRow Row(int row)
         {
             if (row <= 0 || row > XLHelper.MaxRowNumber)
@@ -192,6 +200,7 @@ namespace ClosedXML.Excel
         {
             return RowsUsed(includeFormats, predicate);
         }
+
         public IXLTableRows RowsUsed(Boolean includeFormats, Func<IXLTableRow, Boolean> predicate = null)
         {
             var rows = new XLTableRows(Worksheet.Style);
@@ -213,23 +222,25 @@ namespace ClosedXML.Excel
         {
             return RowsUsed(predicate);
         }
+
         public IXLTableRows RowsUsed(Func<IXLTableRow, Boolean> predicate = null)
         {
             return RowsUsed(false, predicate);
         }
 
         IXLTable IXLTableRange.Table { get { return _table; } }
+
         public XLTable Table { get { return _table; } }
 
         public new IXLTableRows InsertRowsAbove(int numberOfRows)
         {
-            return XLHelper.InsertRowsWithoutEvents(base.InsertRowsAbove, this, numberOfRows, !Table.ShowTotalsRow );
+            return XLHelper.InsertRowsWithoutEvents(base.InsertRowsAbove, this, numberOfRows, !Table.ShowTotalsRow);
         }
+
         public new IXLTableRows InsertRowsBelow(int numberOfRows)
         {
             return XLHelper.InsertRowsWithoutEvents(base.InsertRowsBelow, this, numberOfRows, !Table.ShowTotalsRow);
         }
-
 
         public new IXLRangeColumn Column(String column)
         {

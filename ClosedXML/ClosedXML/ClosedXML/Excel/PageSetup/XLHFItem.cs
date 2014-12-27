@@ -7,20 +7,24 @@ namespace ClosedXML.Excel
     internal class XLHFItem : IXLHFItem
     {
         private readonly XLWorksheet _worksheet;
+
         public XLHFItem(XLWorksheet worksheet)
         {
             _worksheet = worksheet;
         }
+
         public XLHFItem(XLHFItem defaultHFItem, XLWorksheet worksheet)
-            :this(worksheet)
+            : this(worksheet)
         {
             defaultHFItem.texts.ForEach(kp => texts.Add(kp.Key, kp.Value));
         }
+
         private readonly Dictionary<XLHFOccurrence, List<XLHFText>> texts = new Dictionary<XLHFOccurrence, List<XLHFText>>();
+
         public String GetText(XLHFOccurrence occurrence)
         {
             var sb = new StringBuilder();
-            if(texts.ContainsKey(occurrence))
+            if (texts.ContainsKey(occurrence))
             {
                 foreach (var hfText in texts[occurrence])
                     sb.Append(hfText.GetHFText(sb.ToString()));
@@ -33,6 +37,7 @@ namespace ClosedXML.Excel
         {
             return AddText(text, XLHFOccurrence.AllPages);
         }
+
         public IXLRichString AddText(XLHFPredefinedText predefinedText)
         {
             return AddText(predefinedText, XLHFOccurrence.AllPages);
@@ -81,12 +86,12 @@ namespace ClosedXML.Excel
             switch (predefinedText)
             {
                 case XLHFPredefinedText.PageNumber: hfText = "&P"; break;
-                case XLHFPredefinedText.NumberOfPages : hfText = "&N"; break;
-                case XLHFPredefinedText.Date : hfText = "&D"; break;
-                case XLHFPredefinedText.Time : hfText = "&T"; break;
-                case XLHFPredefinedText.Path : hfText = "&Z"; break;
-                case XLHFPredefinedText.File : hfText = "&F"; break;
-                case XLHFPredefinedText.SheetName : hfText = "&A"; break;
+                case XLHFPredefinedText.NumberOfPages: hfText = "&N"; break;
+                case XLHFPredefinedText.Date: hfText = "&D"; break;
+                case XLHFPredefinedText.Time: hfText = "&T"; break;
+                case XLHFPredefinedText.Path: hfText = "&Z"; break;
+                case XLHFPredefinedText.File: hfText = "&F"; break;
+                case XLHFPredefinedText.SheetName: hfText = "&A"; break;
                 case XLHFPredefinedText.FullPath: hfText = "&Z&F"; break;
                 default: throw new NotImplementedException();
             }

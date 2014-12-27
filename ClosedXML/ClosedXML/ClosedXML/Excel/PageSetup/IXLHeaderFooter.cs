@@ -3,6 +3,7 @@
 namespace ClosedXML.Excel
 {
     public enum XLHFMode { OddPagesOnly, OddAndEvenPages, Odd }
+
     public interface IXLHeaderFooter
     {
         /// <summary>

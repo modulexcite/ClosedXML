@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ClosedXML.Excel
 {
-    internal class XLPivotTables: IXLPivotTables
+    internal class XLPivotTables : IXLPivotTables
     {
         private readonly Dictionary<String, XLPivotTable> _pivotTables = new Dictionary<string, XLPivotTable>();
+
         public IEnumerator<IXLPivotTable> GetEnumerator()
         {
             return _pivotTables.Values.Cast<IXLPivotTable>().GetEnumerator();
@@ -22,14 +22,17 @@ namespace ClosedXML.Excel
         {
             return _pivotTables[name];
         }
+
         IXLPivotTable IXLPivotTables.PivotTable(String name)
         {
             return PivotTable(name);
         }
+
         public void Delete(String name)
         {
             _pivotTables.Remove(name);
         }
+
         public void DeleteAll()
         {
             _pivotTables.Clear();
@@ -46,6 +49,5 @@ namespace ClosedXML.Excel
             _pivotTables.Add(name, pivotTable);
             return pivotTable;
         }
-
     }
 }

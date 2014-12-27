@@ -3,21 +3,25 @@ using System.Collections.Generic;
 
 namespace ClosedXML.Excel
 {
-    internal class XLSortElements: IXLSortElements
+    internal class XLSortElements : IXLSortElements
     {
-        List<IXLSortElement> elements = new List<IXLSortElement>();
+        private List<IXLSortElement> elements = new List<IXLSortElement>();
+
         public void Add(Int32 elementNumber)
         {
             Add(elementNumber, XLSortOrder.Ascending);
         }
+
         public void Add(Int32 elementNumber, XLSortOrder sortOrder)
         {
             Add(elementNumber, sortOrder, true);
         }
+
         public void Add(Int32 elementNumber, XLSortOrder sortOrder, Boolean ignoreBlanks)
         {
             Add(elementNumber, sortOrder, ignoreBlanks, false);
         }
+
         public void Add(Int32 elementNumber, XLSortOrder sortOrder, Boolean ignoreBlanks, Boolean matchCase)
         {
             elements.Add(new XLSortElement()
@@ -33,14 +37,17 @@ namespace ClosedXML.Excel
         {
             Add(elementNumber, XLSortOrder.Ascending);
         }
+
         public void Add(String elementNumber, XLSortOrder sortOrder)
         {
             Add(elementNumber, sortOrder, true);
         }
+
         public void Add(String elementNumber, XLSortOrder sortOrder, Boolean ignoreBlanks)
         {
             Add(elementNumber, sortOrder, ignoreBlanks, false);
         }
+
         public void Add(String elementNumber, XLSortOrder sortOrder, Boolean ignoreBlanks, Boolean matchCase)
         {
             elements.Add(new XLSortElement()

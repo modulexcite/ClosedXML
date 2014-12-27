@@ -36,13 +36,13 @@ namespace ClosedXML.Excel
                 Double dTest;
                 if (Value is DateTime)
                     return XLCustomPropertyType.Date;
-                
+
                 if (Value is Boolean)
                     return XLCustomPropertyType.Boolean;
-                
+
                 if (Double.TryParse(Value.ToString(), out dTest))
                     return XLCustomPropertyType.Number;
-                
+
                 return XLCustomPropertyType.Text;
             }
         }
@@ -54,6 +54,6 @@ namespace ClosedXML.Excel
             return (T)Convert.ChangeType(Value, typeof(T));
         }
 
-        #endregion
+        #endregion IXLCustomProperty Members
     }
 }

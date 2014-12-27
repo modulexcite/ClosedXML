@@ -2,17 +2,22 @@
 
 namespace ClosedXML.Excel
 {
-    public interface IXLTableRow: IXLRangeRow
+    public interface IXLTableRow : IXLRangeRow
     {
         IXLCell Field(Int32 index);
+
         IXLCell Field(String name);
 
         new IXLTableRow Sort();
+
         new IXLTableRow SortLeftToRight(XLSortOrder sortOrder = XLSortOrder.Ascending, Boolean matchCase = false, Boolean ignoreBlanks = true);
 
         new IXLTableRow RowAbove();
+
         new IXLTableRow RowAbove(Int32 step);
+
         new IXLTableRow RowBelow();
+
         new IXLTableRow RowBelow(Int32 step);
 
         /// <summary>
@@ -22,6 +27,7 @@ namespace ClosedXML.Excel
         new IXLTableRow Clear(XLClearOptions clearOptions = XLClearOptions.ContentsAndFormats);
 
         new IXLTableRows InsertRowsAbove(int numberOfRows);
+
         new IXLTableRows InsertRowsBelow(int numberOfRows);
     }
 }

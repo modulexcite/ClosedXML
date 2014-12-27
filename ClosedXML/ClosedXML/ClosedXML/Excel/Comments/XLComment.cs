@@ -45,18 +45,26 @@ namespace ClosedXML.Excel
             _cell.DeleteComment();
         }
 
-        #endregion
+        #endregion IXLComment Members
 
         #region IXLDrawing
 
         public String Name { get; set; }
+
         public String Description { get; set; }
+
         public XLDrawingAnchor Anchor { get; set; }
+
         public Boolean HorizontalFlip { get; set; }
+
         public Boolean VerticalFlip { get; set; }
+
         public Int32 Rotation { get; set; }
+
         public Int32 ExtentLength { get; set; }
+
         public Int32 ExtentWidth { get; set; }
+
         public Int32 ShapeId { get; internal set; }
 
         private Boolean _visible;
@@ -151,7 +159,7 @@ namespace ClosedXML.Excel
             return Container;
         }
 
-        #endregion
+        #endregion IXLDrawing
 
         private void Initialize(XLCell cell)
         {

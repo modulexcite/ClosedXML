@@ -2,9 +2,9 @@
 
 namespace ClosedXML.Excel
 {
-    internal struct XLSheetPoint:IEquatable<XLSheetPoint>
+    internal struct XLSheetPoint : IEquatable<XLSheetPoint>
     {
-        public XLSheetPoint(Int32  row, Int32 column)
+        public XLSheetPoint(Int32 row, Int32 column)
         {
             Row = row;
             Column = column;
@@ -28,7 +28,7 @@ namespace ClosedXML.Excel
             return (Row * -1) ^ Column;
         }
 
-        public static bool operator==(XLSheetPoint a, XLSheetPoint b)
+        public static bool operator ==(XLSheetPoint a, XLSheetPoint b)
         {
             return a.Row == b.Row && a.Column == b.Column;
         }

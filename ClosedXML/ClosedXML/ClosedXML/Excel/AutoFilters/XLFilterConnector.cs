@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ClosedXML.Excel
 {
@@ -28,6 +25,6 @@ namespace ClosedXML.Excel
             get { return new XLCustomFilteredColumn(_autoFilter, _column, XLConnector.Or); }
         }
 
-        #endregion
+        #endregion IXLFilterConnector Members
     }
 }

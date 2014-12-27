@@ -16,7 +16,7 @@ namespace ClosedXML.Excel
                 ;
         }
 
-        #endregion
+        #endregion IXLNumberFormat Members
 
         private void SetStyleChanged()
         {
@@ -85,7 +85,7 @@ namespace ClosedXML.Excel
             return _container.Style;
         }
 
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
@@ -93,7 +93,6 @@ namespace ClosedXML.Excel
             : this(null, XLWorkbook.DefaultStyle.NumberFormat)
         {
         }
-
 
         public XLNumberFormat(IXLStylized container, IXLNumberFormat defaultNumberFormat)
         {
@@ -103,7 +102,7 @@ namespace ClosedXML.Excel
             _format = defaultNumberFormat.Format;
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Overridden
 
@@ -112,6 +111,6 @@ namespace ClosedXML.Excel
             return _numberFormatId + "-" + _format;
         }
 
-        #endregion
+        #endregion Overridden
     }
 }

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Spreadsheet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace ClosedXML.Excel
 {
@@ -51,6 +51,7 @@ namespace ClosedXML.Excel
             TableParts = 39,
             WorksheetExtensionList = 40
         }
+
         private Dictionary<XLWSContents, OpenXmlElement> contents = new Dictionary<XLWSContents, OpenXmlElement>();
 
         public XLWSContentManager(Worksheet opWorksheet)

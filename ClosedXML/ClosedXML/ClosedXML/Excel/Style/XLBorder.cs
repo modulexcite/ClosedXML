@@ -21,7 +21,8 @@ namespace ClosedXML.Excel
         private XLBorderStyleValues _topBorder;
         private XLColor _topBorderColor;
 
-        public XLBorder() : this(null, XLWorkbook.DefaultStyle.Border)
+        public XLBorder()
+            : this(null, XLWorkbook.DefaultStyle.Border)
         {
         }
 
@@ -88,7 +89,6 @@ namespace ClosedXML.Excel
                 }
             }
         }
-
 
         public XLColor OutsideBorderColor
         {
@@ -238,6 +238,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean LeftBorderModified;
+
         public XLBorderStyleValues LeftBorder
         {
             get { return _leftBorder; }
@@ -255,6 +256,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean LeftBorderColorModified;
+
         public XLColor LeftBorderColor
         {
             get { return _leftBorderColor; }
@@ -272,6 +274,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean RightBorderModified;
+
         public XLBorderStyleValues RightBorder
         {
             get { return _rightBorder; }
@@ -289,6 +292,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean RightBorderColorModified;
+
         public XLColor RightBorderColor
         {
             get { return _rightBorderColor; }
@@ -306,6 +310,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean TopBorderModified;
+
         public XLBorderStyleValues TopBorder
         {
             get { return _topBorder; }
@@ -323,6 +328,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean TopBorderColorModified;
+
         public XLColor TopBorderColor
         {
             get { return _topBorderColor; }
@@ -340,6 +346,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean BottomBorderModified;
+
         public XLBorderStyleValues BottomBorder
         {
             get { return _bottomBorder; }
@@ -357,6 +364,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean BottomBorderColorModified;
+
         public XLColor BottomBorderColor
         {
             get { return _bottomBorderColor; }
@@ -374,6 +382,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean DiagonalBorderModified;
+
         public XLBorderStyleValues DiagonalBorder
         {
             get { return _diagonalBorder; }
@@ -391,6 +400,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean DiagonalBorderColorModified;
+
         public XLColor DiagonalBorderColor
         {
             get { return _diagonalBorderColor; }
@@ -408,6 +418,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean DiagonalUpModified;
+
         public Boolean DiagonalUp
         {
             get { return _diagonalUp; }
@@ -425,6 +436,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean DiagonalDownModified;
+
         public Boolean DiagonalDown
         {
             get { return _diagonalDown; }
@@ -568,7 +580,7 @@ namespace ClosedXML.Excel
             return _container.Style;
         }
 
-        #endregion
+        #endregion IXLBorder Members
 
         private void SetStyleChanged()
         {

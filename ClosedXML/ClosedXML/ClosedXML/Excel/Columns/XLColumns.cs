@@ -9,6 +9,7 @@ namespace ClosedXML.Excel
     internal class XLColumns : IXLColumns, IXLStylized
     {
         public Boolean StyleChanged { get; set; }
+
         private readonly List<XLColumn> _columns = new List<XLColumn>();
         private readonly XLWorksheet _worksheet;
         internal IXLStyle style;
@@ -198,7 +199,7 @@ namespace ClosedXML.Excel
         }
 
         /// <summary>
-        ///   Adds a vertical page break after this column.
+        /// Adds a vertical page break after this column.
         /// </summary>
         public IXLColumns AddVerticalPageBreaks()
         {
@@ -213,7 +214,7 @@ namespace ClosedXML.Excel
             return this;
         }
 
-        #endregion
+        #endregion IXLColumns Members
 
         #region IXLStylized Members
 
@@ -254,7 +255,7 @@ namespace ClosedXML.Excel
             }
         }
 
-        #endregion
+        #endregion IXLStylized Members
 
         public void Add(XLColumn column)
         {
@@ -268,7 +269,7 @@ namespace ClosedXML.Excel
 
         public IXLColumns Clear(XLClearOptions clearOptions = XLClearOptions.ContentsAndFormats)
         {
-            _columns.ForEach(c=>c.Clear(clearOptions));
+            _columns.ForEach(c => c.Clear(clearOptions));
             return this;
         }
 

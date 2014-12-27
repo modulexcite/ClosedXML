@@ -3,14 +3,12 @@ using System.Collections.Generic;
 
 namespace ClosedXML.Excel
 {
-    public interface IXLRows: IEnumerable<IXLRow>, IDisposable
+    public interface IXLRows : IEnumerable<IXLRow>, IDisposable
     {
         /// <summary>
         /// Sets the height of all rows.
         /// </summary>
-        /// <value>
-        /// The height of all rows.
-        /// </value>
+        /// <value>The height of all rows.</value>
         Double Height { set; }
 
         /// <summary>
@@ -22,20 +20,25 @@ namespace ClosedXML.Excel
         /// Adjusts the height of all rows based on its contents.
         /// </summary>
         IXLRows AdjustToContents();
+
         /// <summary>
         /// Adjusts the height of all rows based on its contents, starting from the startColumn.
         /// </summary>
         /// <param name="startColumn">The column to start calculating the row height.</param>
         IXLRows AdjustToContents(Int32 startColumn);
+
         /// <summary>
-        /// Adjusts the height of all rows based on its contents, starting from the startColumn and ending at endColumn.
+        /// Adjusts the height of all rows based on its contents, starting from the startColumn and
+        /// ending at endColumn.
         /// </summary>
         /// <param name="startColumn">The column to start calculating the row height.</param>
         /// <param name="endColumn">The column to end calculating the row height.</param>
         IXLRows AdjustToContents(Int32 startColumn, Int32 endColumn);
 
         IXLRows AdjustToContents(Double minHeight, Double maxHeight);
+
         IXLRows AdjustToContents(Int32 startColumn, Double minHeight, Double maxHeight);
+
         IXLRows AdjustToContents(Int32 startColumn, Int32 endColumn, Double minHeight, Double maxHeight);
 
         /// <summary>
@@ -43,7 +46,9 @@ namespace ClosedXML.Excel
         /// </summary>
         void Hide();
 
-        /// <summary>Unhides all rows.</summary>
+        /// <summary>
+        /// Unhides all rows.
+        /// </summary>
         void Unhide();
 
         /// <summary>
@@ -78,7 +83,9 @@ namespace ClosedXML.Excel
         /// <summary>
         /// Decrements the outline level of all rows by 1.
         /// </summary>
-        /// <param name="fromAll">If set to <c>true</c> it will remove the rows from all outline levels.</param>
+        /// <param name="fromAll">
+        /// If set to <c>true</c> it will remove the rows from all outline levels.
+        /// </param>
         void Ungroup(Boolean fromAll);
 
         /// <summary>
@@ -86,14 +93,16 @@ namespace ClosedXML.Excel
         /// </summary>
         void Collapse();
 
-        /// <summary>Expands all rows (if they're collapsed).</summary>
+        /// <summary>
+        /// Expands all rows (if they're collapsed).
+        /// </summary>
         void Expand();
 
         /// <summary>
         /// Returns the collection of cells.
         /// </summary>
         IXLCells Cells();
-        
+
         /// <summary>
         /// Returns the collection of cells that have a value.
         /// </summary>
@@ -102,7 +111,9 @@ namespace ClosedXML.Excel
         /// <summary>
         /// Returns the collection of cells that have a value.
         /// </summary>
-        /// <param name="includeFormats">if set to <c>true</c> will return all cells with a value or a style different than the default.</param>
+        /// <param name="includeFormats">
+        /// if set to <c>true</c> will return all cells with a value or a style different than the default.
+        /// </param>
         IXLCells CellsUsed(Boolean includeFormats);
 
         IXLStyle Style { get; set; }

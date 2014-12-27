@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 
 namespace ClosedXML.Excel.CalcEngine
@@ -91,25 +89,27 @@ namespace ClosedXML.Excel.CalcEngine
             //ZTEST	Returns the one-tailed probability-value of a z-test
         }
 
-
-
-        static object Average(List<Expression> p)
+        private static object Average(List<Expression> p)
         {
             return GetTally(p, true).Average();
         }
-        static object AverageA(List<Expression> p)
+
+        private static object AverageA(List<Expression> p)
         {
             return GetTally(p, false).Average();
         }
-        static object Count(List<Expression> p)
+
+        private static object Count(List<Expression> p)
         {
             return GetTally(p, true).Count();
         }
-        static object CountA(List<Expression> p)
+
+        private static object CountA(List<Expression> p)
         {
             return GetTally(p, false).Count();
         }
-        static object CountBlank(List<Expression> p)
+
+        private static object CountBlank(List<Expression> p)
         {
             var cnt = 0.0;
             foreach (Expression e in p)
@@ -131,13 +131,15 @@ namespace ClosedXML.Excel.CalcEngine
             }
             return cnt;
         }
-        static bool IsBlank(object value)
+
+        private static bool IsBlank(object value)
         {
-            return 
-                value == null || 
+            return
+                value == null ||
                 value is string && ((string)value).Length == 0;
         }
-        static object CountIf(List<Expression> p)
+
+        private static object CountIf(List<Expression> p)
         {
             CalcEngine ce = new CalcEngine();
             var cnt = 0.0;
@@ -157,57 +159,69 @@ namespace ClosedXML.Excel.CalcEngine
             }
             return cnt;
         }
-        static object Max(List<Expression> p)
+
+        private static object Max(List<Expression> p)
         {
             return GetTally(p, true).Max();
         }
-        static object MaxA(List<Expression> p)
+
+        private static object MaxA(List<Expression> p)
         {
             return GetTally(p, false).Max();
         }
-        static object Min(List<Expression> p)
+
+        private static object Min(List<Expression> p)
         {
             return GetTally(p, true).Min();
         }
-        static object MinA(List<Expression> p)
+
+        private static object MinA(List<Expression> p)
         {
             return GetTally(p, false).Min();
         }
-        static object StDev(List<Expression> p)
+
+        private static object StDev(List<Expression> p)
         {
             return GetTally(p, true).Std();
         }
-        static object StDevA(List<Expression> p)
+
+        private static object StDevA(List<Expression> p)
         {
             return GetTally(p, false).Std();
         }
-        static object StDevP(List<Expression> p)
+
+        private static object StDevP(List<Expression> p)
         {
             return GetTally(p, true).StdP();
         }
-        static object StDevPA(List<Expression> p)
+
+        private static object StDevPA(List<Expression> p)
         {
             return GetTally(p, false).StdP();
         }
-        static object Var(List<Expression> p)
+
+        private static object Var(List<Expression> p)
         {
             return GetTally(p, true).Var();
         }
-        static object VarA(List<Expression> p)
+
+        private static object VarA(List<Expression> p)
         {
             return GetTally(p, false).Var();
         }
-        static object VarP(List<Expression> p)
+
+        private static object VarP(List<Expression> p)
         {
             return GetTally(p, true).VarP();
         }
-        static object VarPA(List<Expression> p)
+
+        private static object VarPA(List<Expression> p)
         {
             return GetTally(p, false).VarP();
         }
 
         // utility for tallying statistics
-        static Tally GetTally(List<Expression> p, bool numbersOnly)
+        private static Tally GetTally(List<Expression> p, bool numbersOnly)
         {
             return new Tally(p);
         }

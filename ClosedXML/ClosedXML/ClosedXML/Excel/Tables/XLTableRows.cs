@@ -8,9 +8,9 @@ namespace ClosedXML.Excel
     internal class XLTableRows : IXLTableRows, IXLStylized
     {
         public Boolean StyleChanged { get; set; }
+
         private readonly List<XLTableRow> _ranges = new List<XLTableRow>();
         private IXLStyle _style;
-        
 
         public XLTableRows(IXLStyle defaultStyle)
         {
@@ -57,7 +57,7 @@ namespace ClosedXML.Excel
             }
         }
 
-        #endregion
+        #endregion IXLStylized Members
 
         #region IXLTableRows Members
 
@@ -118,7 +118,7 @@ namespace ClosedXML.Excel
             return cells;
         }
 
-        #endregion
+        #endregion IXLTableRows Members
 
         public void Select()
         {

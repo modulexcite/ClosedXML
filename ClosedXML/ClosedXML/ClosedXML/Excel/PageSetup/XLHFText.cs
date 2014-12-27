@@ -6,11 +6,13 @@ namespace ClosedXML.Excel
     internal class XLHFText
     {
         private readonly XLWorksheet _worksheet;
+
         public XLHFText(XLRichString richText, XLWorksheet worksheet)
         {
             RichText = richText;
             _worksheet = worksheet;
         }
+
         public XLRichString RichText { get; private set; }
 
         public String GetHFText(String prevText)
@@ -85,6 +87,5 @@ namespace ClosedXML.Excel
 
             return sb.ToString();
         }
-
     }
 }

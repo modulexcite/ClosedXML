@@ -5,6 +5,7 @@ namespace ClosedXML.Excel
     internal class XLCFColorScaleMax : IXLCFColorScaleMax
     {
         private readonly XLConditionalFormat _conditionalFormat;
+
         public XLCFColorScaleMax(XLConditionalFormat conditionalFormat)
         {
             _conditionalFormat = conditionalFormat;
@@ -16,10 +17,12 @@ namespace ClosedXML.Excel
             _conditionalFormat.Colors.Add(color);
             _conditionalFormat.ContentTypes.Add(type);
         }
+
         public void Maximum(XLCFContentType type, Double value, XLColor color)
         {
             Maximum(type, value.ToInvariantString(), color);
         }
+
         public void HighestValue(XLColor color)
         {
             Maximum(XLCFContentType.Maximum, "0", color);

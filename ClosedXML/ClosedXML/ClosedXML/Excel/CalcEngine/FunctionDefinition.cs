@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ClosedXML.Excel.CalcEngine
+﻿namespace ClosedXML.Excel.CalcEngine
 {
     /// <summary>
     /// Function definition class (keeps function name, parameter counts, and delegate).
@@ -11,6 +7,7 @@ namespace ClosedXML.Excel.CalcEngine
     {
         // ** fields
         public int ParmMin, ParmMax;
+
         public CalcEngineFunction Function;
 
         // ** ctor

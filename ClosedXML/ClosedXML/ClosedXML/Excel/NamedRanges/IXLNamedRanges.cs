@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace ClosedXML.Excel
 {
-    public interface IXLNamedRanges: IEnumerable<IXLNamedRange>
+    public interface IXLNamedRanges : IEnumerable<IXLNamedRange>
     {
         /// <summary>
         /// Gets the specified named range.
         /// </summary>
         /// <param name="rangeName">Name of the range.</param>
         IXLNamedRange NamedRange(String rangeName);
-        
+
         /// <summary>
         /// Adds a new named range.
         /// </summary>
@@ -70,7 +70,6 @@ namespace ClosedXML.Excel
         /// </summary>
         /// <param name="rangeIndex">Index of the named range to delete.</param>
         void Delete(Int32 rangeIndex);
-
 
         /// <summary>
         /// Deletes all named ranges (not the cells).

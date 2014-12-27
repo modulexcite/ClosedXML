@@ -38,7 +38,8 @@ namespace ClosedXML.Excel
         public IXLFill Fill { get; set; }
 
         private IXLNumberFormat numberFormat;
-        public IXLNumberFormat NumberFormat 
+
+        public IXLNumberFormat NumberFormat
         {
             get
             {
@@ -77,11 +78,11 @@ namespace ClosedXML.Excel
         {
             return
                 Font.Equals(other.Font)
-            &&  Fill.Equals(other.Fill)
-            &&  Border.Equals(other.Border)
-            &&  NumberFormat.Equals(other.NumberFormat)
-            &&  Alignment.Equals(other.Alignment)
-            &&  Protection.Equals(other.Protection)
+            && Fill.Equals(other.Fill)
+            && Border.Equals(other.Border)
+            && NumberFormat.Equals(other.NumberFormat)
+            && Alignment.Equals(other.Alignment)
+            && Protection.Equals(other.Protection)
             ;
         }
 

@@ -1,28 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace ClosedXML.Excel
 {
     public partial class XLWorkbook
     {
         #region Nested type: SaveContext
+
         internal sealed class SaveContext
         {
             #region Private fields
+
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
             private readonly RelIdGenerator _relIdGenerator;
+
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
             private readonly Dictionary<Int32, StyleInfo> _sharedStyles;
+
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
             private readonly Dictionary<IXLFont, FontInfo> _sharedFonts;
+
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
             private readonly HashSet<string> _tableNames;
+
             [DebuggerBrowsable(DebuggerBrowsableState.Never)]
             private uint _tableId;
-            #endregion
+
+            #endregion Private fields
+
             #region Constructor
+
             public SaveContext()
             {
                 _relIdGenerator = new RelIdGenerator();
@@ -31,28 +39,35 @@ namespace ClosedXML.Excel
                 _tableNames = new HashSet<String>();
                 _tableId = 0;
             }
-            #endregion
+
+            #endregion Constructor
+
             #region Public properties
+
             public RelIdGenerator RelIdGenerator
             {
                 [DebuggerStepThrough]
                 get { return _relIdGenerator; }
             }
+
             public Dictionary<Int32, StyleInfo> SharedStyles
             {
                 [DebuggerStepThrough]
                 get { return _sharedStyles; }
             }
+
             public Dictionary<IXLFont, FontInfo> SharedFonts
             {
                 [DebuggerStepThrough]
                 get { return _sharedFonts; }
             }
+
             public HashSet<string> TableNames
             {
                 [DebuggerStepThrough]
                 get { return _tableNames; }
             }
+
             public uint TableId
             {
                 [DebuggerStepThrough]
@@ -60,20 +75,29 @@ namespace ClosedXML.Excel
                 [DebuggerStepThrough]
                 set { _tableId = value; }
             }
+
             public Dictionary<IXLStyle, Int32> DifferentialFormats = new Dictionary<IXLStyle, int>();
-            #endregion
+
+            #endregion Public properties
         }
-        #endregion
+
+        #endregion Nested type: SaveContext
+
         #region Nested type: RelType
+
         internal enum RelType
         {
             Workbook//, Worksheet
         }
-        #endregion
+
+        #endregion Nested type: RelType
+
         #region Nested type: RelIdGenerator
+
         internal sealed class RelIdGenerator
         {
             private readonly Dictionary<RelType, List<String>> _relIds = new Dictionary<RelType, List<String>>();
+
             public String GetNext(RelType relType)
             {
                 if (!_relIds.ContainsKey(relType))
@@ -93,6 +117,7 @@ namespace ClosedXML.Excel
                     id++;
                 }
             }
+
             public void AddValues(List<String> values, RelType relType)
             {
                 if (!_relIds.ContainsKey(relType))
@@ -101,42 +126,58 @@ namespace ClosedXML.Excel
                 }
                 _relIds[relType].AddRange(values);
             }
+
             public void Reset(RelType relType)
             {
                 if (_relIds.ContainsKey(relType))
                     _relIds.Remove(relType);
             }
         }
-        #endregion
+
+        #endregion Nested type: RelIdGenerator
+
         #region Nested type: FontInfo
+
         internal struct FontInfo
         {
             public UInt32 FontId;
             public XLFont Font;
         };
-        #endregion
+
+        #endregion Nested type: FontInfo
+
         #region Nested type: FillInfo
+
         internal struct FillInfo
         {
             public UInt32 FillId;
             public XLFill Fill;
         }
-        #endregion
+
+        #endregion Nested type: FillInfo
+
         #region Nested type: BorderInfo
+
         internal struct BorderInfo
         {
             public UInt32 BorderId;
             public XLBorder Border;
         }
-        #endregion
+
+        #endregion Nested type: BorderInfo
+
         #region Nested type: NumberFormatInfo
+
         internal struct NumberFormatInfo
         {
             public Int32 NumberFormatId;
             public IXLNumberFormat NumberFormat;
         }
-        #endregion
+
+        #endregion Nested type: NumberFormatInfo
+
         #region Nested type: StyleInfo
+
         internal struct StyleInfo
         {
             public UInt32 StyleId;
@@ -146,10 +187,7 @@ namespace ClosedXML.Excel
             public Int32 NumberFormatId;
             public IXLStyle Style;
         }
-        #endregion
 
-        
-        
-       
+        #endregion Nested type: StyleInfo
     }
 }

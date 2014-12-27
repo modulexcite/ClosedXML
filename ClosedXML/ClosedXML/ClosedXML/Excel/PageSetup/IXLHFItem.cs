@@ -3,15 +3,16 @@
 namespace ClosedXML.Excel
 {
     public enum XLHFPredefinedText
-    { 
+    {
         PageNumber, NumberOfPages, Date, Time, FullPath, Path, File, SheetName
     }
+
     public enum XLHFOccurrence
-    { 
+    {
         AllPages, OddPages, EvenPages, FirstPage
     }
 
-    public interface IXLHFItem: IXLWithRichString
+    public interface IXLHFItem : IXLWithRichString
     {
         /// <summary>
         /// Gets the text of the specified header/footer occurrence.
@@ -39,7 +40,9 @@ namespace ClosedXML.Excel
         /// <param name="occurrence">The occurrence for the predefined text.</param>
         IXLRichString AddText(XLHFPredefinedText predefinedText, XLHFOccurrence occurrence);
 
-        /// <summary>Clears the text/formats of this header/footer item.</summary>
+        /// <summary>
+        /// Clears the text/formats of this header/footer item.
+        /// </summary>
         /// <param name="occurrence">The occurrence to clear.</param>
         void Clear(XLHFOccurrence occurrence = XLHFOccurrence.AllPages);
 

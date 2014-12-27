@@ -1,5 +1,4 @@
-﻿
-namespace ClosedXML.Excel
+﻿namespace ClosedXML.Excel
 {
     //Use the class to store magic strings or variables.
     internal static class XLConstants

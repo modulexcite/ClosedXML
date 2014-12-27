@@ -4,13 +4,10 @@ namespace ClosedXML.Excel
 {
     public interface IXLColumn : IXLRangeBase
     {
-
         /// <summary>
         /// Gets or sets the width of this column.
         /// </summary>
-        /// <value>
-        /// The width of this column.
-        /// </value>
+        /// <value>The width of this column.</value>
         Double Width { get; set; }
 
         /// <summary>
@@ -66,20 +63,25 @@ namespace ClosedXML.Excel
         /// Adjusts the width of the column based on its contents.
         /// </summary>
         IXLColumn AdjustToContents();
+
         /// <summary>
         /// Adjusts the width of the column based on its contents, starting from the startRow.
         /// </summary>
         /// <param name="startRow">The row to start calculating the column width.</param>
         IXLColumn AdjustToContents(Int32 startRow);
+
         /// <summary>
-        /// Adjusts the width of the column based on its contents, starting from the startRow and ending at endRow.
+        /// Adjusts the width of the column based on its contents, starting from the startRow and
+        /// ending at endRow.
         /// </summary>
         /// <param name="startRow">The row to start calculating the column width.</param>
         /// <param name="endRow">The row to end calculating the column width.</param>
         IXLColumn AdjustToContents(Int32 startRow, Int32 endRow);
 
         IXLColumn AdjustToContents(Double minWidth, Double maxWidth);
+
         IXLColumn AdjustToContents(Int32 startRow, Double minWidth, Double maxWidth);
+
         IXLColumn AdjustToContents(Int32 startRow, Int32 endRow, Double minWidth, Double maxWidth);
 
         /// <summary>
@@ -87,32 +89,32 @@ namespace ClosedXML.Excel
         /// </summary>
         IXLColumn Hide();
 
-        /// <summary>Unhides this column.</summary>
+        /// <summary>
+        /// Unhides this column.
+        /// </summary>
         IXLColumn Unhide();
 
         /// <summary>
         /// Gets a value indicating whether this column is hidden or not.
         /// </summary>
-        /// <value>
-        ///   <c>true</c> if this column is hidden; otherwise, <c>false</c>.
-        /// </value>
+        /// <value><c>true</c> if this column is hidden; otherwise, <c>false</c>.</value>
         Boolean IsHidden { get; }
 
         /// <summary>
         /// Gets or sets the outline level of this column.
         /// </summary>
-        /// <value>
-        /// The outline level of this column.
-        /// </value>
+        /// <value>The outline level of this column.</value>
         Int32 OutlineLevel { get; set; }
 
         /// <summary>
-        /// Adds this column to the next outline level (Increments the outline level for this column by 1).
+        /// Adds this column to the next outline level (Increments the outline level for this column
+        /// by 1).
         /// </summary>
         IXLColumn Group();
 
         /// <summary>
-        /// Adds this column to the next outline level (Increments the outline level for this column by 1).
+        /// Adds this column to the next outline level (Increments the outline level for this column
+        /// by 1).
         /// </summary>
         /// <param name="collapse">If set to <c>true</c> the column will be shown collapsed.</param>
         IXLColumn Group(Boolean collapse);
@@ -131,14 +133,18 @@ namespace ClosedXML.Excel
         IXLColumn Group(Int32 outlineLevel, Boolean collapse);
 
         /// <summary>
-        /// Adds this column to the previous outline level (decrements the outline level for this column by 1).
+        /// Adds this column to the previous outline level (decrements the outline level for this
+        /// column by 1).
         /// </summary>
         IXLColumn Ungroup();
 
         /// <summary>
-        /// Adds this column to the previous outline level (decrements the outline level for this column by 1).
+        /// Adds this column to the previous outline level (decrements the outline level for this
+        /// column by 1).
         /// </summary>
-        /// <param name="fromAll">If set to <c>true</c> it will remove this column from all outline levels.</param>
+        /// <param name="fromAll">
+        /// If set to <c>true</c> it will remove this column from all outline levels.
+        /// </param>
         IXLColumn Ungroup(Boolean fromAll);
 
         /// <summary>
@@ -146,19 +152,25 @@ namespace ClosedXML.Excel
         /// </summary>
         IXLColumn Collapse();
 
-        /// <summary>Expands this column (if it's collapsed).</summary>
+        /// <summary>
+        /// Expands this column (if it's collapsed).
+        /// </summary>
         IXLColumn Expand();
 
         Int32 CellCount();
 
         IXLRangeColumn CopyTo(IXLCell cell);
+
         IXLRangeColumn CopyTo(IXLRangeBase range);
+
         IXLColumn CopyTo(IXLColumn column);
 
         IXLColumn Sort(XLSortOrder sortOrder = XLSortOrder.Ascending, Boolean matchCase = false, Boolean ignoreBlanks = true);
 
         IXLRangeColumn Column(Int32 start, Int32 end);
+
         IXLRangeColumn Column(IXLCell start, IXLCell end);
+
         IXLRangeColumns Columns(String columns);
 
         /// <summary>
@@ -169,8 +181,11 @@ namespace ClosedXML.Excel
         IXLColumn SetDataType(XLCellValues dataType);
 
         IXLColumn ColumnLeft();
+
         IXLColumn ColumnLeft(Int32 step);
+
         IXLColumn ColumnRight();
+
         IXLColumn ColumnRight(Int32 step);
 
         /// <summary>
@@ -180,6 +195,5 @@ namespace ClosedXML.Excel
         new IXLColumn Clear(XLClearOptions clearOptions = XLClearOptions.ContentsAndFormats);
 
         IXLRangeColumn ColumnUsed(Boolean includeFormats = false);
-
     }
 }

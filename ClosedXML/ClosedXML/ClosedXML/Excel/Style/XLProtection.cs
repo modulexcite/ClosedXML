@@ -71,7 +71,7 @@ namespace ClosedXML.Excel
             return _container.Style;
         }
 
-        #endregion
+        #endregion IXLProtection Members
 
         #region Constructors
 
@@ -89,7 +89,7 @@ namespace ClosedXML.Excel
             _hidden = defaultProtection.Hidden;
         }
 
-        #endregion
+        #endregion Constructors
 
         private void SetStyleChanged()
         {

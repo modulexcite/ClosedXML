@@ -3,19 +3,22 @@ using System.Collections.Generic;
 
 namespace ClosedXML.Excel
 {
-    internal class XLCustomProperties: IXLCustomProperties, IEnumerable<IXLCustomProperty>
+    internal class XLCustomProperties : IXLCustomProperties, IEnumerable<IXLCustomProperty>
     {
-        XLWorkbook workbook;
+        private XLWorkbook workbook;
+
         public XLCustomProperties(XLWorkbook workbook)
         {
             this.workbook = workbook;
         }
 
         private Dictionary<String, IXLCustomProperty> customProperties = new Dictionary<String, IXLCustomProperty>();
+
         public void Add(IXLCustomProperty customProperty)
         {
             customProperties.Add(customProperty.Name, customProperty);
         }
+
         public void Add<T>(String name, T value)
         {
             var cp = new XLCustomProperty(workbook) { Name = name, Value = value };
@@ -26,6 +29,7 @@ namespace ClosedXML.Excel
         {
             customProperties.Remove(name);
         }
+
         public IXLCustomProperty CustomProperty(String name)
         {
             return customProperties[name];
@@ -40,7 +44,5 @@ namespace ClosedXML.Excel
         {
             return GetEnumerator();
         }
-
-      
     }
 }

@@ -30,11 +30,12 @@ namespace ClosedXML.Excel
                 Range.Dispose();
         }
 
-        #endregion
+        #endregion IXLAutoFilter Members
 
         #region IXLBaseAutoFilter Members
 
         public Boolean Enabled { get; set; }
+
         public IXLRange Range { get; set; }
 
         IXLBaseAutoFilter IXLBaseAutoFilter.Clear()
@@ -54,7 +55,9 @@ namespace ClosedXML.Excel
         }
 
         public Boolean Sorted { get; set; }
+
         public XLSortOrder SortOrder { get; set; }
+
         public Int32 SortColumn { get; set; }
 
         public IXLFilterColumn Column(String column)
@@ -74,7 +77,7 @@ namespace ClosedXML.Excel
             return filterColumn;
         }
 
-        #endregion
+        #endregion IXLBaseAutoFilter Members
 
         public XLAutoFilter Set(IXLRangeBase range)
         {

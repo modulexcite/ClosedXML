@@ -6,7 +6,6 @@ namespace ClosedXML.Excel
 {
     internal class XLCellsCollection
     {
-
         private readonly Dictionary<int, Dictionary<int, XLCell>> rowsCollection = new Dictionary<int, Dictionary<int, XLCell>>();
         public readonly Dictionary<Int32, Int32> ColumnsUsed = new Dictionary<int, int>();
         public readonly Dictionary<Int32, HashSet<Int32>> deleted = new Dictionary<int, HashSet<int>>();
@@ -26,7 +25,6 @@ namespace ClosedXML.Excel
         }
 
         public Int32 Count { get; private set; }
-
 
         public void Add(XLSheetPoint sheetPoint, XLCell cell)
         {
@@ -95,7 +93,7 @@ namespace ClosedXML.Excel
             Count--;
             DecrementUsage(RowsUsed, row);
             DecrementUsage(ColumnsUsed, row);
-            
+
             HashSet<Int32> delHash;
             if (deleted.TryGetValue(row, out delHash))
             {
@@ -118,8 +116,6 @@ namespace ClosedXML.Excel
                     rowsCollection.Remove(row);
                 }
             }
-
-            
         }
 
         internal IEnumerable<XLCell> GetCells(Int32 rowStart, Int32 columnStart,
@@ -162,7 +158,6 @@ namespace ClosedXML.Excel
             return ids;
         }
 
-
         internal IEnumerable<XLCell> GetCellsUsed(Int32 rowStart, Int32 columnStart,
                                     Int32 rowEnd, Int32 columnEnd,
                                     Boolean includeFormats, Func<IXLCell, Boolean> predicate = null)
@@ -184,7 +179,6 @@ namespace ClosedXML.Excel
                     }
                 }
             }
-
         }
 
         public XLSheetPoint FirstPointUsed(Int32 rowStart, Int32 columnStart,
@@ -263,7 +257,6 @@ namespace ClosedXML.Excel
 
             return 0;
         }
-
 
         public int LastRowUsed(int rowStart, int columnStart, int rowEnd, int columnEnd, Boolean includeFormats, Func<IXLCell, Boolean> predicate = null)
         {
@@ -421,7 +414,6 @@ namespace ClosedXML.Excel
                     }
                 }
             }
-
         }
 
         public Boolean Contains(Int32 row, Int32 column)

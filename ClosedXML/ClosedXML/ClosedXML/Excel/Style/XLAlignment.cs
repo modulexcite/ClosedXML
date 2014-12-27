@@ -20,7 +20,8 @@ namespace ClosedXML.Excel
         private XLAlignmentVerticalValues _vertical;
         private Boolean _wrapText;
 
-        public XLAlignment() : this(null, XLWorkbook.DefaultStyle.Alignment)
+        public XLAlignment()
+            : this(null, XLWorkbook.DefaultStyle.Alignment)
         {
         }
 
@@ -213,7 +214,6 @@ namespace ClosedXML.Excel
                     _textRotation = value ? 255 : 0;
             }
         }
-
 
         public bool Equals(IXLAlignment other)
         {

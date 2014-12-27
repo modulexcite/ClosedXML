@@ -4,10 +4,12 @@ namespace ClosedXML.Excel
 {
     using System;
 
-    internal class XLStylizedContainer: IXLStylized
+    internal class XLStylizedContainer : IXLStylized
     {
         public Boolean StyleChanged { get; set; }
-        readonly IXLStylized _container;
+
+        private readonly IXLStylized _container;
+
         public XLStylizedContainer(IXLStyle style, IXLStylized container)
         {
             Style = style;
@@ -19,7 +21,7 @@ namespace ClosedXML.Excel
 
         public IEnumerable<IXLStyle> Styles
         {
-            get 
+            get
             {
                 _container.UpdatingStyle = true;
                 yield return Style;

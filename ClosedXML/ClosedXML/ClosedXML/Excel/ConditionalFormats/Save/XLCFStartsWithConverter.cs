@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DocumentFormat.OpenXml.Spreadsheet;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using System;
 
 namespace ClosedXML.Excel
 {
@@ -19,7 +16,5 @@ namespace ClosedXML.Excel
 
             return conditionalFormattingRule;
         }
-
-
     }
 }

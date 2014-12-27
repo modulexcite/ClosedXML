@@ -13,12 +13,12 @@ namespace ClosedXML.Excel
         internal bool _showTotalsRow;
         internal HashSet<String> _uniqueNames;
 
-        #endregion
+        #endregion Private fields
 
         #region Constructor
 
         public XLTable(XLRange range, Boolean addToTables, Boolean setAutofilter = true)
-            : base(new XLRangeParameters(range.RangeAddress, range.Style ))
+            : base(new XLRangeParameters(range.RangeAddress, range.Style))
         {
             InitializeValues(setAutofilter);
 
@@ -45,10 +45,11 @@ namespace ClosedXML.Excel
             AddToTables(range, addToTables);
         }
 
-        #endregion
+        #endregion Constructor
 
         private IXLRangeAddress _lastRangeAddress;
         private Dictionary<String, IXLTableField> _fieldNames = null;
+
         public Dictionary<String, IXLTableField> FieldNames
         {
             get
@@ -65,7 +66,7 @@ namespace ClosedXML.Excel
                     foreach (var cell in headersRow.Cells())
                     {
                         var name = cell.GetString();
-                        if (XLHelper.IsNullOrWhiteSpace(name)) 
+                        if (XLHelper.IsNullOrWhiteSpace(name))
                         {
                             name = "Column" + (cellPos + 1);
                             cell.SetValue(name);
@@ -73,7 +74,7 @@ namespace ClosedXML.Excel
                         if (_fieldNames.ContainsKey(name))
                             throw new ArgumentException("The header row contains more than one field name '" + name + "'.");
 
-                        _fieldNames.Add(name, new XLTableField(this) {Index = cellPos++ });
+                        _fieldNames.Add(name, new XLTableField(this) { Index = cellPos++ });
                     }
                 }
                 else
@@ -87,7 +88,7 @@ namespace ClosedXML.Excel
                         {
                             var name = "Column" + i;
 
-                            _fieldNames.Add(name, new XLTableField(this) {Index = i - 1 });
+                            _fieldNames.Add(name, new XLTableField(this) { Index = i - 1 });
                         }
                     }
                 }
@@ -100,12 +101,11 @@ namespace ClosedXML.Excel
             _fieldNames = new Dictionary<String, IXLTableField>();
 
             Int32 cellPos = 0;
-            foreach(var name in fieldNames)
+            foreach (var name in fieldNames)
             {
                 _fieldNames.Add(name, new XLTableField(this) { Index = cellPos++, Name = name });
             }
         }
-
 
         public String RelId { get; set; }
 
@@ -121,7 +121,7 @@ namespace ClosedXML.Excel
                 if (_showHeaderRow)
                 {
                     range = _showTotalsRow
-                                ? Range(2, 1,RowCount() - 1,ColumnCount())
+                                ? Range(2, 1, RowCount() - 1, ColumnCount())
                                 : Range(2, 1, RowCount(), ColumnCount());
                 }
                 else
@@ -136,6 +136,7 @@ namespace ClosedXML.Excel
         }
 
         private XLAutoFilter _autoFilter;
+
         public XLAutoFilter AutoFilter
         {
             get
@@ -159,15 +160,21 @@ namespace ClosedXML.Excel
         #region IXLTable Members
 
         public Boolean EmphasizeFirstColumn { get; set; }
+
         public Boolean EmphasizeLastColumn { get; set; }
+
         public Boolean ShowRowStripes { get; set; }
+
         public Boolean ShowColumnStripes { get; set; }
 
         private Boolean _showAutoFilter;
-        public Boolean ShowAutoFilter { 
-            get { return _showHeaderRow && _showAutoFilter; } 
+
+        public Boolean ShowAutoFilter
+        {
+            get { return _showHeaderRow && _showAutoFilter; }
             set { _showAutoFilter = value; }
-            }
+        }
+
         public XLTableTheme Theme { get; set; }
 
         public String Name
@@ -364,9 +371,7 @@ namespace ClosedXML.Excel
             base.Dispose();
         }
 
-        #endregion
-
-
+        #endregion IXLTable Members
 
         private void InitializeValues(Boolean setAutofilter)
         {
@@ -403,7 +408,6 @@ namespace ClosedXML.Excel
             Worksheet.Tables.Add(this);
         }
 
-
         private String GetUniqueName(String originalName)
         {
             String name = originalName;
@@ -431,6 +435,7 @@ namespace ClosedXML.Excel
         }
 
         internal Boolean _showHeaderRow;
+
         public Boolean ShowHeaderRow
         {
             get { return _showHeaderRow; }
@@ -450,7 +455,7 @@ namespace ClosedXML.Excel
                         _uniqueNames.Add(c.GetString());
                         co++;
                     }
-                    
+
                     headersRow.Clear();
                     RangeAddress.FirstAddress = new XLAddress(Worksheet, RangeAddress.FirstAddress.RowNumber + 1,
                                           RangeAddress.FirstAddress.ColumnNumber,
@@ -461,59 +466,59 @@ namespace ClosedXML.Excel
                 }
                 else
                 {
-                    using(var asRange = Worksheet.Range(
-                        RangeAddress.FirstAddress.RowNumber - 1 , 
+                    using (var asRange = Worksheet.Range(
+                        RangeAddress.FirstAddress.RowNumber - 1,
                         RangeAddress.FirstAddress.ColumnNumber,
                         RangeAddress.LastAddress.RowNumber,
                         RangeAddress.LastAddress.ColumnNumber
                         ))
-                        using (var firstRow = asRange.FirstRow())
-                            {
-                                IXLRangeRow rangeRow;
-                                if (firstRow.IsEmpty(true))
-                                {
-                                    rangeRow = firstRow;
-                                    RangeAddress.FirstAddress = new XLAddress(Worksheet, 
-                                          RangeAddress.FirstAddress.RowNumber - 1,
-                                          RangeAddress.FirstAddress.ColumnNumber,
-                                          RangeAddress.FirstAddress.FixedRow,
-                                          RangeAddress.FirstAddress.FixedColumn);
-                                }
-                                else
-                                {
-                                    var fAddress = RangeAddress.FirstAddress;
-                                    var lAddress = RangeAddress.LastAddress;
+                    using (var firstRow = asRange.FirstRow())
+                    {
+                        IXLRangeRow rangeRow;
+                        if (firstRow.IsEmpty(true))
+                        {
+                            rangeRow = firstRow;
+                            RangeAddress.FirstAddress = new XLAddress(Worksheet,
+                                  RangeAddress.FirstAddress.RowNumber - 1,
+                                  RangeAddress.FirstAddress.ColumnNumber,
+                                  RangeAddress.FirstAddress.FixedRow,
+                                  RangeAddress.FirstAddress.FixedColumn);
+                        }
+                        else
+                        {
+                            var fAddress = RangeAddress.FirstAddress;
+                            var lAddress = RangeAddress.LastAddress;
 
-                                    rangeRow = firstRow.InsertRowsBelow(1, false).First();
+                            rangeRow = firstRow.InsertRowsBelow(1, false).First();
 
+                            RangeAddress.FirstAddress = new XLAddress(Worksheet, fAddress.RowNumber,
+                                                                      fAddress.ColumnNumber,
+                                                                      fAddress.FixedRow,
+                                                                      fAddress.FixedColumn);
 
-                                    RangeAddress.FirstAddress = new XLAddress(Worksheet, fAddress.RowNumber,
-                                                                              fAddress.ColumnNumber,
-                                                                              fAddress.FixedRow,
-                                                                              fAddress.FixedColumn);
+                            RangeAddress.LastAddress = new XLAddress(Worksheet, lAddress.RowNumber + 1,
+                                                                     lAddress.ColumnNumber,
+                                                                     lAddress.FixedRow,
+                                                                     lAddress.FixedColumn);
+                        }
 
-                                    RangeAddress.LastAddress = new XLAddress(Worksheet, lAddress.RowNumber + 1,
-                                                                             lAddress.ColumnNumber,
-                                                                             lAddress.FixedRow,
-                                                                             lAddress.FixedColumn);
-                                }
-
-                                Int32 co = 1;
-                                foreach (var name in FieldNames.Keys)
-                                {
-                                    rangeRow.Cell(co).SetValue(name);
-                                    co++;
-                                }
-
-                            }
+                        Int32 co = 1;
+                        foreach (var name in FieldNames.Keys)
+                        {
+                            rangeRow.Cell(co).SetValue(name);
+                            co++;
+                        }
+                    }
                 }
                 _showHeaderRow = value;
             }
         }
+
         public IXLTable SetShowHeaderRow()
         {
             return SetShowHeaderRow(true);
-        } 
+        }
+
         public IXLTable SetShowHeaderRow(Boolean value)
         {
             ShowHeaderRow = value;
@@ -527,6 +532,5 @@ namespace ClosedXML.Excel
                                                      RangeAddress.LastAddress.FixedRow,
                                                      RangeAddress.LastAddress.FixedColumn);
         }
-
     }
 }

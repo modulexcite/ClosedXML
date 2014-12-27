@@ -5,8 +5,7 @@ namespace ClosedXML.Excel
     public partial class XLHyperlink
     {
         internal XLHyperlink()
-        { 
-
+        {
         }
 
         internal XLHyperlink(XLHyperlink hyperlink)
@@ -28,7 +27,7 @@ namespace ClosedXML.Excel
             else
             {
                 Uri uri;
-                if(Uri.TryCreate(address, UriKind.Absolute, out uri))
+                if (Uri.TryCreate(address, UriKind.Absolute, out uri))
                 {
                     _externalAddress = uri;
                     IsExternal = true;
@@ -36,7 +35,7 @@ namespace ClosedXML.Excel
                 else
                 {
                     _internalAddress = address;
-                    IsExternal = false;    
+                    IsExternal = false;
                 }
             }
         }

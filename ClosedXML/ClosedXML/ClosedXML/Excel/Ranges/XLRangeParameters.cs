@@ -11,23 +11,25 @@
             DefaultStyle = defaultStyle;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Properties
 
         public XLRangeAddress RangeAddress { get; private set; }
 
         public IXLStyle DefaultStyle { get; private set; }
+
         private bool _ignoreEvents;
+
         public bool IgnoreEvents
-        { 
-            get { return _ignoreEvents; } 
+        {
+            get { return _ignoreEvents; }
             set
             {
                 _ignoreEvents = value;
-            } 
+            }
         }
 
-        #endregion
+        #endregion Properties
     }
 }

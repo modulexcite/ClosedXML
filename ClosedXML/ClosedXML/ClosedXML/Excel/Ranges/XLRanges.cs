@@ -166,7 +166,7 @@ namespace ClosedXML.Excel
             _ranges.ForEach(r => r.Dispose());
         }
 
-        #endregion
+        #endregion IXLRanges Members
 
         #region IXLStylized Members
 
@@ -205,7 +205,7 @@ namespace ClosedXML.Excel
             get { return this; }
         }
 
-        #endregion
+        #endregion IXLStylized Members
 
         public override string ToString()
         {

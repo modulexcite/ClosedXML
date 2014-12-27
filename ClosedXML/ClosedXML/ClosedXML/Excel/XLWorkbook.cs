@@ -1,16 +1,16 @@
-﻿using System;
+﻿using ClosedXML.Excel.CalcEngine;
+using DocumentFormat.OpenXml;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Security.AccessControl;
-using ClosedXML.Excel.CalcEngine;
-using DocumentFormat.OpenXml;
 
 namespace ClosedXML.Excel
 {
-    using System.Linq;
     using System.Data;
+    using System.Linq;
 
     public enum XLEventTracking { Enabled, Disabled }
+
     public enum XLCalculateMode
     {
         Auto,
@@ -29,18 +29,18 @@ namespace ClosedXML.Excel
     public enum XLCellSetValueBehavior
     {
         /// <summary>
-        ///   Analyze input string and convert value. For avoid analyzing use escape symbol '
+        /// Analyze input string and convert value. For avoid analyzing use escape symbol '
         /// </summary>
         Smart = 0,
 
         /// <summary>
-        ///   Direct set value. If value has unsupported type - value will be stored as string returned by <see
-        ///    cref = "object.ToString()" />
+        /// Direct set value. If value has unsupported type - value will be stored as string
+        /// returned by <see cref="object.ToString()"/>
         /// </summary>
         Simple = 1,
     }
 
-    public partial class XLWorkbook: IDisposable
+    public partial class XLWorkbook : IDisposable
     {
         #region Static
 
@@ -91,7 +91,7 @@ namespace ClosedXML.Excel
                                                                                   TopBorderColor = XLColor.Black
                                                                               },
                                                                  NumberFormat =
-                                                                     new XLNumberFormat(null, null) {NumberFormatId = 0},
+                                                                     new XLNumberFormat(null, null) { NumberFormatId = 0 },
                                                                  Alignment = new XLAlignment(null)
                                                                                  {
                                                                                      Indent = 0,
@@ -120,6 +120,7 @@ namespace ClosedXML.Excel
         }
 
         public static Double DefaultRowHeight { get; private set; }
+
         public static Double DefaultColumnWidth { get; private set; }
 
         public static IXLPageSetup DefaultPageOptions
@@ -162,11 +163,11 @@ namespace ClosedXML.Excel
         }
 
         /// <summary>
-        ///   Behavior for <see cref = "IXLCell.set_Value" />
+        /// Behavior for <see cref="IXLCell.set_Value"/>
         /// </summary>
         public static XLCellSetValueBehavior CellSetValueBehavior { get; set; }
 
-        #endregion
+        #endregion Static
 
         internal readonly List<UnsupportedSheet> UnsupportedSheets =
             new List<UnsupportedSheet>();
@@ -175,7 +176,7 @@ namespace ClosedXML.Excel
         private readonly Dictionary<IXLStyle, Int32> _stylesByStyle = new Dictionary<IXLStyle, Int32>();
 
         public XLEventTracking EventTracking { get; set; }
-       
+
         internal Int32 GetStyleId(IXLStyle style)
         {
             Int32 cached;
@@ -194,7 +195,7 @@ namespace ClosedXML.Excel
             return _stylesById[id];
         }
 
-        #region  Nested Type: XLLoadSource
+        #region Nested Type: XLLoadSource
 
         private enum XLLoadSource
         {
@@ -203,12 +204,12 @@ namespace ClosedXML.Excel
             Stream
         };
 
-        #endregion
+        #endregion Nested Type: XLLoadSource
 
         internal XLWorksheets WorksheetsInternal { get; private set; }
 
         /// <summary>
-        ///   Gets an object to manipulate the worksheets.
+        /// Gets an object to manipulate the worksheets.
         /// </summary>
         public IXLWorksheets Worksheets
         {
@@ -216,69 +217,76 @@ namespace ClosedXML.Excel
         }
 
         /// <summary>
-        ///   Gets an object to manipulate this workbook's named ranges.
+        /// Gets an object to manipulate this workbook's named ranges.
         /// </summary>
         public IXLNamedRanges NamedRanges { get; private set; }
 
         /// <summary>
-        ///   Gets an object to manipulate this workbook's theme.
+        /// Gets an object to manipulate this workbook's theme.
         /// </summary>
         public IXLTheme Theme { get; private set; }
 
         /// <summary>
-        ///   Gets or sets the default style for the workbook.
-        ///   <para>All new worksheets will use this style.</para>
+        /// Gets or sets the default style for the workbook.
+        /// <para>All new worksheets will use this style.</para>
         /// </summary>
         public IXLStyle Style { get; set; }
 
         /// <summary>
-        ///   Gets or sets the default row height for the workbook.
-        ///   <para>All new worksheets will use this row height.</para>
+        /// Gets or sets the default row height for the workbook.
+        /// <para>All new worksheets will use this row height.</para>
         /// </summary>
         public Double RowHeight { get; set; }
 
         /// <summary>
-        ///   Gets or sets the default column width for the workbook.
-        ///   <para>All new worksheets will use this column width.</para>
+        /// Gets or sets the default column width for the workbook.
+        /// <para>All new worksheets will use this column width.</para>
         /// </summary>
         public Double ColumnWidth { get; set; }
 
         /// <summary>
-        ///   Gets or sets the default page options for the workbook.
-        ///   <para>All new worksheets will use these page options.</para>
+        /// Gets or sets the default page options for the workbook.
+        /// <para>All new worksheets will use these page options.</para>
         /// </summary>
         public IXLPageSetup PageOptions { get; set; }
 
         /// <summary>
-        ///   Gets or sets the default outline options for the workbook.
-        ///   <para>All new worksheets will use these outline options.</para>
+        /// Gets or sets the default outline options for the workbook.
+        /// <para>All new worksheets will use these outline options.</para>
         /// </summary>
         public IXLOutline Outline { get; set; }
 
         /// <summary>
-        ///   Gets or sets the workbook's properties.
+        /// Gets or sets the workbook's properties.
         /// </summary>
         public XLWorkbookProperties Properties { get; set; }
 
         /// <summary>
-        ///   Gets or sets the workbook's calculation mode.
+        /// Gets or sets the workbook's calculation mode.
         /// </summary>
         public XLCalculateMode CalculateMode { get; set; }
 
         /// <summary>
-        ///   Gets or sets the workbook's reference style.
+        /// Gets or sets the workbook's reference style.
         /// </summary>
         public XLReferenceStyle ReferenceStyle { get; set; }
 
         public IXLCustomProperties CustomProperties { get; private set; }
 
         public Boolean ShowFormulas { get; set; }
+
         public Boolean ShowGridLines { get; set; }
+
         public Boolean ShowOutlineSymbols { get; set; }
+
         public Boolean ShowRowColHeaders { get; set; }
+
         public Boolean ShowRuler { get; set; }
+
         public Boolean ShowWhiteSpace { get; set; }
+
         public Boolean ShowZeros { get; set; }
+
         public Boolean RightToLeft { get; set; }
 
         public Boolean DefaultShowFormulas
@@ -346,24 +354,34 @@ namespace ClosedXML.Excel
             {
                 case XLThemeColor.Text1:
                     return Theme.Text1;
+
                 case XLThemeColor.Background1:
                     return Theme.Background1;
+
                 case XLThemeColor.Text2:
                     return Theme.Text2;
+
                 case XLThemeColor.Background2:
                     return Theme.Background2;
+
                 case XLThemeColor.Accent1:
                     return Theme.Accent1;
+
                 case XLThemeColor.Accent2:
                     return Theme.Accent2;
+
                 case XLThemeColor.Accent3:
                     return Theme.Accent3;
+
                 case XLThemeColor.Accent4:
                     return Theme.Accent4;
+
                 case XLThemeColor.Accent5:
                     return Theme.Accent5;
+
                 case XLThemeColor.Accent6:
                     return Theme.Accent6;
+
                 default:
                     throw new ArgumentException("Invalid theme color");
             }
@@ -401,7 +419,7 @@ namespace ClosedXML.Excel
         }
 
         /// <summary>
-        ///   Saves the current workbook.
+        /// Saves the current workbook.
         /// </summary>
         public void Save()
         {
@@ -418,7 +436,7 @@ namespace ClosedXML.Excel
         }
 
         /// <summary>
-        ///   Saves the current workbook to a file.
+        /// Saves the current workbook to a file.
         /// </summary>
         public void SaveAs(String file)
         {
@@ -464,6 +482,7 @@ namespace ClosedXML.Excel
 
             throw new Exception(String.Format("Extension '{0}' is not supported. Supported extensions are '.xlsx' and '.xslm'.", extension));
         }
+
         private void checkForWorksheetsPresent()
         {
             if (Worksheets.Count() == 0)
@@ -471,17 +490,17 @@ namespace ClosedXML.Excel
         }
 
         /// <summary>
-        ///   Saves the current workbook to a stream.
+        /// Saves the current workbook to a stream.
         /// </summary>
         public void SaveAs(Stream stream)
         {
             checkForWorksheetsPresent();
             if (_loadSource == XLLoadSource.New)
             {
-                // dm 20130422, this method or better the method SpreadsheetDocument.Create which is called
-                // inside of 'CreatePackage' need a stream which CanSeek & CanRead
-                // and an ordinary Response stream of a webserver can't do this
-                // so we have to ask and provide a way around this
+                // dm 20130422, this method or better the method SpreadsheetDocument.Create which is
+                // called inside of 'CreatePackage' need a stream which CanSeek & CanRead and an
+                // ordinary Response stream of a webserver can't do this so we have to ask and
+                // provide a way around this
                 if (stream.CanRead && stream.CanSeek && stream.CanWrite)
                 {
                     // all is fine the package can be created in a direct way
@@ -492,9 +511,8 @@ namespace ClosedXML.Excel
                     // the harder way
                     MemoryStream ms = new MemoryStream();
                     CreatePackage(ms, true, _spreadsheetDocumentType);
-                    // not really nessesary, because I changed CopyStream too.
-                    // but for better understanding and if somebody in the future
-                    // provide an changed version of CopyStream
+                    // not really nessesary, because I changed CopyStream too. but for better
+                    // understanding and if somebody in the future provide an changed version of CopyStream
                     ms.Position = 0;
                     CopyStream(ms, stream);
                 }
@@ -529,7 +547,6 @@ namespace ClosedXML.Excel
                 output.Write(buffer, 0, len);
             // dm 20130422, and flushing the output after write
             output.Flush();
-
         }
 
         public IXLWorksheet Worksheet(String name)
@@ -589,18 +606,16 @@ namespace ClosedXML.Excel
         private readonly String _originalFile;
         private readonly Stream _originalStream;
 
-        #endregion
+        #endregion Fields
 
         #region Constructor
 
-        
         /// <summary>
-        ///   Creates a new Excel workbook.
+        /// Creates a new Excel workbook.
         /// </summary>
         public XLWorkbook()
-            :this(XLEventTracking.Enabled)
+            : this(XLEventTracking.Enabled)
         {
-            
         }
 
         public XLWorkbook(XLEventTracking eventTracking)
@@ -633,13 +648,12 @@ namespace ClosedXML.Excel
         }
 
         /// <summary>
-        ///   Opens an existing workbook from a file.
+        /// Opens an existing workbook from a file.
         /// </summary>
-        /// <param name = "file">The file to open.</param>
+        /// <param name="file">The file to open.</param>
         public XLWorkbook(String file)
             : this(file, XLEventTracking.Enabled)
         {
-
         }
 
         public XLWorkbook(String file, XLEventTracking eventTracking)
@@ -651,15 +665,13 @@ namespace ClosedXML.Excel
             Load(file);
         }
 
-
-
         /// <summary>
-        ///   Opens an existing workbook from a stream.
+        /// Opens an existing workbook from a stream.
         /// </summary>
-        /// <param name = "stream">The stream to open.</param>
-        public XLWorkbook(Stream stream):this(stream, XLEventTracking.Enabled)
+        /// <param name="stream">The stream to open.</param>
+        public XLWorkbook(Stream stream)
+            : this(stream, XLEventTracking.Enabled)
         {
-            
         }
 
         public XLWorkbook(Stream stream, XLEventTracking eventTracking)
@@ -670,7 +682,7 @@ namespace ClosedXML.Excel
             Load(stream);
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Nested type: UnsupportedSheet
 
@@ -681,7 +693,7 @@ namespace ClosedXML.Excel
             public Int32 Position;
         }
 
-        #endregion
+        #endregion Nested type: UnsupportedSheet
 
         public IXLCell Cell(String namedCell)
         {
@@ -717,13 +729,13 @@ namespace ClosedXML.Excel
 
         internal XLIdManager ShapeIdManager { get; private set; }
 
-
         public void Dispose()
         {
             Worksheets.ForEach(w => w.Dispose());
         }
 
         public Boolean Use1904DateSystem { get; set; }
+
         public XLWorkbook SetUse1904DateSystem()
         {
             return SetUse1904DateSystem(true);
@@ -744,10 +756,12 @@ namespace ClosedXML.Excel
         {
             return Worksheets.Add(sheetName, position);
         }
+
         public IXLWorksheet AddWorksheet(DataTable dataTable)
         {
             return Worksheets.Add(dataTable);
         }
+
         public void AddWorksheet(DataSet dataSet)
         {
             Worksheets.Add(dataSet);
@@ -764,10 +778,12 @@ namespace ClosedXML.Excel
         }
 
         private XLCalcEngine _calcEngine;
+
         private XLCalcEngine CalcEngine
         {
             get { return _calcEngine ?? (_calcEngine = new XLCalcEngine(this)); }
         }
+
         public Object Evaluate(String expression)
         {
             return CalcEngine.Evaluate(expression);
@@ -780,6 +796,7 @@ namespace ClosedXML.Excel
         {
             get { return _calcEngineExpr ?? (_calcEngineExpr = new XLCalcEngine()); }
         }
+
         public static Object EvaluateExpr(String expression)
         {
             return CalcEngineExpr.Evaluate(expression);
@@ -788,9 +805,18 @@ namespace ClosedXML.Excel
         public String Author { get; set; }
 
         public Boolean LockStructure { get; set; }
-        public XLWorkbook SetLockStructure(Boolean value) { LockStructure = value; return this; }
+
+        public XLWorkbook SetLockStructure(Boolean value)
+        {
+            LockStructure = value; return this;
+        }
+
         public Boolean LockWindows { get; set; }
-        public XLWorkbook SetLockWindows(Boolean value) { LockWindows = value; return this; }
+
+        public XLWorkbook SetLockWindows(Boolean value)
+        {
+            LockWindows = value; return this;
+        }
 
         public void Protect()
         {

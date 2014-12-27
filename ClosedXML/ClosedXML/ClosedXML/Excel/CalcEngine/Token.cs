@@ -1,12 +1,13 @@
 namespace ClosedXML.Excel.CalcEngine
 {
     /// <summary>
-	/// Represents a node in the expression tree.
+    /// Represents a node in the expression tree.
     /// </summary>
     internal class Token
-	{
+    {
         // ** fields
-		public TKID ID;
+        public TKID ID;
+
         public TKTYPE Type;
         public object Value;
 
@@ -15,9 +16,10 @@ namespace ClosedXML.Excel.CalcEngine
         {
             Value = value;
             ID = id;
-			Type = type;
-		}
+            Type = type;
+        }
     }
+
     /// <summary>
     /// Token types (used when building expressions, sequence defines operator priority)
     /// </summary>
@@ -31,6 +33,7 @@ namespace ClosedXML.Excel.CalcEngine
         LITERAL,	// 123.32, "Hello", etc.
         IDENTIFIER  // functions, external objects, bindings
     }
+
     /// <summary>
     /// Token ID (used when evaluating expressions)
     /// </summary>

@@ -18,35 +18,49 @@ namespace ClosedXML.Excel
     {
         /// <summary>
         /// Gets or sets the cell's value. To get a strongly typed object use the method GetValue&lt;T&gt;.
-        /// <para>If the object is an IEnumerable ClosedXML will copy the collection's data into a table starting from this cell.</para>
+        /// <para>
+        /// If the object is an IEnumerable ClosedXML will copy the collection's data into a table
+        /// starting from this cell.
+        /// </para>
         /// <para>If the object is a range ClosedXML will copy the range starting from this cell.</para>
-        /// <para>Setting the value to an object (not IEnumerable/range) will call the object's ToString() method.</para>
-        /// <para>ClosedXML will try to translate it to the corresponding type, if it can't then the value will be left as a string.</para>
+        /// <para>
+        /// Setting the value to an object (not IEnumerable/range) will call the object's ToString() method.
+        /// </para>
+        /// <para>
+        /// ClosedXML will try to translate it to the corresponding type, if it can't then the value
+        /// will be left as a string.
+        /// </para>
         /// </summary>
-        /// <value>
-        /// The object containing the value(s) to set.
-        /// </value>
+        /// <value>The object containing the value(s) to set.</value>
         Object Value { get; set; }
 
-        /// <summary>Gets this cell's address, relative to the worksheet.</summary>
+        /// <summary>
+        /// Gets this cell's address, relative to the worksheet.
+        /// </summary>
         /// <value>The cell's address.</value>
-        IXLAddress Address { get;  }
+        IXLAddress Address { get; }
 
         /// <summary>
         /// Gets or sets the type of this cell's data.
-        /// <para>Changing the data type will cause ClosedXML to covert the current value to the new data type.</para>
-        /// <para>An exception will be thrown if the current value cannot be converted to the new data type.</para>
+        /// <para>
+        /// Changing the data type will cause ClosedXML to covert the current value to the new data type.
+        /// </para>
+        /// <para>
+        /// An exception will be thrown if the current value cannot be converted to the new data type.
+        /// </para>
         /// </summary>
-        /// <value>
-        /// The type of the cell's data.
-        /// </value>
+        /// <value>The type of the cell's data.</value>
         /// <exception cref="ArgumentException"></exception>
         XLCellValues DataType { get; set; }
 
         /// <summary>
         /// Sets the type of this cell's data.
-        /// <para>Changing the data type will cause ClosedXML to covert the current value to the new data type.</para>
-        /// <para>An exception will be thrown if the current value cannot be converted to the new data type.</para>
+        /// <para>
+        /// Changing the data type will cause ClosedXML to covert the current value to the new data type.
+        /// </para>
+        /// <para>
+        /// An exception will be thrown if the current value cannot be converted to the new data type.
+        /// </para>
         /// </summary>
         /// <param name="dataType">Type of the data.</param>
         /// <returns></returns>
@@ -54,20 +68,28 @@ namespace ClosedXML.Excel
 
         /// <summary>
         /// Sets the cell's value.
-        /// <para>If the object is an IEnumerable ClosedXML will copy the collection's data into a table starting from this cell.</para>
+        /// <para>
+        /// If the object is an IEnumerable ClosedXML will copy the collection's data into a table
+        /// starting from this cell.
+        /// </para>
         /// <para>If the object is a range ClosedXML will copy the range starting from this cell.</para>
-        /// <para>Setting the value to an object (not IEnumerable/range) will call the object's ToString() method.</para>
-        /// <para>ClosedXML will try to translate it to the corresponding type, if it can't then the value will be left as a string.</para>
+        /// <para>
+        /// Setting the value to an object (not IEnumerable/range) will call the object's ToString() method.
+        /// </para>
+        /// <para>
+        /// ClosedXML will try to translate it to the corresponding type, if it can't then the value
+        /// will be left as a string.
+        /// </para>
         /// </summary>
-        /// <value>
-        /// The object containing the value(s) to set.
-        /// </value>
+        /// <value>The object containing the value(s) to set.</value>
         IXLCell SetValue<T>(T value);
 
         /// <summary>
         /// Gets the cell's value converted to the T type.
         /// <para>ClosedXML will try to covert the current value to the T type.</para>
-        /// <para>An exception will be thrown if the current value cannot be converted to the T type.</para>
+        /// <para>
+        /// An exception will be thrown if the current value cannot be converted to the T type.
+        /// </para>
         /// </summary>
         /// <typeparam name="T">The return type.</typeparam>
         /// <exception cref="ArgumentException"></exception>
@@ -115,8 +137,6 @@ namespace ClosedXML.Excel
 
         Boolean TryGetValue<T>(out T value);
 
-
-
         Boolean HasHyperlink { get; }
 
         /// <summary>
@@ -126,7 +146,8 @@ namespace ClosedXML.Excel
         IXLCell Clear(XLClearOptions clearOptions = XLClearOptions.ContentsAndFormats);
 
         /// <summary>
-        /// Deletes the current cell and shifts the surrounding cells according to the shiftDeleteCells parameter.
+        /// Deletes the current cell and shifts the surrounding cells according to the
+        /// shiftDeleteCells parameter.
         /// </summary>
         /// <param name="shiftDeleteCells">How to shift the surrounding cells.</param>
         void Delete(XLShiftDeletedCells shiftDeleteCells);
@@ -152,7 +173,6 @@ namespace ClosedXML.Excel
         /// </summary>
         IXLRange AsRange();
 
-
         /// <summary>
         /// Gets or sets the cell's style.
         /// </summary>
@@ -161,9 +181,7 @@ namespace ClosedXML.Excel
         /// <summary>
         /// Gets or sets a value indicating whether this cell's text should be shared or not.
         /// </summary>
-        /// <value>
-        ///   If false the cell's text will not be shared and stored as an inline value.
-        /// </value>
+        /// <value>If false the cell's text will not be shared and stored as an inline value.</value>
         Boolean ShareString { get; set; }
 
         /// <summary>
@@ -208,7 +226,6 @@ namespace ClosedXML.Excel
         /// </param>
         IXLTable InsertTable<T>(IEnumerable<T> data, String tableName, Boolean createTable);
 
-
         /// <summary>
         /// Inserts the DataTable data elements as a table and returns it.
         /// <para>The new table will receive a generic name: Table#</para>
@@ -245,22 +262,26 @@ namespace ClosedXML.Excel
         /// </param>
         IXLTable InsertTable(DataTable data, String tableName, Boolean createTable);
 
-
         XLHyperlink Hyperlink { get; set; }
+
         IXLWorksheet Worksheet { get; }
 
         IXLDataValidation DataValidation { get; }
+
         IXLDataValidation NewDataValidation { get; }
+
         IXLDataValidation SetDataValidation();
 
-
         IXLCells InsertCellsAbove(int numberOfRows);
+
         IXLCells InsertCellsBelow(int numberOfRows);
+
         IXLCells InsertCellsAfter(int numberOfColumns);
+
         IXLCells InsertCellsBefore(int numberOfColumns);
 
         /// <summary>
-        /// Creates a named range out of this cell. 
+        /// Creates a named range out of this cell.
         /// <para>If the named range exists, it will add this range to that named range.</para>
         /// <para>The default scope for the named range is Workbook.</para>
         /// </summary>
@@ -268,48 +289,63 @@ namespace ClosedXML.Excel
         IXLCell AddToNamed(String rangeName);
 
         /// <summary>
-        /// Creates a named range out of this cell. 
+        /// Creates a named range out of this cell.
         /// <para>If the named range exists, it will add this range to that named range.</para>
-        /// <param name="rangeName">Name of the range.</param>
-        /// <param name="scope">The scope for the named range.</param>
+        /// <param name="rangeName">Name of the range.</param><param name="scope">The scope for the
+        /// named range.</param>
         /// </summary>
         IXLCell AddToNamed(String rangeName, XLScope scope);
 
         /// <summary>
-        /// Creates a named range out of this cell. 
+        /// Creates a named range out of this cell.
         /// <para>If the named range exists, it will add this range to that named range.</para>
-        /// <param name="rangeName">Name of the range.</param>
-        /// <param name="scope">The scope for the named range.</param>
-        /// <param name="comment">The comments for the named range.</param>
+        /// <param name="rangeName">Name of the range.</param><param name="scope">The scope for the
+        /// named range.</param><param name="comment">The comments for the named range.</param>
         /// </summary>
         IXLCell AddToNamed(String rangeName, XLScope scope, String comment);
 
         IXLCell CopyFrom(IXLCell otherCell);
+
         IXLCell CopyFrom(String otherCell);
+
         IXLCell CopyTo(IXLCell target);
+
         IXLCell CopyTo(String target);
 
         String ValueCached { get; }
 
         IXLRichText RichText { get; }
+
         Boolean HasRichText { get; }
+
         IXLComment Comment { get; }
+
         Boolean HasComment { get; }
 
         Boolean IsMerged();
+
         Boolean IsEmpty();
+
         Boolean IsEmpty(Boolean includeFormats);
 
         IXLCell CellAbove();
+
         IXLCell CellAbove(Int32 step);
+
         IXLCell CellBelow();
+
         IXLCell CellBelow(Int32 step);
+
         IXLCell CellLeft();
+
         IXLCell CellLeft(Int32 step);
+
         IXLCell CellRight();
+
         IXLCell CellRight(Int32 step);
 
         IXLColumn WorksheetColumn();
+
         IXLRow WorksheetRow();
 
         Boolean HasDataValidation { get; }
@@ -319,6 +355,7 @@ namespace ClosedXML.Excel
         void Select();
 
         Boolean Active { get; set; }
+
         IXLCell SetActive(Boolean value = true);
 
         Boolean HasFormula { get; }

@@ -5,8 +5,9 @@ namespace ClosedXML.Excel
 {
     internal class XLPrintAreas : IXLPrintAreas
     {
-        List<IXLRange> ranges = new List<IXLRange>();
+        private List<IXLRange> ranges = new List<IXLRange>();
         private XLWorksheet worksheet;
+
         public XLPrintAreas(XLWorksheet worksheet)
         {
             this.worksheet = worksheet;

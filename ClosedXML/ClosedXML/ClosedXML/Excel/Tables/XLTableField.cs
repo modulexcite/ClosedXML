@@ -2,9 +2,10 @@
 
 namespace ClosedXML.Excel
 {
-    internal class XLTableField: IXLTableField
+    internal class XLTableField : IXLTableField
     {
         private XLTable table;
+
         public XLTableField(XLTable table)
         {
             this.table = table;
@@ -12,7 +13,7 @@ namespace ClosedXML.Excel
 
         public Int32 Index { get; internal set; }
 
-        public String Name 
+        public String Name
         {
             get
             {
@@ -25,26 +26,28 @@ namespace ClosedXML.Excel
         }
 
         internal String totalsRowLabel;
+
         public String TotalsRowLabel
         {
             get { return totalsRowLabel; }
-            set 
+            set
             {
                 totalsRowFunction = XLTotalsRowFunction.None;
                 table.TotalsRow().Cell(Index + 1).SetValue(value);
-                totalsRowLabel = value; 
+                totalsRowLabel = value;
             }
         }
 
         public String TotalsRowFormulaA1
         {
             get { return table.TotalsRow().Cell(Index + 1).FormulaA1; }
-            set 
+            set
             {
                 totalsRowFunction = XLTotalsRowFunction.Custom;
                 table.TotalsRow().Cell(Index + 1).FormulaA1 = value;
             }
         }
+
         public String TotalsRowFormulaR1C1
         {
             get { return table.TotalsRow().Cell(Index + 1).FormulaR1C1; }
@@ -56,10 +59,11 @@ namespace ClosedXML.Excel
         }
 
         internal XLTotalsRowFunction totalsRowFunction;
+
         public XLTotalsRowFunction TotalsRowFunction
         {
             get { return totalsRowFunction; }
-            set 
+            set
             {
                 if (value != XLTotalsRowFunction.None && value != XLTotalsRowFunction.Custom)
                 {
@@ -85,7 +89,7 @@ namespace ClosedXML.Excel
                         cell.Style.NumberFormat = lastCell.Style.NumberFormat;
                     }
                 }
-                totalsRowFunction = value; 
+                totalsRowFunction = value;
             }
         }
     }

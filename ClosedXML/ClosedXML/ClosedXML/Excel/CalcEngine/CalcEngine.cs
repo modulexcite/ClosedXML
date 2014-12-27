@@ -1,49 +1,47 @@
-using System;
-using System.Reflection;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Globalization;
-using System.Diagnostics;
-using System.Text;
-using System.Text.RegularExpressions;
-using ClosedXML.Excel.CalcEngine;
 using ClosedXML.Excel.CalcEngine.Functions;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace ClosedXML.Excel.CalcEngine
 {
     /// <summary>
-	/// CalcEngine parses strings and returns Expression objects that can 
-    /// be evaluated.
-	/// </summary>
+    /// CalcEngine parses strings and returns Expression objects that can be evaluated.
+    /// </summary>
     /// <remarks>
     /// <para>This class has three extensibility points:</para>
     /// <para>Use the <b>DataContext</b> property to add an object's properties to the engine scope.</para>
     /// <para>Use the <b>RegisterFunction</b> method to define custom functions.</para>
-    /// <para>Override the <b>GetExternalObject</b> method to add arbitrary variables to the engine scope.</para>
+    /// <para>
+    /// Override the <b>GetExternalObject</b> method to add arbitrary variables to the engine scope.
+    /// </para>
     /// </remarks>
-	internal class CalcEngine
-	{
-		//---------------------------------------------------------------------------
-		#region ** fields
+    internal class CalcEngine
+    {
+        //---------------------------------------------------------------------------
 
-		// members
-		string		_expr;				        // expression being parsed
-		int			_len;				        // length of the expression being parsed
-		int			_ptr;				        // current pointer into expression
-        string      _idChars;                   // valid characters in identifiers (besides alpha and digits)
-		Token		_token;				        // current token being parsed
-        Dictionary<object, Token> _tkTbl;       // table with tokens (+, -, etc)
-        Dictionary<string, FunctionDefinition>  _fnTbl;      // table with constants and functions (pi, sin, etc)
-        Dictionary<string, object> _vars;       // table with variables
-        object _dataContext;                    // object with properties
-        bool _optimize;                         // optimize expressions when parsing
-        ExpressionCache _cache;                 // cache with parsed expressions
-        CultureInfo _ci;                        // culture info used to parse numbers/dates
-        char _decimal, _listSep, _percent;                // localized decimal separator, list separator, percent sign
+        #region ** fields
 
-        #endregion
+        // members
+        private string _expr;				        // expression being parsed
+
+        private int _len;				        // length of the expression being parsed
+        private int _ptr;				        // current pointer into expression
+        private string _idChars;                   // valid characters in identifiers (besides alpha and digits)
+        private Token _token;				        // current token being parsed
+        private Dictionary<object, Token> _tkTbl;       // table with tokens (+, -, etc)
+        private Dictionary<string, FunctionDefinition> _fnTbl;      // table with constants and functions (pi, sin, etc)
+        private Dictionary<string, object> _vars;       // table with variables
+        private object _dataContext;                    // object with properties
+        private bool _optimize;                         // optimize expressions when parsing
+        private ExpressionCache _cache;                 // cache with parsed expressions
+        private CultureInfo _ci;                        // culture info used to parse numbers/dates
+        private char _decimal, _listSep, _percent;                // localized decimal separator, list separator, percent sign
+
+        #endregion ** fields
 
         //---------------------------------------------------------------------------
+
         #region ** ctor
 
         public CalcEngine()
@@ -58,23 +56,24 @@ namespace ClosedXML.Excel.CalcEngine
             //this.Test();
 #endif
         }
-        
-        #endregion
+
+        #endregion ** ctor
 
         //---------------------------------------------------------------------------
-		#region ** object model
 
-		/// <summary>
-		/// Parses a string into an <see cref="Expression"/>.
-		/// </summary>
-		/// <param name="expression">String to parse.</param>
+        #region ** object model
+
+        /// <summary>
+        /// Parses a string into an <see cref="Expression"/>.
+        /// </summary>
+        /// <param name="expression">String to parse.</param>
         /// <returns>An <see cref="Expression"/> object that can be evaluated.</returns>
-		public Expression Parse(string expression)
-		{
-			// initialize
-			_expr = expression;
-			_len  = _expr.Length; 
-			_ptr  = 0;
+        public Expression Parse(string expression)
+        {
+            // initialize
+            _expr = expression;
+            _len = _expr.Length;
+            _ptr = 0;
 
             // skip leading equals sign
             if (_len > 0 && _expr[0] == '=')
@@ -82,14 +81,14 @@ namespace ClosedXML.Excel.CalcEngine
                 _ptr++;
             }
 
-			// parse the expression
-			var expr = ParseExpression();
+            // parse the expression
+            var expr = ParseExpression();
 
-			// check for errors
-			if (_token.ID != TKID.END)
-			{
+            // check for errors
+            if (_token.ID != TKID.END)
+            {
                 Throw();
-			}
+            }
 
             // optimize expression
             if (_optimize)
@@ -98,30 +97,30 @@ namespace ClosedXML.Excel.CalcEngine
             }
 
             // done
-			return expr;
-		}
+            return expr;
+        }
+
         /// <summary>
         /// Evaluates a string.
         /// </summary>
         /// <param name="expression">Expression to evaluate.</param>
         /// <returns>The value of the expression.</returns>
         /// <remarks>
-        /// If you are going to evaluate the same expression several times,
-        /// it is more efficient to parse it only once using the <see cref="Parse"/>
-        /// method and then using the Expression.Evaluate method to evaluate
-        /// the parsed expression.
+        /// If you are going to evaluate the same expression several times, it is more efficient to
+        /// parse it only once using the <see cref="Parse"/> method and then using the
+        /// Expression.Evaluate method to evaluate the parsed expression.
         /// </remarks>
-		public object Evaluate(string expression)
-		{
+        public object Evaluate(string expression)
+        {
             var x = //Parse(expression);
                 _cache != null
                 ? _cache[expression]
                 : Parse(expression);
-			return x.Evaluate();
-		}
+            return x.Evaluate();
+        }
+
         /// <summary>
-        /// Gets or sets whether the calc engine should keep a cache with parsed
-        /// expressions.
+        /// Gets or sets whether the calc engine should keep a cache with parsed expressions.
         /// </summary>
         public bool CacheExpressions
         {
@@ -136,29 +135,30 @@ namespace ClosedXML.Excel.CalcEngine
                 }
             }
         }
+
         /// <summary>
-        /// Gets or sets whether the calc engine should optimize expressions when
-        /// they are parsed.
+        /// Gets or sets whether the calc engine should optimize expressions when they are parsed.
         /// </summary>
         public bool OptimizeExpressions
         {
             get { return _optimize; }
             set { _optimize = value; }
         }
+
         /// <summary>
         /// Gets or sets a string that specifies special characters that are valid for identifiers.
         /// </summary>
         /// <remarks>
         /// Identifiers must start with a letter or an underscore, which may be followed by
-        /// additional letters, underscores, or digits. This string allows you to specify
-        /// additional valid characters such as ':' or '!' (used in Excel range references
-        /// for example).
+        /// additional letters, underscores, or digits. This string allows you to specify additional
+        /// valid characters such as ':' or '!' (used in Excel range references for example).
         /// </remarks>
         public string IdentifierChars
         {
             get { return _idChars; }
             set { _idChars = value; }
         }
+
         /// <summary>
         /// Registers a function that can be evaluated by this <see cref="CalcEngine"/>.
         /// </summary>
@@ -170,6 +170,7 @@ namespace ClosedXML.Excel.CalcEngine
         {
             _fnTbl.Add(functionName, new FunctionDefinition(parmMin, parmMax, fn));
         }
+
         /// <summary>
         /// Registers a function that can be evaluated by this <see cref="CalcEngine"/>.
         /// </summary>
@@ -180,32 +181,35 @@ namespace ClosedXML.Excel.CalcEngine
         {
             RegisterFunction(functionName, parmCount, parmCount, fn);
         }
+
         /// <summary>
         /// Gets an external object based on an identifier.
         /// </summary>
         /// <remarks>
-        /// This method is useful when the engine needs to create objects dynamically.
-        /// For example, a spreadsheet calc engine would use this method to dynamically create cell
-        /// range objects based on identifiers that cannot be enumerated at design time 
-        /// (such as "AB12", "A1:AB12", etc.)
+        /// This method is useful when the engine needs to create objects dynamically. For example,
+        /// a spreadsheet calc engine would use this method to dynamically create cell range objects
+        /// based on identifiers that cannot be enumerated at design time (such as "AB12",
+        /// "A1:AB12", etc.)
         /// </remarks>
         public virtual object GetExternalObject(string identifier)
         {
             return null;
         }
+
         /// <summary>
         /// Gets or sets the DataContext for this <see cref="CalcEngine"/>.
         /// </summary>
         /// <remarks>
-        /// Once a DataContext is set, all public properties of the object become available
-        /// to the CalcEngine, including sub-properties such as "Address.Street". These may
-        /// be used with expressions just like any other constant.
+        /// Once a DataContext is set, all public properties of the object become available to the
+        /// CalcEngine, including sub-properties such as "Address.Street". These may be used with
+        /// expressions just like any other constant.
         /// </remarks>
         public virtual object DataContext
         {
             get { return _dataContext; }
             set { _dataContext = value; }
         }
+
         /// <summary>
         /// Gets the dictionary that contains function definitions.
         /// </summary>
@@ -213,6 +217,7 @@ namespace ClosedXML.Excel.CalcEngine
         {
             get { return _fnTbl; }
         }
+
         /// <summary>
         /// Gets the dictionary that contains simple variables (not in the DataContext).
         /// </summary>
@@ -220,6 +225,7 @@ namespace ClosedXML.Excel.CalcEngine
         {
             get { return _vars; }
         }
+
         /// <summary>
         /// Gets or sets the <see cref="CultureInfo"/> to use when parsing numbers and dates.
         /// </summary>
@@ -236,13 +242,14 @@ namespace ClosedXML.Excel.CalcEngine
             }
         }
 
-		#endregion
+        #endregion ** object model
 
         //---------------------------------------------------------------------------
+
         #region ** token/keyword tables
 
         // build/get static token table
-        Dictionary<object, Token> GetSymbolTable()
+        private Dictionary<object, Token> GetSymbolTable()
         {
             if (_tkTbl == null)
             {
@@ -263,21 +270,22 @@ namespace ClosedXML.Excel.CalcEngine
                 AddToken("<>", TKID.NE, TKTYPE.COMPARE);
                 AddToken(">=", TKID.GE, TKTYPE.COMPARE);
                 AddToken("<=", TKID.LE, TKTYPE.COMPARE);
-                
+
                 // list separator is localized, not necessarily a comma
                 // so it can't be on the static table
                 //AddToken(',', TKID.COMMA, TKTYPE.GROUP);
             }
             return _tkTbl;
         }
-        void AddToken(object symbol, TKID id, TKTYPE type)
+
+        private void AddToken(object symbol, TKID id, TKTYPE type)
         {
             var token = new Token(symbol, id, type);
             _tkTbl.Add(symbol, token);
         }
 
         // build/get static keyword table
-        Dictionary<string, FunctionDefinition> GetFunctionTable()
+        private Dictionary<string, FunctionDefinition> GetFunctionTable()
         {
             if (_fnTbl == null)
             {
@@ -295,90 +303,97 @@ namespace ClosedXML.Excel.CalcEngine
             return _fnTbl;
         }
 
-        #endregion
+        #endregion ** token/keyword tables
 
         //---------------------------------------------------------------------------
-		#region ** private stuff
 
-		Expression ParseExpression()
-		{
-			GetToken();
-			return ParseCompare();
-		}
-		Expression ParseCompare()
-		{
-		    var x = ParseAddSub();
-			while (_token.Type == TKTYPE.COMPARE)
-			{
-		        var t = _token;
-				GetToken();
-				var exprArg = ParseAddSub();
-				x = new BinaryExpression(t, x, exprArg);
-			}
-			return x;
-		}
-		Expression ParseAddSub()
-		{
-			var x = ParseMulDiv();
-			while (_token.Type == TKTYPE.ADDSUB)
-			{
-		        var t = _token;
-				GetToken();
-				var exprArg = ParseMulDiv();
-				x = new BinaryExpression(t, x, exprArg);
-			}
-			return x;
+        #region ** private stuff
+
+        private Expression ParseExpression()
+        {
+            GetToken();
+            return ParseCompare();
         }
-		Expression ParseMulDiv()
-		{
-			var x = ParsePower();
-			while (_token.Type == TKTYPE.MULDIV)
-			{
-		        var t = _token;
-				GetToken();
-				var a = ParsePower();
-				x = new BinaryExpression(t, x, a);
-			}
-			return x;
+
+        private Expression ParseCompare()
+        {
+            var x = ParseAddSub();
+            while (_token.Type == TKTYPE.COMPARE)
+            {
+                var t = _token;
+                GetToken();
+                var exprArg = ParseAddSub();
+                x = new BinaryExpression(t, x, exprArg);
+            }
+            return x;
         }
-		Expression ParsePower()
-		{
-			var x = ParseUnary();
-		    while (_token.Type == TKTYPE.POWER)
-			{
-		        var t = _token;
-				GetToken();
-				var a = ParseUnary();
-				x = new BinaryExpression(t, x, a);
-			}
-			return x;
-		}
- 		Expression ParseUnary()
-		{ 
-			// unary plus and minus
-			if (_token.ID == TKID.ADD || _token.ID == TKID.SUB)
-			{
-				var t = _token;
-		        GetToken();
+
+        private Expression ParseAddSub()
+        {
+            var x = ParseMulDiv();
+            while (_token.Type == TKTYPE.ADDSUB)
+            {
+                var t = _token;
+                GetToken();
+                var exprArg = ParseMulDiv();
+                x = new BinaryExpression(t, x, exprArg);
+            }
+            return x;
+        }
+
+        private Expression ParseMulDiv()
+        {
+            var x = ParsePower();
+            while (_token.Type == TKTYPE.MULDIV)
+            {
+                var t = _token;
+                GetToken();
+                var a = ParsePower();
+                x = new BinaryExpression(t, x, a);
+            }
+            return x;
+        }
+
+        private Expression ParsePower()
+        {
+            var x = ParseUnary();
+            while (_token.Type == TKTYPE.POWER)
+            {
+                var t = _token;
+                GetToken();
+                var a = ParseUnary();
+                x = new BinaryExpression(t, x, a);
+            }
+            return x;
+        }
+
+        private Expression ParseUnary()
+        {
+            // unary plus and minus
+            if (_token.ID == TKID.ADD || _token.ID == TKID.SUB)
+            {
+                var t = _token;
+                GetToken();
                 var a = ParseAtom();
                 return new UnaryExpression(t, a);
-			}
+            }
 
-			// not unary, return atom
-			return ParseAtom();
-		}
-		Expression ParseAtom()
-		{
+            // not unary, return atom
+            return ParseAtom();
+        }
+
+        private Expression ParseAtom()
+        {
             string id;
             Expression x = null;
             FunctionDefinition fnDef = null;
 
-			switch (_token.Type)
-			{
-				// literals
-				case TKTYPE.LITERAL:
-					x = new Expression(_token);
-					break;
+            switch (_token.Type)
+            {
+                // literals
+                case TKTYPE.LITERAL:
+                    x = new Expression(_token);
+                    break;
 
                 // identifiers
                 case TKTYPE.IDENTIFIER:
@@ -432,27 +447,27 @@ namespace ClosedXML.Excel.CalcEngine
                     Throw("Unexpected identifier");
                     break;
 
-		        // sub-expressions
-		        case TKTYPE.GROUP:
+                // sub-expressions
+                case TKTYPE.GROUP:
 
                     // anything other than opening parenthesis is illegal here
-					if (_token.ID != TKID.OPEN)
-					{
+                    if (_token.ID != TKID.OPEN)
+                    {
                         Throw("Expression expected.");
                     }
 
-					// get expression
-					GetToken();
-					x = ParseCompare();
+                    // get expression
+                    GetToken();
+                    x = ParseCompare();
 
-					// check that the parenthesis was closed
-					if (_token.ID != TKID.CLOSE)
-					{
-						Throw("Unbalanced parenthesis.");
-					}
+                    // check that the parenthesis was closed
+                    if (_token.ID != TKID.CLOSE)
+                    {
+                        Throw("Unbalanced parenthesis.");
+                    }
 
-					break;
-		    }
+                    break;
+            }
 
             // make sure we got something...
             if (x == null)
@@ -460,47 +475,47 @@ namespace ClosedXML.Excel.CalcEngine
                 Throw();
             }
 
-			// done
-			GetToken();
-			return x;
-		}
+            // done
+            GetToken();
+            return x;
+        }
 
-		#endregion
+        #endregion ** private stuff
 
-		//---------------------------------------------------------------------------
-		#region ** parser
+        //---------------------------------------------------------------------------
 
-        void GetToken()
+        #region ** parser
+
+        private void GetToken()
         {
-			// eat white space 
-			while (_ptr < _len && _expr[_ptr] <= ' ')
-			{
-				_ptr++;
-			}
+            // eat white space
+            while (_ptr < _len && _expr[_ptr] <= ' ')
+            {
+                _ptr++;
+            }
 
-			// are we done?
-			if (_ptr >= _len)
-			{
+            // are we done?
+            if (_ptr >= _len)
+            {
                 _token = new Token(null, TKID.END, TKTYPE.GROUP);
-				return;
-			}
+                return;
+            }
 
-			// prepare to parse
+            // prepare to parse
             int i;
-			var c = _expr[_ptr];
+            var c = _expr[_ptr];
 
-			// operators
-			// this gets called a lot, so it's pretty optimized.
-			// note that operators must start with non-letter/digit characters.
+            // operators this gets called a lot, so it's pretty optimized. note that operators must
+            // start with non-letter/digit characters.
             var isLetter = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
             var isDigit = c >= '0' && c <= '9';
-			if (!isLetter && !isDigit)
-			{
-				// if this is a number starting with a decimal, don't parse as operator
+            if (!isLetter && !isDigit)
+            {
+                // if this is a number starting with a decimal, don't parse as operator
                 var nxt = _ptr + 1 < _len ? _expr[_ptr + 1] : 0;
                 bool isNumber = c == _decimal && nxt >= '0' && nxt <= '9';
-				if (!isNumber)
-				{
+                if (!isNumber)
+                {
                     // look up localized list separator
                     if (c == _listSep)
                     {
@@ -508,41 +523,41 @@ namespace ClosedXML.Excel.CalcEngine
                         _ptr++;
                         return;
                     }
-                    
+
                     // look up single-char tokens on table
                     Token tk;
                     if (_tkTbl.TryGetValue(c, out tk))
-					{
-						// save token we found
-						_token = tk;
-						_ptr++;
+                    {
+                        // save token we found
+                        _token = tk;
+                        _ptr++;
 
-						// look for double-char tokens (special case)
-						if (_ptr < _len && (c == '>' || c == '<'))
-						{
+                        // look for double-char tokens (special case)
+                        if (_ptr < _len && (c == '>' || c == '<'))
+                        {
                             if (_tkTbl.TryGetValue(_expr.Substring(_ptr - 1, 2), out tk))
-							{
-								_token = tk;
-								_ptr++;
-							}
-						}
+                            {
+                                _token = tk;
+                                _ptr++;
+                            }
+                        }
 
                         // found token on the table
-						return;
-					}
-				}
-			}
+                        return;
+                    }
+                }
+            }
 
-			// parse numbers
+            // parse numbers
             if (isDigit || c == _decimal)
-			{
-				var sci = false;
+            {
+                var sci = false;
                 var pct = false;
                 var div = -1.0; // use double, not int (this may get really big)
                 var val = 0.0;
                 for (i = 0; i + _ptr < _len; i++)
-				{
-					c = _expr[_ptr + i];
+                {
+                    c = _expr[_ptr + i];
 
                     // digits always OK
                     if (c >= '0' && c <= '9')
@@ -555,21 +570,21 @@ namespace ClosedXML.Excel.CalcEngine
                         continue;
                     }
 
-					// one decimal is OK
+                    // one decimal is OK
                     if (c == _decimal && div < 0)
-					{
-						div = 1;
-						continue;
-					}
-                    
-					// scientific notation?
-					if ((c == 'E' || c == 'e') && !sci) 
-					{
-						sci = true;
-						c = _expr[_ptr + i + 1];
-						if (c == '+' || c == '-') i++;
-						continue;
-					}
+                    {
+                        div = 1;
+                        continue;
+                    }
+
+                    // scientific notation?
+                    if ((c == 'E' || c == 'e') && !sci)
+                    {
+                        sci = true;
+                        c = _expr[_ptr + i + 1];
+                        if (c == '+' || c == '-') i++;
+                        continue;
+                    }
 
                     // percentage?
                     if (c == _percent)
@@ -579,9 +594,9 @@ namespace ClosedXML.Excel.CalcEngine
                         break;
                     }
 
-					// end of literal
-					break;
-				}
+                    // end of literal
+                    break;
+                }
 
                 // end of number, get value
                 if (!sci)
@@ -608,56 +623,56 @@ namespace ClosedXML.Excel.CalcEngine
                 // advance pointer and return
                 _ptr += i;
                 return;
-			}
+            }
 
-			// parse strings
-			if (c == '\"')
-			{
-				// look for end quote, skip double quotes
-				for (i = 1; i + _ptr < _len; i++)
-				{
-					c = _expr[_ptr + i];
-					if (c != '\"') continue;
-					char cNext = i + _ptr < _len - 1 ? _expr[_ptr + i + 1]: ' ';
-					if (cNext != '\"') break;
-					i++;
-				}
+            // parse strings
+            if (c == '\"')
+            {
+                // look for end quote, skip double quotes
+                for (i = 1; i + _ptr < _len; i++)
+                {
+                    c = _expr[_ptr + i];
+                    if (c != '\"') continue;
+                    char cNext = i + _ptr < _len - 1 ? _expr[_ptr + i + 1] : ' ';
+                    if (cNext != '\"') break;
+                    i++;
+                }
 
-				// check that we got the end of the string
-				if (c != '\"')
-				{
-					Throw("Can't find final quote.");
-				}
+                // check that we got the end of the string
+                if (c != '\"')
+                {
+                    Throw("Can't find final quote.");
+                }
 
-				// end of string
-				var lit = _expr.Substring(_ptr + 1, i - 1);
-				_ptr += i + 1;
+                // end of string
+                var lit = _expr.Substring(_ptr + 1, i - 1);
+                _ptr += i + 1;
                 _token = new Token(lit.Replace("\"\"", "\""), TKID.ATOM, TKTYPE.LITERAL);
-				return;
-			}
+                return;
+            }
 
-			// parse dates (review)
-			if (c == '#')
-			{
-				// look for end #
-				for (i = 1; i + _ptr < _len; i++)
-				{
-					c = _expr[_ptr + i];
-					if (c == '#') break;
-				}
+            // parse dates (review)
+            if (c == '#')
+            {
+                // look for end #
+                for (i = 1; i + _ptr < _len; i++)
+                {
+                    c = _expr[_ptr + i];
+                    if (c == '#') break;
+                }
 
-				// check that we got the end of the date
-				if (c != '#') 
-				{
-					Throw("Can't find final date delimiter ('#').");
-				}
+                // check that we got the end of the date
+                if (c != '#')
+                {
+                    Throw("Can't find final date delimiter ('#').");
+                }
 
-				// end of date
-				var lit = _expr.Substring(_ptr + 1, i - 1);
-				_ptr += i + 1;
+                // end of date
+                var lit = _expr.Substring(_ptr + 1, i - 1);
+                _ptr += i + 1;
                 _token = new Token(DateTime.Parse(lit, _ci), TKID.ATOM, TKTYPE.LITERAL);
-				return;
-			}
+                return;
+            }
 
             // identifiers (functions, objects) must start with alpha or underscore
             if (!isLetter && c != '_' && (_idChars == null || _idChars.IndexOf(c) < 0))
@@ -681,8 +696,9 @@ namespace ClosedXML.Excel.CalcEngine
             var id = _expr.Substring(_ptr, i);
             _ptr += i;
             _token = new Token(id, TKID.ATOM, TKTYPE.IDENTIFIER);
-		}
-        static double ParseDouble(string str, CultureInfo ci)
+        }
+
+        private static double ParseDouble(string str, CultureInfo ci)
         {
             if (str.Length > 0 && str[str.Length - 1] == ci.NumberFormat.PercentSymbol[0])
             {
@@ -691,52 +707,52 @@ namespace ClosedXML.Excel.CalcEngine
             }
             return double.Parse(str, NumberStyles.Any, ci);
         }
-        List<Expression> GetParameters() // e.g. myfun(a, b, c+2)
-		{
-			// check whether next token is a (, 
-			// restore state and bail if it's not
-			var pos  = _ptr;
-			var tk = _token;
-			GetToken();
-			if (_token.ID != TKID.OPEN)
-			{
+
+        private List<Expression> GetParameters() // e.g. myfun(a, b, c+2)
+        {
+            // check whether next token is a (, restore state and bail if it's not
+            var pos = _ptr;
+            var tk = _token;
+            GetToken();
+            if (_token.ID != TKID.OPEN)
+            {
                 _ptr = pos;
                 _token = tk;
-				return null;
-			}
+                return null;
+            }
 
-			// check for empty Parameter list
-			pos = _ptr;
-			GetToken();
+            // check for empty Parameter list
+            pos = _ptr;
+            GetToken();
             if (_token.ID == TKID.CLOSE)
             {
                 return null;
             }
-			_ptr = pos;
+            _ptr = pos;
 
-			// get Parameters until we reach the end of the list
+            // get Parameters until we reach the end of the list
             var parms = new List<Expression>();
-			var expr = ParseExpression();
-			parms.Add(expr);
-			while (_token.ID == TKID.COMMA)
-			{
-				expr = ParseExpression();
-				parms.Add(expr);
-			}
+            var expr = ParseExpression();
+            parms.Add(expr);
+            while (_token.ID == TKID.COMMA)
+            {
+                expr = ParseExpression();
+                parms.Add(expr);
+            }
 
-			// make sure the list was closed correctly
-			if (_token.ID != TKID.CLOSE)
-			{
+            // make sure the list was closed correctly
+            if (_token.ID != TKID.CLOSE)
+            {
                 Throw();
-			}
+            }
 
-			// done
-			return parms;
-    	}
-        Token GetMember()
+            // done
+            return parms;
+        }
+
+        private Token GetMember()
         {
-            // check whether next token is a MEMBER token ('.'), 
-            // restore state and bail if it's not
+            // check whether next token is a MEMBER token ('.'), restore state and bail if it's not
             var pos = _ptr;
             var tk = _token;
             GetToken();
@@ -756,28 +772,32 @@ namespace ClosedXML.Excel.CalcEngine
             return _token;
         }
 
-		#endregion
+        #endregion ** parser
 
-		//---------------------------------------------------------------------------
-		#region ** static helpers
+        //---------------------------------------------------------------------------
 
-        static void Throw()
+        #region ** static helpers
+
+        private static void Throw()
         {
             Throw("Syntax error.");
         }
-        static void Throw(string msg)
+
+        private static void Throw(string msg)
         {
             throw new Exception(msg);
         }
 
-        #endregion
-	}
+        #endregion ** static helpers
+    }
 
     /// <summary>
     /// Delegate that represents CalcEngine functions.
     /// </summary>
-    /// <param name="parms">List of <see cref="Expression"/> objects that represent the
-    /// parameters to be used in the function call.</param>
+    /// <param name="parms">
+    /// List of <see cref="Expression"/> objects that represent the parameters to be used in the
+    /// function call.
+    /// </param>
     /// <returns>The function result.</returns>
     internal delegate object CalcEngineFunction(List<Expression> parms);
 }

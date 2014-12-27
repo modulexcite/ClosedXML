@@ -1,7 +1,6 @@
-﻿
-namespace ClosedXML.Excel
+﻿namespace ClosedXML.Excel
 {
-    internal class XLOutline:IXLOutline
+    internal class XLOutline : IXLOutline
     {
         public XLOutline(IXLOutline outline)
         {
@@ -11,7 +10,9 @@ namespace ClosedXML.Excel
                 SummaryVLocation = outline.SummaryVLocation;
             }
         }
+
         public XLOutlineSummaryVLocation SummaryVLocation { get; set; }
+
         public XLOutlineSummaryHLocation SummaryHLocation { get; set; }
     }
 }

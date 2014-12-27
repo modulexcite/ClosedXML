@@ -5,7 +5,7 @@ namespace ClosedXML.Excel
 {
     using System.Linq;
 
-    internal class XLHeaderFooter: IXLHeaderFooter
+    internal class XLHeaderFooter : IXLHeaderFooter
     {
         public XLHeaderFooter(XLWorksheet worksheet)
         {
@@ -25,7 +25,9 @@ namespace ClosedXML.Excel
         }
 
         public IXLHFItem Left { get; private set; }
+
         public IXLHFItem Center { get; private set; }
+
         public IXLHFItem Right { get; private set; }
 
         public String GetText(XLHFOccurrence occurrence)
@@ -45,8 +47,9 @@ namespace ClosedXML.Excel
         }
 
         private Dictionary<XLHFOccurrence, String> innerTexts = new Dictionary<XLHFOccurrence, String>();
+
         internal String SetInnerText(XLHFOccurrence occurrence, String text)
-        { 
+        {
             if (innerTexts.ContainsKey(occurrence))
                 innerTexts[occurrence] = text;
             else
@@ -58,6 +61,7 @@ namespace ClosedXML.Excel
         private Dictionary<XLHFOccurrence, String> _initialTexts;
 
         private Boolean _changed;
+
         internal Boolean Changed
         {
             get
@@ -75,7 +79,6 @@ namespace ClosedXML.Excel
                 _initialTexts.Add(o, GetText(o));
             }
         }
-
 
         public IXLHeaderFooter Clear(XLHFOccurrence occurrence = XLHFOccurrence.AllPages)
         {

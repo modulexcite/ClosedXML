@@ -16,7 +16,7 @@ namespace ClosedXML.Excel
                 ;
         }
 
-        #endregion
+        #endregion IXLFill Members
 
         private void SetStyleChanged()
         {
@@ -63,6 +63,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean PatternColorModified;
+
         public XLColor PatternColor
         {
             get { return _patternColor; }
@@ -80,6 +81,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean PatternBackgroundColorModified;
+
         public XLColor PatternBackgroundColor
         {
             get { return _patternBackgroundColor; }
@@ -97,6 +99,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean PatternTypeModified;
+
         public XLFillPatternValues PatternType
         {
             get { return _patternType; }
@@ -137,13 +140,14 @@ namespace ClosedXML.Excel
             return _container.Style;
         }
 
-        #endregion
+        #endregion Properties
 
         #region Constructors
 
         private readonly IXLStylized _container;
 
-        public XLFill() : this(null, XLWorkbook.DefaultStyle.Fill)
+        public XLFill()
+            : this(null, XLWorkbook.DefaultStyle.Fill)
         {
         }
 
@@ -164,7 +168,7 @@ namespace ClosedXML.Excel
             }
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Overridden
 
@@ -179,6 +183,6 @@ namespace ClosedXML.Excel
             return sb.ToString();
         }
 
-        #endregion
+        #endregion Overridden
     }
 }

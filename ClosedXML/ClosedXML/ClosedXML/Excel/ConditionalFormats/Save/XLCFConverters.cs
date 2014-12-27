@@ -1,14 +1,13 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace ClosedXML.Excel
 {
     internal class XLCFConverters
     {
         private static readonly Dictionary<XLConditionalFormatType, IXLCFConverter> Converters;
+
         static XLCFConverters()
         {
             Converters = new Dictionary<XLConditionalFormatType, IXLCFConverter>();
@@ -29,6 +28,7 @@ namespace ClosedXML.Excel
             Converters.Add(XLConditionalFormatType.DataBar, new XLCFDataBarConverter());
             Converters.Add(XLConditionalFormatType.IconSet, new XLCFIconSetConverter());
         }
+
         public static ConditionalFormattingRule Convert(IXLConditionalFormat conditionalFormat, Int32 priority, XLWorkbook.SaveContext context)
         {
             return Converters[conditionalFormat.ConditionalFormatType].Convert(conditionalFormat, priority, context);

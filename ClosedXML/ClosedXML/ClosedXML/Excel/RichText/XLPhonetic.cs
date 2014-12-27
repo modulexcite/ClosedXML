@@ -2,7 +2,7 @@
 
 namespace ClosedXML.Excel
 {
-    internal class XLPhonetic: IXLPhonetic
+    internal class XLPhonetic : IXLPhonetic
     {
         public XLPhonetic(String text, Int32 start, Int32 end)
         {
@@ -10,8 +10,11 @@ namespace ClosedXML.Excel
             Start = start;
             End = end;
         }
+
         public String Text { get; set; }
+
         public Int32 Start { get; set; }
+
         public Int32 End { get; set; }
 
         public bool Equals(IXLPhonetic other)

@@ -58,6 +58,7 @@ namespace ClosedXML.Excel
         #region IXLFont Members
 
         public Boolean BoldModified { get; set; }
+
         public Boolean Bold
         {
             get { return _bold; }
@@ -75,6 +76,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean ItalicModified { get; set; }
+
         public Boolean Italic
         {
             get { return _italic; }
@@ -92,6 +94,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean UnderlineModified { get; set; }
+
         public XLFontUnderlineValues Underline
         {
             get { return _underline; }
@@ -105,11 +108,11 @@ namespace ClosedXML.Excel
                     _underline = value;
                     UnderlineModified = true;
                 }
-                    
             }
         }
 
         public Boolean StrikethroughModified { get; set; }
+
         public Boolean Strikethrough
         {
             get { return _strikethrough; }
@@ -127,6 +130,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean VerticalAlignmentModified { get; set; }
+
         public XLFontVerticalTextAlignmentValues VerticalAlignment
         {
             get { return _verticalAlignment; }
@@ -144,6 +148,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean ShadowModified { get; set; }
+
         public Boolean Shadow
         {
             get { return _shadow; }
@@ -161,6 +166,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean FontSizeModified { get; set; }
+
         public Double FontSize
         {
             get { return _fontSize; }
@@ -178,6 +184,7 @@ namespace ClosedXML.Excel
         }
 
         private Boolean _fontColorModified;
+
         public Boolean FontColorModified
         {
             get { return _fontColorModified; }
@@ -186,6 +193,7 @@ namespace ClosedXML.Excel
                 _fontColorModified = value;
             }
         }
+
         public XLColor FontColor
         {
             get { return _fontColor; }
@@ -203,6 +211,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean FontNameModified { get; set; }
+
         public String FontName
         {
             get { return _fontName; }
@@ -220,6 +229,7 @@ namespace ClosedXML.Excel
         }
 
         public Boolean FontFamilyNumberingModified { get; set; }
+
         public XLFontFamilyNumberingValues FontFamilyNumbering
         {
             get { return _fontFamilyNumbering; }
@@ -346,7 +356,7 @@ namespace ClosedXML.Excel
                 ;
         }
 
-        #endregion
+        #endregion IXLFont Members
 
         private void SetStyleChanged()
         {
