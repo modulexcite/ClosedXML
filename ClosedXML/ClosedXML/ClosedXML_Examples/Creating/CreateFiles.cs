@@ -1,6 +1,7 @@
 ﻿using ClosedXML_Examples.Columns;
 using ClosedXML_Examples.Misc;
 using ClosedXML_Examples.PageSetup;
+using ClosedXML_Examples.Pictures;
 using ClosedXML_Examples.Ranges;
 using ClosedXML_Examples.Rows;
 using ClosedXML_Examples.Styles;
@@ -85,6 +86,8 @@ namespace ClosedXML_Examples
             new UsingPhonetics().Create(path + @"\UsingPhonetics.xlsx");
             new WalkingRanges().Create(path + @"\CellMoves.xlsx");
             new AddingComments().Create(path + @"\AddingComments.xlsx");
+
+            new AddingPicture().Create(path + @"\AddingPicture.xlsx");
         }
     }
 }

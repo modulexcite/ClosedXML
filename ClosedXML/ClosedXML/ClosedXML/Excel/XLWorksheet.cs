@@ -86,6 +86,8 @@ namespace ClosedXML.Excel
             SelectedRanges = new XLRanges();
 
             Author = workbook.Author;
+
+            Pictures = new XLPictures();
         }
 
         #endregion
@@ -210,6 +212,8 @@ namespace ClosedXML.Excel
                 _position = value;
             }
         }
+
+        public IXLPictures Pictures { get; internal set; }
 
         public IXLPageSetup PageSetup { get; private set; }
         public IXLOutline Outline { get; private set; }

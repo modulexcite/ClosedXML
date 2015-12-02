@@ -42,6 +42,9 @@ using Run = DocumentFormat.OpenXml.Spreadsheet.Run;
 using RunProperties = DocumentFormat.OpenXml.Spreadsheet.RunProperties;
 using VerticalTextAlignment = DocumentFormat.OpenXml.Spreadsheet.VerticalTextAlignment;
 
+using A = DocumentFormat.OpenXml.Drawing;
+using Xdr = DocumentFormat.OpenXml.Drawing.Spreadsheet;
+
 
 namespace ClosedXML.Excel
 {
@@ -4334,6 +4337,171 @@ namespace ClosedXML.Excel
             //}
 
             #endregion
+
+            #region Pictures
+            foreach (var picture in xlWorksheet.Pictures)
+            {
+                GeneratePicture(worksheetPart, picture);
+            }
+            #endregion
+        }
+
+        private static void GeneratePicture(WorksheetPart worksheetPart, IXLPicture picture)
+        {
+            if (!File.Exists(picture.FilePath))
+            {
+                throw new ArgumentException("image file not found: " + picture.FilePath);
+            }
+
+            var drawingsPart = worksheetPart.DrawingsPart ?? worksheetPart.AddNewPart<DrawingsPart>();
+
+            var worksheet = worksheetPart.Worksheet;
+            if (!worksheet.ChildElements.OfType<Drawing>().Any())
+            {
+                var drawing = new Drawing()
+                {
+                    Id = worksheetPart.GetIdOfPart(drawingsPart),
+                };
+                worksheet.InsertBefore(drawing, worksheet.Last());
+            }
+
+            if (drawingsPart.WorksheetDrawing == null)
+            {
+                drawingsPart.WorksheetDrawing = new Xdr.WorksheetDrawing();
+            }
+            var sheetDrawing = drawingsPart.WorksheetDrawing;
+
+            var imagePart = drawingsPart.AddImagePart(XlPictureTypeConverter.Convert(picture.Type));
+            int imageWidth, imageHeight;
+            float imageResX, imageResY;
+            using (var stream = new FileStream(picture.FilePath, FileMode.Open))
+            {
+                using (var bitmap = new System.Drawing.Bitmap(stream))
+                {
+                    imageWidth = bitmap.Width;
+                    imageHeight = bitmap.Height;
+                    imageResX = bitmap.HorizontalResolution;
+                    imageResY = bitmap.VerticalResolution;
+                }
+
+                stream.Seek(0, SeekOrigin.Begin);
+                imagePart.FeedData(stream);
+            }
+
+            if (picture.WidthPx == default(int))
+            {
+                picture.WidthPx = imageWidth;
+            }
+            if (picture.HeightPx == default(int))
+            {
+                picture.HeightPx = imageHeight;
+            }
+
+            var nvps = sheetDrawing.Descendants<Xdr.NonVisualDrawingProperties>();
+            var nvpId = (nvps.Count() > 0) ? (UInt32Value)nvps.Max(prop => prop.Id.Value) + 1 : 1U;
+
+            var pictureLocks = new A.PictureLocks()
+            {
+                NoChangeAspect = !picture.CanUserChangeAspect,
+                NoCrop = !picture.CanUserCrop,
+                NoMove = !picture.CanUserMove,
+                NoResize = !picture.CanUserResize,
+                NoRotation = !picture.CanUserRotate,
+                NoSelection = !picture.CanUserSelect,
+            };
+
+            OpenXmlCompositeElement cellAnchor;
+            {
+                var markers = picture.GetMarkers();
+                var markerCount = markers.Count();
+                if (markerCount == 0)
+                {
+                    cellAnchor = new Xdr.AbsoluteAnchor(new Xdr.Position() { X = 0, Y = 0 });
+                }
+                else if (markerCount == 1)
+                {
+                    cellAnchor = new Xdr.OneCellAnchor(
+                        XLMarkerConverter.Convert<Xdr.FromMarker>(
+                            markers.First(),
+                            (x) => CalcEmuScale(x, imageResX),
+                            (y) => CalcEmuScale(y, imageResY)));
+                }
+                else if (markerCount == 2)
+                {
+                    var from = markers.First();
+                    var to = markers.Last();
+                    if (
+                        from.RowIndex > to.RowIndex ||
+                        from.ColumnIndex > to.ColumnIndex ||
+                        (from.RowIndex == to.RowIndex && from.RowOffsetPx > to.RowOffsetPx) ||
+                        (from.ColumnIndex == to.ColumnIndex && from.ColumnOffsetPx > to.ColumnOffsetPx)
+                        )
+                    {
+                        throw new ArgumentException("positions of second marker must be larger than those of first marker");
+                    }
+
+                    cellAnchor = new Xdr.TwoCellAnchor(
+                        XLMarkerConverter.Convert<Xdr.FromMarker>(
+                            from,
+                            (x) => CalcEmuScale(x, imageResX),
+                            (y) => CalcEmuScale(y, imageResY)),
+                        XLMarkerConverter.Convert<Xdr.ToMarker>(
+                            to,
+                            (x) => CalcEmuScale(x, imageResX),
+                            (y) => CalcEmuScale(y, imageResY)));
+                }
+                else
+                {
+                    throw new ArgumentException("invalid markers count: " + markers.Count());
+                }
+            }
+
+            var widthEmu = CalcEmuScale(picture.WidthPx, imageResX);
+            var heightEmu = CalcEmuScale(picture.HeightPx, imageResY);
+
+            cellAnchor.Append(
+                new Xdr.Extent() { Cx = widthEmu, Cy = heightEmu, },
+
+                new Xdr.Picture(
+                    new Xdr.NonVisualPictureProperties(
+                        new Xdr.NonVisualDrawingProperties()
+                        {
+                            Id = nvpId,
+                            Name = (!string.IsNullOrEmpty(picture.Name)) ? picture.Name : nvpId.ToString() + "_" + Path.GetFileNameWithoutExtension(picture.FilePath),
+                            Description = (!string.IsNullOrEmpty(picture.Description)) ? picture.Description : nvpId.ToString() + "_" + Path.GetFileNameWithoutExtension(picture.FilePath),
+                        },
+                        new Xdr.NonVisualPictureDrawingProperties(pictureLocks)
+                    ),
+                    new Xdr.BlipFill(
+                        new A.Blip() { Embed = drawingsPart.GetIdOfPart(imagePart), CompressionState = A.BlipCompressionValues.Print },
+                        new A.Stretch(new A.FillRectangle())
+                    ),
+                    new Xdr.ShapeProperties(
+                        new A.Transform2D(
+                            new A.Offset() { X = 0, Y = 0, },
+                            new A.Extents() { Cx = widthEmu, Cy = heightEmu }
+                        ),
+                        new A.PresetGeometry() { Preset = A.ShapeTypeValues.Rectangle }
+                    )
+                ),
+                new Xdr.ClientData()
+            );
+
+            sheetDrawing.Append(cellAnchor);
+
+#if true
+            var errors = new DocumentFormat.OpenXml.Validation.OpenXmlValidator().Validate(worksheetPart);
+            foreach (var error in errors)
+            {
+                Console.WriteLine(error.Description);
+            }
+            if (errors.Count() > 0) Console.Read();
+#endif
+        }
+
+        private static long CalcEmuScale(int value, float resolusion)
+        {
+            return (long)(value * 914400.0F / resolusion);
         }
 
         private static void PopulateAutoFilter(XLAutoFilter xlAutoFilter, AutoFilter autoFilter)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ClosedXML.Excel
 {
@@ -38,6 +39,11 @@ namespace ClosedXML.Excel
         /// Gets an object to manipulate the Outline levels.
         /// </summary>
         IXLOutline Outline { get; }
+
+        /// <summary>
+        /// Gets pictures attached on this worksheet.
+        /// </summary>
+        IXLPictures Pictures { get; }
 
         /// <summary>
         /// Gets the first row of the worksheet.
