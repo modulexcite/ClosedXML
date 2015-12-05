@@ -4489,7 +4489,7 @@ namespace ClosedXML.Excel
 
             sheetDrawing.Append(cellAnchor);
 
-#if true
+#if false
             var errors = new DocumentFormat.OpenXml.Validation.OpenXmlValidator().Validate(worksheetPart);
             foreach (var error in errors)
             {
