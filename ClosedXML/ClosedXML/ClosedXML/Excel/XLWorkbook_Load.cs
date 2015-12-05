@@ -13,6 +13,9 @@ using Op = DocumentFormat.OpenXml.CustomProperties;
 using Vml = DocumentFormat.OpenXml.Vml;
 using Ss = DocumentFormat.OpenXml.Vml.Spreadsheet;
 
+using A = DocumentFormat.OpenXml.Drawing;
+using Xdr = DocumentFormat.OpenXml.Drawing.Spreadsheet;
+
 #endregion
 
 namespace ClosedXML.Excel
@@ -231,6 +234,9 @@ namespace ClosedXML.Excel
                             LoadColumnBreaks((ColumnBreaks)reader.LoadCurrentElement(), ws);
                         else if (reader.ElementType == typeof(LegacyDrawing))
                             ws.LegacyDrawingId = (reader.LoadCurrentElement() as LegacyDrawing).Id.Value;
+                        else if (reader.ElementType == typeof(Drawing))
+                            Console.WriteLine(reader.LoadCurrentElement().InnerXml);
+                        //hoge(reader.ElementType, reader.LoadCurrentElement());
 
                     }
                     reader.Close();
@@ -361,6 +367,106 @@ namespace ClosedXML.Excel
                 }
 
                 #endregion
+
+                #region LoadPictures
+                if (wsPart.DrawingsPart != null && wsPart.DrawingsPart.ImageParts != null)
+                {
+                    var drawingsPart = wsPart.DrawingsPart;
+
+                    var xlPictures = new List<XLPicture>();
+                    foreach (var imagePart in drawingsPart.ImageParts)
+                    {
+                        var picture = new XLPicture();
+                        picture.SetImagePart(imagePart);
+                        xlPictures.Add(picture);
+                    }
+                    ws.Pictures.AddRange(xlPictures);
+
+                    var worksheetDrawing = drawingsPart.WorksheetDrawing;
+                    foreach (var child in worksheetDrawing.Descendants<OpenXmlCompositeElement>())
+                    {
+                        var picture = child.Descendants<Xdr.Picture>().FirstOrDefault();
+                        if (picture == null) continue;
+
+                        var blip = picture.Descendants<A.Blip>().FirstOrDefault();
+                        if (blip == null) continue;
+
+                        var nvpp = picture.Descendants<Xdr.NonVisualPictureProperties>().FirstOrDefault();
+                        if (nvpp == null) continue;
+
+                        var nvdp = nvpp.Descendants<Xdr.NonVisualDrawingProperties>().FirstOrDefault();
+                        if (nvdp == null) continue;
+
+                        var xlPicture = xlPictures.FirstOrDefault(pic => drawingsPart.GetIdOfPart(pic.ImagePart) == blip.Embed);
+                        if (xlPicture == null) continue;
+
+                        var pictureLock = nvpp.Descendants<A.PictureLocks>().FirstOrDefault();
+                        if (pictureLock == null) continue;
+
+                        var extents = picture.Descendants<A.Extents>().FirstOrDefault();
+                        if (extents == null) continue;
+
+                        float imageResX, imageResY;
+                        using (var bitmap = Image.FromStream(xlPicture.OpenImageStream()) as Bitmap)
+                        {
+                            imageResX = bitmap.HorizontalResolution;
+                            imageResY = bitmap.VerticalResolution;
+                        }
+
+                        xlPicture.Name = nvdp.Name;
+                        xlPicture.Description = nvdp.Description;
+
+                        xlPicture.WidthPx = CalcPixelScale(extents.Cx, imageResX);
+                        xlPicture.HeightPx = CalcPixelScale(extents.Cx, imageResY);
+
+                        xlPicture.Type = XlPictureTypeConverter.ConvertBack(xlPicture.ImagePart);
+
+                        xlPicture.CanUserChangeAspect = !pictureLock.NoChangeAspect;
+                        xlPicture.CanUserCrop = !pictureLock.NoCrop;
+                        xlPicture.CanUserMove = !pictureLock.NoMove;
+                        xlPicture.CanUserResize = !pictureLock.NoResize;
+                        xlPicture.CanUserRotate = !pictureLock.NoRotation;
+                        xlPicture.CanUserSelect = !pictureLock.NoSelection;
+
+                        var anchor = picture.Parent;
+                        if (anchor is Xdr.AbsoluteAnchor)
+                        {
+                            var pos = (anchor as Xdr.AbsoluteAnchor).Position;
+                            xlPicture.SetMarker(new XLMarker()
+                            {
+                                ColumnIndex = 0,
+                                RowIndex = 0,
+                                ColumnOffsetPx = CalcPixelScale(pos.X, imageResX),
+                                RowOffsetPx = CalcPixelScale(pos.Y, imageResY),
+                            });
+                        }
+                        else if (anchor is Xdr.OneCellAnchor)
+                        {
+                            var marker = (anchor as Xdr.OneCellAnchor).FromMarker;
+                            xlPicture.SetMarker(
+                                XLMarkerConverter.ConvertBack(
+                                    marker,
+                                    (x) => CalcPixelScale(x, imageResX),
+                                    (y) => CalcPixelScale(y, imageResY)));
+                        }
+                        else if (anchor is Xdr.TwoCellAnchor)
+                        {
+                            var anc = anchor as Xdr.TwoCellAnchor;
+                            var from = anc.FromMarker;
+                            var to = anc.ToMarker;
+                            xlPicture.SetMarker(
+                                XLMarkerConverter.ConvertBack(
+                                    from,
+                                    (x) => CalcPixelScale(x, imageResX),
+                                    (y) => CalcPixelScale(y, imageResY)),
+                                XLMarkerConverter.ConvertBack(
+                                    to,
+                                    (x) => CalcPixelScale(x, imageResX),
+                                    (y) => CalcPixelScale(y, imageResY)));
+                        }
+                    }
+                }
+                #endregion
             }
 
             var workbook = dSpreadsheet.WorkbookPart.Workbook;
@@ -383,6 +489,12 @@ namespace ClosedXML.Excel
             }
             LoadDefinedNames(workbook);
         }
+
+        private static int CalcPixelScale(long value, float resolusion)
+        {
+            return (int)(value * resolusion / 914400.0F);
+        }
+
 
         #region Comment Helpers
 

@@ -28,5 +28,16 @@ namespace ClosedXML.Excel
                 RowOffset = new RowOffset(CalcEmuScaleY(marker.RowOffsetPx).ToString()),
             };
         }
+
+        public static XLMarker ConvertBack(MarkerType marker, Func<long, int> CalcPixScaleX, Func<long, int> CalcPixScaleY)
+        {
+            return new XLMarker()
+            {
+                ColumnIndex = int.Parse(marker.ColumnId.Text),
+                RowIndex = int.Parse(marker.RowId.Text),
+                ColumnOffsetPx = CalcPixScaleX(long.Parse(marker.RowOffset.Text)),
+                RowOffsetPx = CalcPixScaleY(long.Parse(marker.RowOffset.Text)),
+            };
+        }
     }
 }

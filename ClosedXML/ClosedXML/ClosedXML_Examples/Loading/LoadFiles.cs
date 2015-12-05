@@ -11,12 +11,16 @@ namespace ClosedXML_Examples
             var forLoadingFolder = @"C:\ClosedXML_Tests\Created";
             var forSavingFolder = @"C:\ClosedXML_Tests\Modified";
 
-            foreach (var file in Directory.GetFiles(forLoadingFolder))
-            {
-                var fileInfo = new FileInfo(file);
-                var fileName = fileInfo.Name;
-                LoadAndSaveFile(forLoadingFolder + @"\" + fileName, forSavingFolder + @"\" + fileName);
-            }
+            var begin = DateTime.Now;
+            new Pictures.AddingPicture().Load(Path.Combine(forLoadingFolder, "AddingPicture.xlsx"));
+            Console.WriteLine((DateTime.Now - begin).TotalMilliseconds);
+
+            //foreach (var file in Directory.GetFiles(forLoadingFolder))
+            //{
+            //    var fileInfo = new FileInfo(file);
+            //    var fileName = fileInfo.Name;
+            //    LoadAndSaveFile(forLoadingFolder + @"\" + fileName, forSavingFolder + @"\" + fileName);
+            //}
 
             //LoadAndSaveFile(forLoadingFolder + @"\StyleRowsColumns.xlsx", forSavingFolder + @"\StyleRowsColumns.xlsx");
         }

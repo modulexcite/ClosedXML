@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using DocumentFormat.OpenXml.Packaging;
+using System.Collections.Generic;
+using System.IO;
 
 namespace ClosedXML.Excel
 {
@@ -23,6 +25,8 @@ namespace ClosedXML.Excel
         public bool CanUserResize { get; set; }
         public bool CanUserRotate { get; set; }
         public bool CanUserSelect { get; set; }
+
+        internal ImagePart ImagePart { get; private set; }
 
         public XLPicture()
         {
@@ -50,7 +54,17 @@ namespace ClosedXML.Excel
             return (markers != null) ? markers : new List<IXLMarker>();
         }
 
-        public List<IXLMarker> markers;
+        public Stream OpenImageStream(FileMode mode = FileMode.Open, FileAccess access = FileAccess.Read)
+        {
+            return (ImagePart != null) ? ImagePart.GetStream(mode, access) : null;
+        }
+
+        internal void SetImagePart(ImagePart part)
+        {
+            ImagePart = part;
+        }
+
+        private List<IXLMarker> markers;
     }
 
     public class XLPictures : IXLPictures
@@ -58,6 +72,11 @@ namespace ClosedXML.Excel
         public void Add(IXLPicture picture)
         {
             pictures.Add(picture);
+        }
+
+        public void AddRange(IEnumerable<IXLPicture> pictures)
+        {
+            this.pictures.AddRange(pictures);
         }
 
         public IEnumerator<IXLPicture> GetEnumerator()

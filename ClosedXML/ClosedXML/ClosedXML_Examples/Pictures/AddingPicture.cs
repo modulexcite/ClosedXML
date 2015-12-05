@@ -60,5 +60,10 @@ namespace ClosedXML_Examples.Pictures
 
             workbook.SaveAs(filePath);
         }
+
+        public void Load(String filepath)
+        {
+            var doc = new XLWorkbook(filepath);
+        }
     }
 }

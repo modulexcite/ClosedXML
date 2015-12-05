@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.IO;
 
 namespace ClosedXML.Excel
 {
@@ -23,10 +24,12 @@ namespace ClosedXML.Excel
         bool CanUserSelect { get; set; }
 
         IEnumerable<IXLMarker> GetMarkers();
+        Stream OpenImageStream(FileMode mode, FileAccess access);
     }
 
     public interface IXLPictures : IEnumerable<IXLPicture>
     {
         void Add(IXLPicture picture);
+        void AddRange(IEnumerable<IXLPicture> pictures);
     }
 }
