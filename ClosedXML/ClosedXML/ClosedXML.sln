@@ -15,6 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClosedXML_Examples", "ClosedXML_Examples\ClosedXML_Examples.csproj", "{03A518D0-1CB7-488E-861C-C4E782B27A46}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BD5E6BFE-E837-4A35-BCA9-39667D873A20} = {BD5E6BFE-E837-4A35-BCA9-39667D873A20}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClosedXML_Net3.5", "ClosedXML_Net3.5\ClosedXML_Net3.5.csproj", "{5F43B12B-A900-40C6-9924-A0C0B032F791}"
 EndProject
